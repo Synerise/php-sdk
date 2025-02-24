@@ -1,0 +1,100 @@
+<?php
+
+namespace Synerise\Api\Catalogs\Bags\Item\Items\Item;
+
+use Exception;
+use Http\Promise\Promise;
+use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
+use Microsoft\Kiota\Abstractions\HttpMethod;
+use Microsoft\Kiota\Abstractions\RequestAdapter;
+use Microsoft\Kiota\Abstractions\RequestInformation;
+
+/**
+ * Builds and executes requests for operations under /bags/{catalogId}/items/{itemId}
+*/
+class WithItemItemRequestBuilder extends BaseRequestBuilder 
+{
+    /**
+     * Instantiates a new WithItemItemRequestBuilder and sets the default values.
+     * @param array<string, mixed>|string $pathParametersOrRawUrl Path parameters for the request or a String representing the raw URL.
+     * @param RequestAdapter $requestAdapter The request adapter to use to execute the requests.
+    */
+    public function __construct($pathParametersOrRawUrl, RequestAdapter $requestAdapter) {
+        parent::__construct($requestAdapter, [], '{+baseurl}/bags/{catalogId}/items/{itemId}');
+        if (is_array($pathParametersOrRawUrl)) {
+            $this->pathParameters = $pathParametersOrRawUrl;
+        } else {
+            $this->pathParameters = ['request-raw-url' => $pathParametersOrRawUrl];
+        }
+    }
+
+    /**
+     * Delete a single item by ID.
+     * @param WithItemItemRequestBuilderDeleteRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @return Promise<bool|null>
+     * @throws Exception
+    */
+    public function delete(?WithItemItemRequestBuilderDeleteRequestConfiguration $requestConfiguration = null): Promise {
+        $requestInfo = $this->toDeleteRequestInformation($requestConfiguration);
+        /** @var Promise<bool|null> $result */
+        $result = $this->requestAdapter->sendPrimitiveAsync($requestInfo, 'bool', null);
+        return $result;
+    }
+
+    /**
+     * Retrieve a single item from a catalog by using the ID of the entry in the Synerise database. If you want retrieve an item by its unique identifier in the catalog, use [this endpoint](#operation/getItemByKey).
+     * @param WithItemItemRequestBuilderGetRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @return Promise<WithItemGetResponse|null>
+     * @throws Exception
+    */
+    public function get(?WithItemItemRequestBuilderGetRequestConfiguration $requestConfiguration = null): Promise {
+        $requestInfo = $this->toGetRequestInformation($requestConfiguration);
+        return $this->requestAdapter->sendAsync($requestInfo, [WithItemGetResponse::class, 'createFromDiscriminatorValue'], null);
+    }
+
+    /**
+     * Delete a single item by ID.
+     * @param WithItemItemRequestBuilderDeleteRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @return RequestInformation
+    */
+    public function toDeleteRequestInformation(?WithItemItemRequestBuilderDeleteRequestConfiguration $requestConfiguration = null): RequestInformation {
+        $requestInfo = new RequestInformation();
+        $requestInfo->urlTemplate = $this->urlTemplate;
+        $requestInfo->pathParameters = $this->pathParameters;
+        $requestInfo->httpMethod = HttpMethod::DELETE;
+        if ($requestConfiguration !== null) {
+            $requestInfo->addHeaders($requestConfiguration->headers);
+            $requestInfo->addRequestOptions(...$requestConfiguration->options);
+        }
+        $requestInfo->tryAddHeader('Accept', "application/json");
+        return $requestInfo;
+    }
+
+    /**
+     * Retrieve a single item from a catalog by using the ID of the entry in the Synerise database. If you want retrieve an item by its unique identifier in the catalog, use [this endpoint](#operation/getItemByKey).
+     * @param WithItemItemRequestBuilderGetRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
+     * @return RequestInformation
+    */
+    public function toGetRequestInformation(?WithItemItemRequestBuilderGetRequestConfiguration $requestConfiguration = null): RequestInformation {
+        $requestInfo = new RequestInformation();
+        $requestInfo->urlTemplate = $this->urlTemplate;
+        $requestInfo->pathParameters = $this->pathParameters;
+        $requestInfo->httpMethod = HttpMethod::GET;
+        if ($requestConfiguration !== null) {
+            $requestInfo->addHeaders($requestConfiguration->headers);
+            $requestInfo->addRequestOptions(...$requestConfiguration->options);
+        }
+        $requestInfo->tryAddHeader('Accept', "application/json");
+        return $requestInfo;
+    }
+
+    /**
+     * Returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
+     * @param string $rawUrl The raw URL to use for the request builder.
+     * @return WithItemItemRequestBuilder
+    */
+    public function withUrl(string $rawUrl): WithItemItemRequestBuilder {
+        return new WithItemItemRequestBuilder($rawUrl, $this->requestAdapter);
+    }
+
+}

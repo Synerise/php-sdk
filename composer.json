@@ -1,0 +1,35 @@
+{
+    "name": "synerise/php-sdk",
+    "version": "0.5.0",
+    "description": "SDK allowing basic integration with Synerise API",
+    "type": "library",
+    "require": {
+        "php": "^8.0 || ^7.4",
+        "ext-json": "*",
+        "microsoft/kiota-abstractions": "^1.4",
+        "microsoft/kiota-http-guzzle": "^1.5",
+        "microsoft/kiota-serialization-json": "^1.5",
+        "microsoft/kiota-serialization-text": "^1.5"
+    },
+    "suggest": {
+        "mobiledetect/mobiledetectlib": "Used by default source provider."
+    },
+    "autoload": {
+        "psr-4": {
+            "Synerise\\Api\\": "lib/",
+            "Synerise\\Sdk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Synerise",
+            "email": "developer@synerise.com"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "tbachert/spi": true
+        }
+    }
+}
