@@ -1,0 +1,44 @@
+<?php
+
+namespace Synerise\Api\Catalogs\Bags;
+
+/**
+ * Retrieve all catalogs from the current Business Profile. You can filter and sort the results.
+*/
+class BagsRequestBuilderGetQueryParameters 
+{
+    /**
+     * @var int|null $limit The maximum number of items to include in the response
+    */
+    public ?int $limit = null;
+    
+    /**
+     * @var int|null $offset The offset for the search. For example, if your `limit` is 10 and you want to retrieve the third page of items, set the offset to 20. Items with indexes 20 to 29 are returned (the first item on the first page has the index 0).
+    */
+    public ?int $offset = null;
+    
+    /**
+     * @var GetOrderByQueryParameterType|null $orderBy The parameter to order the results by. Order is always ascending.
+    */
+    public ?GetOrderByQueryParameterType $orderBy = null;
+    
+    /**
+     * @var string|null $searchBy A search string. You can search the catalogs by their name or the first or last name of the author.
+    */
+    public ?string $searchBy = null;
+    
+    /**
+     * Instantiates a new BagsRequestBuilderGetQueryParameters and sets the default values.
+     * @param int|null $limit The maximum number of items to include in the response
+     * @param int|null $offset The offset for the search. For example, if your `limit` is 10 and you want to retrieve the third page of items, set the offset to 20. Items with indexes 20 to 29 are returned (the first item on the first page has the index 0).
+     * @param GetOrderByQueryParameterType|null $orderBy The parameter to order the results by. Order is always ascending.
+     * @param string|null $searchBy A search string. You can search the catalogs by their name or the first or last name of the author.
+    */
+    public function __construct(?int $limit = null, ?int $offset = null, ?GetOrderByQueryParameterType $orderBy = null, ?string $searchBy = null) {
+        $this->limit = $limit;
+        $this->offset = $offset;
+        $this->orderBy = $orderBy;
+        $this->searchBy = $searchBy;
+    }
+
+}
