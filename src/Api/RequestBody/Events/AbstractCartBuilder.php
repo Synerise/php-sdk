@@ -60,10 +60,10 @@ class AbstractCartBuilder extends AbstractBaseBuilder
     /**
      * Set final unit price.
      * Required.
-     * @param FinalUnitPrice $finalUnitPrice
+     * @param FinalUnitPrice|null $finalUnitPrice
      * @return $this
      */
-    public function setFinalUnitPrice(FinalUnitPrice $finalUnitPrice): self
+    public function setFinalUnitPrice(?FinalUnitPrice $finalUnitPrice): self
     {
         $this->getParams()->setFinalUnitPrice($finalUnitPrice);
         return $this;
@@ -72,10 +72,10 @@ class AbstractCartBuilder extends AbstractBaseBuilder
     /**
      * Set sku.
      * Required.
-     * @param string $sku
+     * @param string|null $sku
      * @return $this
      */
-    public function setSku(string $sku): self
+    public function setSku(?string $sku): self
     {
         $this->getParams()->setSku($sku);
         return $this;
@@ -84,10 +84,10 @@ class AbstractCartBuilder extends AbstractBaseBuilder
     /**
      * Set quantity.
      * Required.
-     * @param float $quantity
+     * @param float|null $quantity
      * @return $this
      */
-    public function setQuantity(float $quantity): self
+    public function setQuantity(?float $quantity): self
     {
         $this->getParams()->setQuantity($quantity);
         return $this;
@@ -96,10 +96,10 @@ class AbstractCartBuilder extends AbstractBaseBuilder
     /**
      * Set name.
      * Optional.
-     * @param string $name
+     * @param string|null $name
      * @return $this
      */
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->getParams()->setName($name);
         return $this;
@@ -108,10 +108,10 @@ class AbstractCartBuilder extends AbstractBaseBuilder
     /**
      * Set offline.
      * Optional.
-     * @param bool $offline
+     * @param bool|null $offline
      * @return $this
      */
-    public function setOffline(bool $offline): self
+    public function setOffline(?bool $offline): self
     {
         $this->getParams()->setOffline($offline);
         return $this;
@@ -120,10 +120,10 @@ class AbstractCartBuilder extends AbstractBaseBuilder
     /**
      * Set producer.
      * Optional.
-     * @param string $producer
+     * @param string|null $producer
      * @return $this
      */
-    public function setProducer(string $producer): self
+    public function setProducer(?string $producer): self
     {
         $this->getParams()->setProducer($producer);
         return $this;
@@ -132,10 +132,10 @@ class AbstractCartBuilder extends AbstractBaseBuilder
     /**
      * Set item url address.
      * Optional.
-     * @param string $itemUrlAddress
+     * @param string|null $itemUrlAddress
      * @return $this
      */
-    public function setItemUrlAddress(string $itemUrlAddress): self
+    public function setItemUrlAddress(?string $itemUrlAddress): self
     {
         $this->getParams()->setItemUrlAddress($itemUrlAddress);
         return $this;
@@ -144,10 +144,10 @@ class AbstractCartBuilder extends AbstractBaseBuilder
     /**
      * Set category.
      * Optional.
-     * @param string $category
+     * @param string|null $category
      * @return $this
      */
-    public function setCategory(string $category): self
+    public function setCategory(?string $category): self
     {
         $this->getParams()->setCategory($category);
         return $this;
@@ -180,10 +180,10 @@ class AbstractCartBuilder extends AbstractBaseBuilder
     /**
      * Set regularUnitPrice.
      * Optional.
-     * @param RegularUnitPrice $regularUnitPrice
+     * @param RegularUnitPrice|null $regularUnitPrice
      * @return $this
      */
-    public function setRegularUnitPrice(RegularUnitPrice $regularUnitPrice): self
+    public function setRegularUnitPrice(?RegularUnitPrice $regularUnitPrice): self
     {
         $this->getParams()->setRegularUnitPrice($regularUnitPrice);
         return $this;
