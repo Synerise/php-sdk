@@ -1,6 +1,6 @@
 {
     "name": "synerise/php-sdk",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "description": "SDK allowing basic integration with Synerise API",
     "type": "library",
     "require": {
