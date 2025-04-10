@@ -2,9 +2,9 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use Synerise\Api\V4\Models\CartEvent;
+use Synerise\Api\V4\Models\CartEventParams;
 use Synerise\Api\V4\Models\Client;
-use Synerise\Api\V4\Models\ClientCartEventRequest;
-use Synerise\Api\V4\Models\ClientCartEventRequest_params;
 use Synerise\Api\V4\Models\DiscountedUnitPrice;
 use Synerise\Api\V4\Models\FinalUnitPrice;
 use Synerise\Api\V4\Models\RegularUnitPrice;
@@ -15,10 +15,10 @@ use Synerise\Sdk\Api\Validation\Events\CartEventValidator;
 class AbstractCartBuilder extends AbstractBaseBuilder
 {
     /**
-     * ClientCartEventRequest being built
-     * @var ClientCartEventRequest
+     * CartEvent being built
+     * @var CartEvent
      */
-    protected ClientCartEventRequest $requestBody;
+    protected CartEvent $requestBody;
 
     /**
      * @param Client $client
@@ -28,16 +28,16 @@ class AbstractCartBuilder extends AbstractBaseBuilder
     {
         $this->sourceProvider = $sourceProvider ?: new DefaultEventSourceProvider();
 
-        $this->requestBody = new ClientCartEventRequest();
+        $this->requestBody = new CartEvent();
         $this->requestBody->setClient($client);
-        $this->requestBody->setParams(new ClientCartEventRequest_params());
+        $this->requestBody->setParams(new CartEventParams());
     }
 
     /**
      * @inheritDoc
-     * @return ClientCartEventRequest
+     * @return CartEvent
      */
-    public function build(bool $validate = true): ClientCartEventRequest
+    public function build(bool $validate = true): CartEvent
     {
         parent::setBaseProperties();
 
@@ -205,18 +205,18 @@ class AbstractCartBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return ClientCartEventRequest
+     * @return CartEvent
      */
-    protected function getRequestBody(): ClientCartEventRequest
+    protected function getRequestBody(): CartEvent
     {
         return $this->requestBody;
     }
 
     /**
      * @inheritDoc
-     * @return ClientCartEventRequest_params
+     * @return CartEventParams
      */
-    protected function getParams(): ClientCartEventRequest_params
+    protected function getParams(): CartEventParams
     {
         return $this->requestBody->getParams();
     }

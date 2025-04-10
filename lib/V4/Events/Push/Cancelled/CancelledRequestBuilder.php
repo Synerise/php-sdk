@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\PushCancelledEvent;
 
 /**
  * Builds and executes requests for operations under /events/push/cancelled
@@ -31,12 +32,12 @@ class CancelledRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'push notifications cancelled' event. It's used for push message interaction tracking.When you send an event to this endpoint, the `action` field is set to `push.cancel` by the backend.
-     * @param CancelledPostRequestBody $body The request body
+     * @param PushCancelledEvent $body The request body
      * @param CancelledRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(CancelledPostRequestBody $body, ?CancelledRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(PushCancelledEvent $body, ?CancelledRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class CancelledRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'push notifications cancelled' event. It's used for push message interaction tracking.When you send an event to this endpoint, the `action` field is set to `push.cancel` by the backend.
-     * @param CancelledPostRequestBody $body The request body
+     * @param PushCancelledEvent $body The request body
      * @param CancelledRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(CancelledPostRequestBody $body, ?CancelledRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(PushCancelledEvent $body, ?CancelledRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

@@ -3,14 +3,14 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\Custom\CustomPostRequestBody;
+use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\EventBase;
 
 class CustomValidator implements Validator
 {
     /**
-     * Validate CustomPostRequestBody.
-     * @param CustomPostRequestBody $event
+     * Validate CustomEvent.
+     * @param CustomEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -28,7 +28,7 @@ class CustomValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'CustomPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'CustomEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

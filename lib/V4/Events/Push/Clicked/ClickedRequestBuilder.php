@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\PushClickedEvent;
 
 /**
  * Builds and executes requests for operations under /events/push/clicked
@@ -31,12 +32,12 @@ class ClickedRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'Push notification was clicked' event. It's used for push message interaction tracking.When you send an event to this endpoint, the `action` field is set to `push.click` by the backend.
-     * @param ClickedPostRequestBody $body The request body
+     * @param PushClickedEvent $body The request body
      * @param ClickedRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(ClickedPostRequestBody $body, ?ClickedRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(PushClickedEvent $body, ?ClickedRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class ClickedRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'Push notification was clicked' event. It's used for push message interaction tracking.When you send an event to this endpoint, the `action` field is set to `push.click` by the backend.
-     * @param ClickedPostRequestBody $body The request body
+     * @param PushClickedEvent $body The request body
      * @param ClickedRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(ClickedPostRequestBody $body, ?ClickedRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(PushClickedEvent $body, ?ClickedRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

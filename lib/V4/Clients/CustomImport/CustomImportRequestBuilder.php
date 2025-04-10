@@ -8,8 +8,8 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
-use Synerise\Api\V4\Models\CreateClientRequestBody;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\Profile;
 
 /**
  * Builds and executes requests for operations under /clients/custom-import
@@ -32,7 +32,7 @@ class CustomImportRequestBuilder extends BaseRequestBuilder
 
     /**
      * Custom import or update profile
-     * @param array<CreateClientRequestBody> $body The request body
+     * @param array<Profile> $body The request body
      * @param CustomImportRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
@@ -48,7 +48,7 @@ class CustomImportRequestBuilder extends BaseRequestBuilder
     }
 
     /**
-     * @param array<CreateClientRequestBody> $body The request body
+     * @param array<Profile> $body The request body
      * @param CustomImportRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */

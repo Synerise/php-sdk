@@ -2,9 +2,9 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\Registered\RegisteredPostRequestBody;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
+use Synerise\Api\V4\Models\RegisteredEvent;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\RegisteredValidator;
@@ -22,10 +22,10 @@ class RegisteredBuilder extends AbstractBaseBuilder
     public const LABEL = 'Profile account registered';
 
     /**
-     *  RegisteredPostRequestBody being built
-     * @var RegisteredPostRequestBody
+     *  RegisteredEvent being built
+     * @var RegisteredEvent
      */
-    protected RegisteredPostRequestBody $requestBody;
+    protected RegisteredEvent $requestBody;
 
     /**
      * @param Client $client
@@ -37,16 +37,16 @@ class RegisteredBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new RegisteredPostRequestBody();
+        $this->requestBody = new RegisteredEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
     }
 
     /**
      * @inheritDoc
-     * @return RegisteredPostRequestBody
+     * @return RegisteredEvent
      */
-    public function build(bool $validate = true): RegisteredPostRequestBody
+    public function build(bool $validate = true): RegisteredEvent
     {
         parent::setBaseProperties();
 
@@ -68,9 +68,9 @@ class RegisteredBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return RegisteredPostRequestBody
+     * @return RegisteredEvent
      */
-    protected function getRequestBody(): RegisteredPostRequestBody
+    protected function getRequestBody(): RegisteredEvent
     {
         return $this->requestBody;
     }

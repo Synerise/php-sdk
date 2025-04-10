@@ -111,9 +111,9 @@ class InResponseClientDetails implements AdditionalDataHolder, Parsable
     private ?string $province = null;
     
     /**
-     * @var InBodyClientSex|null $sex Profile's sex
+     * @var ProfileSex|null $sex Profile's sex
     */
-    private ?InBodyClientSex $sex = null;
+    private ?ProfileSex $sex = null;
     
     /**
      * @var array<string>|null $tags Tags can be used to group profiles.Tag names (strings):- can't include variation selectors (`[/uFE00-/uFE0F]`), unless there are other characters in the string.- can't include the "null" control character (`/u0000`)
@@ -291,7 +291,7 @@ class InResponseClientDetails implements AdditionalDataHolder, Parsable
                 $this->setPreviousClients($val);
             },
             'province' => fn(ParseNode $n) => $o->setProvince($n->getStringValue()),
-            'sex' => fn(ParseNode $n) => $o->setSex($n->getEnumValue(InBodyClientSex::class)),
+            'sex' => fn(ParseNode $n) => $o->setSex($n->getEnumValue(ProfileSex::class)),
             'tags' => function (ParseNode $n) {
                 $val = $n->getCollectionOfPrimitiveValues();
                 if (is_array($val)) {
@@ -355,9 +355,9 @@ class InResponseClientDetails implements AdditionalDataHolder, Parsable
 
     /**
      * Gets the sex property value. Profile's sex
-     * @return InBodyClientSex|null
+     * @return ProfileSex|null
     */
-    public function getSex(): ?InBodyClientSex {
+    public function getSex(): ?ProfileSex {
         return $this->sex;
     }
 
@@ -578,9 +578,9 @@ class InResponseClientDetails implements AdditionalDataHolder, Parsable
 
     /**
      * Sets the sex property value. Profile's sex
-     * @param InBodyClientSex|null $value Value to set for the sex property.
+     * @param ProfileSex|null $value Value to set for the sex property.
     */
-    public function setSex(?InBodyClientSex $value): void {
+    public function setSex(?ProfileSex $value): void {
         $this->sex = $value;
     }
 

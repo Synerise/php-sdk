@@ -2,9 +2,9 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\VisitedScreen\VisitedScreenPostRequestBody;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
+use Synerise\Api\V4\Models\VisitedScreenEvent;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\VisitedScreenValidator;
@@ -22,10 +22,10 @@ class VisitedScreenBuilder extends AbstractBaseBuilder
     public const LABEL = 'Mobile app screen visited';
 
     /**
-     * VisitedScreenPostRequestBody being built
-     * @var VisitedScreenPostRequestBody
+     * VisitedScreenEvent being built
+     * @var VisitedScreenEvent
      */
-    protected VisitedScreenPostRequestBody $requestBody;
+    protected VisitedScreenEvent $requestBody;
 
     /**
      * @param Client $client
@@ -37,16 +37,16 @@ class VisitedScreenBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new VisitedScreenPostRequestBody();
+        $this->requestBody = new VisitedScreenEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
     }
 
     /**
      * @inheritDoc
-     * @return VisitedScreenPostRequestBody
+     * @return VisitedScreenEvent
      */
-    public function build(bool $validate = true): VisitedScreenPostRequestBody
+    public function build(bool $validate = true): VisitedScreenEvent
     {
         parent::setBaseProperties();
 
@@ -68,9 +68,9 @@ class VisitedScreenBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return VisitedScreenPostRequestBody
+     * @return VisitedScreenEvent
      */
-    protected function getRequestBody(): VisitedScreenPostRequestBody
+    protected function getRequestBody(): VisitedScreenEvent
     {
         return $this->requestBody;
     }

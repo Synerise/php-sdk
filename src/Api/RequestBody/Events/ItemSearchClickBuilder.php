@@ -4,7 +4,7 @@ namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\ItemSearchClickEventData;
-use Synerise\Api\V4\Models\ItemSearchClickEventData_params;
+use Synerise\Api\V4\Models\ItemSearchClickEventDataParams;
 use Synerise\Api\V4\Models\SearchType;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
@@ -40,7 +40,7 @@ class ItemSearchClickBuilder extends AbstractBaseBuilder
 
         $this->requestBody = new ItemSearchClickEventData();
         $this->requestBody->setClient($client);
-        $this->requestBody->setParams(new ItemSearchClickEventData_params());
+        $this->requestBody->setParams(new ItemSearchClickEventDataParams());
     }
 
     /**
@@ -126,9 +126,9 @@ class ItemSearchClickBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return ItemSearchClickEventData_params
+     * @return ItemSearchClickEventDataParams
      */
-    protected function getParams(): ItemSearchClickEventData_params
+    protected function getParams(): ItemSearchClickEventDataParams
     {
         return $this->getRequestBody()->getParams();
     }

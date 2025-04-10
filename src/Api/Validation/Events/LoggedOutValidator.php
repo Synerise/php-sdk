@@ -3,15 +3,15 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\LoggedOut\LoggedOutPostRequestBody;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Api\V4\Models\EventSource;
+use Synerise\Api\V4\Models\LoggedOutEvent;
 
 class LoggedOutValidator implements Validator
 {
     /**
-     * Validate LoggedInPostRequestBody.
-     * @param LoggedOutPostRequestBody $event
+     * Validate LoggedOutEvent.
+     * @param LoggedOutEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -28,7 +28,7 @@ class LoggedOutValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'LoggedInPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'LoggedOutEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

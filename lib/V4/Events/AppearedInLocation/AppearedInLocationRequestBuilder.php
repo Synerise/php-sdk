@@ -8,6 +8,7 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
+use Synerise\Api\V4\Models\AppearedInLocationEvent;
 use Synerise\Api\V4\Models\HTTP400;
 
 /**
@@ -31,12 +32,12 @@ class AppearedInLocationRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send an event when a profile submits its location. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `client.location` by the backend.
-     * @param AppearedInLocationPostRequestBody $body The request body
+     * @param AppearedInLocationEvent $body The request body
      * @param AppearedInLocationRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(AppearedInLocationPostRequestBody $body, ?AppearedInLocationRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(AppearedInLocationEvent $body, ?AppearedInLocationRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class AppearedInLocationRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send an event when a profile submits its location. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `client.location` by the backend.
-     * @param AppearedInLocationPostRequestBody $body The request body
+     * @param AppearedInLocationEvent $body The request body
      * @param AppearedInLocationRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(AppearedInLocationPostRequestBody $body, ?AppearedInLocationRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(AppearedInLocationEvent $body, ?AppearedInLocationRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;
