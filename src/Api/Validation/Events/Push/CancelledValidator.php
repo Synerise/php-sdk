@@ -3,17 +3,17 @@
 namespace Synerise\Sdk\Api\Validation\Events\Push;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\Push\Cancelled\CancelledPostRequestBody;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Api\V4\Models\EventSource;
+use Synerise\Api\V4\Models\PushCancelledEvent;
 use Synerise\Sdk\Api\Validation\Events\EventBaseValidator;
 use Synerise\Sdk\Api\Validation\Events\Validator;
 
 class CancelledValidator implements Validator
 {
     /**
-     * Validate CancelledPostRequestBody.
-     * @param CancelledPostRequestBody $event
+     * Validate PushCancelledEvent.
+     * @param PushCancelledEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -30,7 +30,7 @@ class CancelledValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'CancelledPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'PushCancelledEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

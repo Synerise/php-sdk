@@ -3,14 +3,14 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\Custom\CustomPostRequestBody;
+use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\EventBase;
 
 class DeletedValidator implements Validator
 {
     /**
-     * Validate client.deleteAccount CustomPostRequestBody.
-     * @param CustomPostRequestBody $event
+     * Validate client.deleteAccount CustomEvent.
+     * @param CustomEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -26,7 +26,7 @@ class DeletedValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'client.deleteAccount CustomPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'client.deleteAccount CustomEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

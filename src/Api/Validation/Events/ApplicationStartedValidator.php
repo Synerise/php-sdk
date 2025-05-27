@@ -3,14 +3,14 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Models\ApplicationstartedRequest;
+use Synerise\Api\V4\Models\ApplicationStartedEvent;
 use Synerise\Api\V4\Models\EventBase;
 
 class ApplicationStartedValidator implements Validator
 {
     /**
-     * Validate ApplicationstartedRequest.
-     * @param ApplicationstartedRequest $event
+     * Validate ApplicationStartedEvent.
+     * @param ApplicationStartedEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -29,7 +29,7 @@ class ApplicationStartedValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'ApplicationstartedRequest validation failed: ' . implode(', ', $invalid)
+                'ApplicationStartedEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

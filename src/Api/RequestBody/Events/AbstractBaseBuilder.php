@@ -188,15 +188,22 @@ abstract class AbstractBaseBuilder
         $time = $this->time ?: new DateTime();
 
         $requestBody = $this->getRequestBody();
-        if (!$uuid = $requestBody->getClient()->getUuid()) {
-            throw new InvalidArgumentException('Client uuid not found');
+        $client = $requestBody->getClient();
+
+        $identifier = $client->getId()
+        ?? $client->getUuid()
+        ?? $client->getCustomId()
+        ?? $client->getEmail();
+
+        if (!$identifier) {
+            throw new InvalidArgumentException('You must provide at least one of those profile identifiers.');
         }
 
         $this->setParam('source', $this->determineSource());
 
         $requestBody->setLabel($this->label);
         $requestBody->setTime($time->format(DateTime::ATOM));
-        $requestBody->setEventSalt($this->eventSalt ?: time()."_{$this->action}_$uuid");
+        $requestBody->setEventSalt($this->eventSalt ?: $time->getTimestamp()."_{$this->action}_$identifier");
         if (!empty($this->additionalData)) {
             $this->getParams()->setAdditionalData($this->additionalData);
         }

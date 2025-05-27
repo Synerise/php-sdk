@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\Profile;
 
 /**
  * Builds and executes requests for operations under /clients/instant
@@ -31,12 +32,12 @@ class InstantRequestBuilder extends BaseRequestBuilder
 
     /**
      * Create a new profile in the Synerise application database.<br><br>You must provide at least one of those identifiers: `email`, `phone`, `customId`, `uuid`.<br/><br/>Sending a null value <strong>deletes an attribute</strong> (if it's a custom attribute) or <strong>sets it to null/default value</strong> (if the attribute is Synerise-native).
-     * @param InstantPostRequestBody $body The request body
+     * @param Profile $body The request body
      * @param InstantRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<string|null>
      * @throws Exception
     */
-    public function post(InstantPostRequestBody $body, ?InstantRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(Profile $body, ?InstantRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -51,11 +52,11 @@ class InstantRequestBuilder extends BaseRequestBuilder
 
     /**
      * Create a new profile in the Synerise application database.<br><br>You must provide at least one of those identifiers: `email`, `phone`, `customId`, `uuid`.<br/><br/>Sending a null value <strong>deletes an attribute</strong> (if it's a custom attribute) or <strong>sets it to null/default value</strong> (if the attribute is Synerise-native).
-     * @param InstantPostRequestBody $body The request body
+     * @param Profile $body The request body
      * @param InstantRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(InstantPostRequestBody $body, ?InstantRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(Profile $body, ?InstantRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

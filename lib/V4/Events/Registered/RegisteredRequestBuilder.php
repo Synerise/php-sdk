@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\RegisteredEvent;
 
 /**
  * Builds and executes requests for operations under /events/registered
@@ -31,12 +32,12 @@ class RegisteredRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'profile account registered' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `client.register` by the backend.
-     * @param RegisteredPostRequestBody $body The request body
+     * @param RegisteredEvent $body The request body
      * @param RegisteredRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(RegisteredPostRequestBody $body, ?RegisteredRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(RegisteredEvent $body, ?RegisteredRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class RegisteredRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'profile account registered' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `client.register` by the backend.
-     * @param RegisteredPostRequestBody $body The request body
+     * @param RegisteredEvent $body The request body
      * @param RegisteredRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(RegisteredPostRequestBody $body, ?RegisteredRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(RegisteredEvent $body, ?RegisteredRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

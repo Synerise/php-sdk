@@ -9,9 +9,9 @@ use Microsoft\Kiota\Abstractions\Serialization\SerializationWriter;
 class ItemSearchClickEventData extends EventBase implements Parsable 
 {
     /**
-     * @var ItemSearchClickEventData_params|null $params Additional parameters. Remember that you can use [event enrichment](https://hub.synerise.com/docs/assets/events/adding-event-parameters/) to add the data automatically from a catalog.Aside from the required parameters (if any exist), all events accept custom, free-form parameters, with the following restrictions:  <span style="color:red"><strong>WARNING:</strong></span>  - If you want to send the `email` param, it must be exactly the same as the email of the profile who generated the event.  - Some params are reserved for system use. If you send them in the `params` object, they are ignored or overwritten with system-assigned values:<br>  <code>modifiedBy</code><br>  <code>apiKey</code><br>  <code>eventUUID</code><br>  <code>ip</code><br>  <code>time</code><br>  <code>businessProfileId</code>
+     * @var ItemSearchClickEventDataParams|null $params Additional parameters. Remember that you can use [event enrichment](https://hub.synerise.com/docs/assets/events/adding-event-parameters/) to add the data automatically from a catalog.Aside from the required parameters (if any exist), all events accept custom, free-form parameters, with the following restrictions:  <span style="color:red"><strong>WARNING:</strong></span>  - If you want to send the `email` param, it must be exactly the same as the email of the profile who generated the event.  - Some params are reserved for system use. If you send them in the `params` object, they are ignored or overwritten with system-assigned values:<br>  <code>modifiedBy</code><br>  <code>apiKey</code><br>  <code>eventUUID</code><br>  <code>ip</code><br>  <code>time</code><br>  <code>businessProfileId</code>
     */
-    private ?ItemSearchClickEventData_params $params = null;
+    private ?ItemSearchClickEventDataParams $params = null;
     
     /**
      * Instantiates a new ItemSearchClickEventData and sets the default values.
@@ -36,15 +36,15 @@ class ItemSearchClickEventData extends EventBase implements Parsable
     public function getFieldDeserializers(): array {
         $o = $this;
         return array_merge(parent::getFieldDeserializers(), [
-            'params' => fn(ParseNode $n) => $o->setParams($n->getObjectValue([ItemSearchClickEventData_params::class, 'createFromDiscriminatorValue'])),
+            'params' => fn(ParseNode $n) => $o->setParams($n->getObjectValue([ItemSearchClickEventDataParams::class, 'createFromDiscriminatorValue'])),
         ]);
     }
 
     /**
      * Gets the params property value. Additional parameters. Remember that you can use [event enrichment](https://hub.synerise.com/docs/assets/events/adding-event-parameters/) to add the data automatically from a catalog.Aside from the required parameters (if any exist), all events accept custom, free-form parameters, with the following restrictions:  <span style="color:red"><strong>WARNING:</strong></span>  - If you want to send the `email` param, it must be exactly the same as the email of the profile who generated the event.  - Some params are reserved for system use. If you send them in the `params` object, they are ignored or overwritten with system-assigned values:<br>  <code>modifiedBy</code><br>  <code>apiKey</code><br>  <code>eventUUID</code><br>  <code>ip</code><br>  <code>time</code><br>  <code>businessProfileId</code>
-     * @return ItemSearchClickEventData_params|null
+     * @return ItemSearchClickEventDataParams|null
     */
-    public function getParams(): ?ItemSearchClickEventData_params {
+    public function getParams(): ?ItemSearchClickEventDataParams {
         return $this->params;
     }
 
@@ -59,9 +59,9 @@ class ItemSearchClickEventData extends EventBase implements Parsable
 
     /**
      * Sets the params property value. Additional parameters. Remember that you can use [event enrichment](https://hub.synerise.com/docs/assets/events/adding-event-parameters/) to add the data automatically from a catalog.Aside from the required parameters (if any exist), all events accept custom, free-form parameters, with the following restrictions:  <span style="color:red"><strong>WARNING:</strong></span>  - If you want to send the `email` param, it must be exactly the same as the email of the profile who generated the event.  - Some params are reserved for system use. If you send them in the `params` object, they are ignored or overwritten with system-assigned values:<br>  <code>modifiedBy</code><br>  <code>apiKey</code><br>  <code>eventUUID</code><br>  <code>ip</code><br>  <code>time</code><br>  <code>businessProfileId</code>
-     * @param ItemSearchClickEventData_params|null $value Value to set for the params property.
+     * @param ItemSearchClickEventDataParams|null $value Value to set for the params property.
     */
-    public function setParams(?ItemSearchClickEventData_params $value): void {
+    public function setParams(?ItemSearchClickEventDataParams $value): void {
         $this->params = $value;
     }
 
