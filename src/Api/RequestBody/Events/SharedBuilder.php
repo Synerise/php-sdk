@@ -2,9 +2,9 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\Shared\SharedPostRequestBody;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
+use Synerise\Api\V4\Models\SharedEvent;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\SharedValidator;
@@ -22,10 +22,10 @@ class SharedBuilder extends AbstractBaseBuilder
     public const LABEL = 'Content shared';
 
     /**
-     * SearchedPostRequestBody being built
-     * @var SharedPostRequestBody
+     * SharedEvent being built
+     * @var SharedEvent
      */
-    protected SharedPostRequestBody $requestBody;
+    protected SharedEvent $requestBody;
 
     /**
      * @param Client $client
@@ -37,16 +37,16 @@ class SharedBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new SharedPostRequestBody();
+        $this->requestBody = new SharedEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
     }
 
     /**
      * @inheritDoc
-     * @return SharedPostRequestBody
+     * @return SharedEvent
      */
-    public function build(bool $validate = true): SharedPostRequestBody
+    public function build(bool $validate = true): SharedEvent
     {
         parent::setBaseProperties();
 
@@ -68,9 +68,9 @@ class SharedBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return SharedPostRequestBody
+     * @return SharedEvent
      */
-    protected function getRequestBody(): SharedPostRequestBody
+    protected function getRequestBody(): SharedEvent
     {
         return $this->requestBody;
     }

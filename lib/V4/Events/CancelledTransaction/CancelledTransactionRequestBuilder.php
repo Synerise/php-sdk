@@ -8,6 +8,7 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
+use Synerise\Api\V4\Models\CancelledTransactionEvent;
 use Synerise\Api\V4\Models\HTTP400;
 
 /**
@@ -31,12 +32,12 @@ class CancelledTransactionRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'transaction cancelled' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `transaction.cancel` by the backend.
-     * @param CancelledTransactionPostRequestBody $body The request body
+     * @param CancelledTransactionEvent $body The request body
      * @param CancelledTransactionRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(CancelledTransactionPostRequestBody $body, ?CancelledTransactionRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(CancelledTransactionEvent $body, ?CancelledTransactionRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class CancelledTransactionRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'transaction cancelled' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `transaction.cancel` by the backend.
-     * @param CancelledTransactionPostRequestBody $body The request body
+     * @param CancelledTransactionEvent $body The request body
      * @param CancelledTransactionRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(CancelledTransactionPostRequestBody $body, ?CancelledTransactionRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(CancelledTransactionEvent $body, ?CancelledTransactionRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

@@ -3,15 +3,15 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\Shared\SharedPostRequestBody;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Api\V4\Models\EventSource;
+use Synerise\Api\V4\Models\SharedEvent;
 
 class SharedValidator implements Validator
 {
     /**
-     * Validate SharedPostRequestBody.
-     * @param SharedPostRequestBody $event
+     * Validate SharedEvent.
+     * @param SharedEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -28,7 +28,7 @@ class SharedValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'SharedPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'SharedEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

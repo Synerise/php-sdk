@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\LoggedOutEvent;
 
 /**
  * Builds and executes requests for operations under /events/logged-out
@@ -31,12 +32,12 @@ class LoggedOutRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'profile logged out' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `client.logout` by the backend.
-     * @param LoggedOutPostRequestBody $body The request body
+     * @param LoggedOutEvent $body The request body
      * @param LoggedOutRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(LoggedOutPostRequestBody $body, ?LoggedOutRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(LoggedOutEvent $body, ?LoggedOutRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class LoggedOutRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'profile logged out' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `client.logout` by the backend.
-     * @param LoggedOutPostRequestBody $body The request body
+     * @param LoggedOutEvent $body The request body
      * @param LoggedOutRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(LoggedOutPostRequestBody $body, ?LoggedOutRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(LoggedOutEvent $body, ?LoggedOutRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

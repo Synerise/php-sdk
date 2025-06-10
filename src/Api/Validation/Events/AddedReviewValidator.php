@@ -3,14 +3,14 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\Custom\CustomPostRequestBody;
+use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\EventBase;
 
 class AddedReviewValidator implements Validator
 {
     /**
-     * Validate product.addReview CustomPostRequestBody.
-     * @param CustomPostRequestBody $event
+     * Validate product.addReview CustomEvent.
+     * @param CustomEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -26,7 +26,7 @@ class AddedReviewValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'product.addReview CustomPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'product.addReview CustomEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

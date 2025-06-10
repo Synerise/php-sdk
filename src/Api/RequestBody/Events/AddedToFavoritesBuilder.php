@@ -2,7 +2,7 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\AddedToFavorites\AddedToFavoritesPostRequestBody;
+use Synerise\Api\V4\Models\AddedToFavoritesEvent;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
 use Synerise\Api\V4\Models\DiscountedUnitPrice;
@@ -25,10 +25,10 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
     public const LABEL = 'Product added to favorites';
 
     /**
-     *  AddedToFavoritesPostRequestBody being built
-     * @var AddedToFavoritesPostRequestBody
+     *  AddedToFavoritesEvent being built
+     * @var AddedToFavoritesEvent
      */
-    protected AddedToFavoritesPostRequestBody $requestBody;
+    protected AddedToFavoritesEvent $requestBody;
 
     protected function __construct(Client $client, ?EventSourceProvider $sourceProvider = null)
     {
@@ -36,16 +36,16 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new AddedToFavoritesPostRequestBody();
+        $this->requestBody = new AddedToFavoritesEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
     }
 
     /**
      * @inheritDoc
-     * @return AddedToFavoritesPostRequestBody
+     * @return AddedToFavoritesEvent
      */
-    public function build(bool $validate = true): AddedToFavoritesPostRequestBody
+    public function build(bool $validate = true): AddedToFavoritesEvent
     {
         parent::setBaseProperties();
 
@@ -175,9 +175,9 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return AddedToFavoritesPostRequestBody
+     * @return AddedToFavoritesEvent
      */
-    protected function getRequestBody(): AddedToFavoritesPostRequestBody
+    protected function getRequestBody(): AddedToFavoritesEvent
     {
         return $this->requestBody;
     }

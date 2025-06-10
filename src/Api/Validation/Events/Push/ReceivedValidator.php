@@ -3,17 +3,17 @@
 namespace Synerise\Sdk\Api\Validation\Events\Push;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\Push\Received\ReceivedPostRequestBody;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Api\V4\Models\EventSource;
+use Synerise\Api\V4\Models\PushReceivedEvent;
 use Synerise\Sdk\Api\Validation\Events\EventBaseValidator;
 use Synerise\Sdk\Api\Validation\Events\Validator;
 
 class ReceivedValidator implements Validator
 {
     /**
-     * Validate ReceivedPostRequestBody.
-     * @param ReceivedPostRequestBody $event
+     * Validate PushReceivedEvent.
+     * @param PushReceivedEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -30,7 +30,7 @@ class ReceivedValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'ReceivedPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'PushReceivedEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

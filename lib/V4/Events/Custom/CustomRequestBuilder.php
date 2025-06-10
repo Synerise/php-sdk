@@ -8,6 +8,7 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
+use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\HTTP400;
 
 /**
@@ -31,12 +32,12 @@ class CustomRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a custom event.<span style="color:red"><strong>WARNING:</strong></span> This endpoint doesn't create `product.buy` events from `transaction.charge` events! Use [Create a transaction](#operation/CreateATransaction) or [Batch add or update transactions](#operation/BatchAddOrUpdateTransactions) instead.If you don't have a value for a field, omit that field. Do not send null values.
-     * @param CustomPostRequestBody $body The request body
+     * @param CustomEvent $body The request body
      * @param CustomRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(CustomPostRequestBody $body, ?CustomRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(CustomEvent $body, ?CustomRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class CustomRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a custom event.<span style="color:red"><strong>WARNING:</strong></span> This endpoint doesn't create `product.buy` events from `transaction.charge` events! Use [Create a transaction](#operation/CreateATransaction) or [Batch add or update transactions](#operation/BatchAddOrUpdateTransactions) instead.If you don't have a value for a field, omit that field. Do not send null values.
-     * @param CustomPostRequestBody $body The request body
+     * @param CustomEvent $body The request body
      * @param CustomRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(CustomPostRequestBody $body, ?CustomRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(CustomEvent $body, ?CustomRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

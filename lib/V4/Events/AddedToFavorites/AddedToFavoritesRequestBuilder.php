@@ -8,6 +8,7 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
+use Synerise\Api\V4\Models\AddedToFavoritesEvent;
 use Synerise\Api\V4\Models\HTTP400;
 
 /**
@@ -31,12 +32,12 @@ class AddedToFavoritesRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send an 'item added to favorites' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `product.addToFavorite` by the backend.
-     * @param AddedToFavoritesPostRequestBody $body The request body
+     * @param AddedToFavoritesEvent $body The request body
      * @param AddedToFavoritesRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(AddedToFavoritesPostRequestBody $body, ?AddedToFavoritesRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(AddedToFavoritesEvent $body, ?AddedToFavoritesRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class AddedToFavoritesRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send an 'item added to favorites' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `product.addToFavorite` by the backend.
-     * @param AddedToFavoritesPostRequestBody $body The request body
+     * @param AddedToFavoritesEvent $body The request body
      * @param AddedToFavoritesRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(AddedToFavoritesPostRequestBody $body, ?AddedToFavoritesRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(AddedToFavoritesEvent $body, ?AddedToFavoritesRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;
