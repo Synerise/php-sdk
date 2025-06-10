@@ -2,9 +2,9 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\LoggedIn\LoggedInPostRequestBody;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
+use Synerise\Api\V4\Models\LoggedInEvent;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\LoggedInValidator;
@@ -22,10 +22,10 @@ class LoggedInBuilder extends AbstractBaseBuilder
     public const LABEL = 'Profile logged in';
 
     /**
-     *  LoggedInPostRequestBody being built
-     * @var LoggedInPostRequestBody
+     *  LoggedInEvent being built
+     * @var LoggedInEvent
      */
-    protected LoggedInPostRequestBody $requestBody;
+    protected LoggedInEvent $requestBody;
 
     /**
      * @param Client $client
@@ -37,16 +37,16 @@ class LoggedInBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new LoggedInPostRequestBody();
+        $this->requestBody = new LoggedInEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
     }
 
     /**
      * @inheritDoc
-     * @return LoggedInPostRequestBody
+     * @return LoggedInEvent
      */
-    public function build(bool $validate = true): LoggedInPostRequestBody
+    public function build(bool $validate = true): LoggedInEvent
     {
         parent::setBaseProperties();
 
@@ -68,9 +68,9 @@ class LoggedInBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return LoggedInPostRequestBody
+     * @return LoggedInEvent
      */
-    protected function getRequestBody(): LoggedInPostRequestBody
+    protected function getRequestBody(): LoggedInEvent
     {
         return $this->requestBody;
     }

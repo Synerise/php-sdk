@@ -8,6 +8,7 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
+use Synerise\Api\V4\Models\HitTimerEvent;
 use Synerise\Api\V4\Models\HTTP400;
 
 /**
@@ -31,12 +32,12 @@ class HitTimerRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'timer' event.Timers are used for analytics. For example, if you send a event when a profiles starts doing something and another one when they finish, you can collect data about average activity time. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `client.hitTimer` by the backend.
-     * @param HitTimerPostRequestBody $body The request body
+     * @param HitTimerEvent $body The request body
      * @param HitTimerRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(HitTimerPostRequestBody $body, ?HitTimerRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(HitTimerEvent $body, ?HitTimerRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class HitTimerRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'timer' event.Timers are used for analytics. For example, if you send a event when a profiles starts doing something and another one when they finish, you can collect data about average activity time. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `client.hitTimer` by the backend.
-     * @param HitTimerPostRequestBody $body The request body
+     * @param HitTimerEvent $body The request body
      * @param HitTimerRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(HitTimerPostRequestBody $body, ?HitTimerRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(HitTimerEvent $body, ?HitTimerRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

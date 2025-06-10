@@ -5,7 +5,7 @@ namespace Synerise\Sdk\Tracking;
 use Exception;
 use RuntimeException;
 use Synerise\Sdk\Api\ClientBuilder;
-use Synerise\Api\V4\Clients\Batch\Batch;
+use Synerise\Api\V4\Models\Profile;
 
 class ProfileMergeDoRequest implements ProfileMergeAction
 {
@@ -28,11 +28,11 @@ class ProfileMergeDoRequest implements ProfileMergeAction
      */
     public function execute(string $email, string $uuid, string $previousUuid): void
     {
-        $previousProfile = new Batch();
+        $previousProfile = new Profile();
         $previousProfile->setUuid($previousUuid);
         $previousProfile->setEmail($email);
 
-        $currentProfile = new Batch();
+        $currentProfile = new Profile();
         $currentProfile->setUuid($uuid);
         $currentProfile->setEmail($email);
 

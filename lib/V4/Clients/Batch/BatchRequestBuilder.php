@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\Profile;
 
 /**
  * Builds and executes requests for operations under /clients/batch
@@ -31,7 +32,7 @@ class BatchRequestBuilder extends BaseRequestBuilder
 
     /**
      *  Enqueue a number of add/update operations in the Synerise application database. <br/><br/>If you don't have some information about a profile, don't insert a null-value parameter - omit the parameter entirely. Sending a null value <strong>deletes an attribute</strong> (if it's a custom attribute) or <strong>sets it to null/default value</strong> (if the attribute is Synerise-native).The body contains an array of objects to update. The objects are the same as in the *Create a Profile* and *Update a Profile* endpoints.<span style='color:red'><strong>IMPORTANT:</strong></span> The request body cannot contain more than 1000 items or exceed 1 MB in size.
-     * @param array<Batch> $body The request body
+     * @param array<Profile> $body The request body
      * @param BatchRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
@@ -48,7 +49,7 @@ class BatchRequestBuilder extends BaseRequestBuilder
 
     /**
      *  Enqueue a number of add/update operations in the Synerise application database. <br/><br/>If you don't have some information about a profile, don't insert a null-value parameter - omit the parameter entirely. Sending a null value <strong>deletes an attribute</strong> (if it's a custom attribute) or <strong>sets it to null/default value</strong> (if the attribute is Synerise-native).The body contains an array of objects to update. The objects are the same as in the *Create a Profile* and *Update a Profile* endpoints.<span style='color:red'><strong>IMPORTANT:</strong></span> The request body cannot contain more than 1000 items or exceed 1 MB in size.
-     * @param array<Batch> $body The request body
+     * @param array<Profile> $body The request body
      * @param BatchRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */

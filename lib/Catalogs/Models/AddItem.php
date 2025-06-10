@@ -20,9 +20,9 @@ class AddItem implements AdditionalDataHolder, Parsable
     private ?string $itemKey = null;
     
     /**
-     * @var AddItem_value|null $value Properties of the item. Can be an empty object.
+     * @var AddItemValue|null $value Properties of the item. Can be an empty object.
     */
-    private ?AddItem_value $value = null;
+    private ?AddItemValue $value = null;
     
     /**
      * Instantiates a new AddItem and sets the default values.
@@ -56,7 +56,7 @@ class AddItem implements AdditionalDataHolder, Parsable
         $o = $this;
         return  [
             'itemKey' => fn(ParseNode $n) => $o->setItemKey($n->getStringValue()),
-            'value' => fn(ParseNode $n) => $o->setValue($n->getObjectValue([AddItem_value::class, 'createFromDiscriminatorValue'])),
+            'value' => fn(ParseNode $n) => $o->setValue($n->getObjectValue([AddItemValue::class, 'createFromDiscriminatorValue'])),
         ];
     }
 
@@ -70,9 +70,9 @@ class AddItem implements AdditionalDataHolder, Parsable
 
     /**
      * Gets the value property value. Properties of the item. Can be an empty object.
-     * @return AddItem_value|null
+     * @return AddItemValue|null
     */
-    public function getValue(): ?AddItem_value {
+    public function getValue(): ?AddItemValue {
         return $this->value;
     }
 
@@ -104,9 +104,9 @@ class AddItem implements AdditionalDataHolder, Parsable
 
     /**
      * Sets the value property value. Properties of the item. Can be an empty object.
-     * @param AddItem_value|null $value Value to set for the value property.
+     * @param AddItemValue|null $value Value to set for the value property.
     */
-    public function setValue(?AddItem_value $value): void {
+    public function setValue(?AddItemValue $value): void {
         $this->value = $value;
     }
 
