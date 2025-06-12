@@ -2,17 +2,14 @@
 
 namespace Synerise\Sdk\Api\Authentication;
 
-use Exception;
 use Http\Promise\Promise;
-use Microsoft\Kiota\Abstractions\ApiException;
 use Microsoft\Kiota\Abstractions\Authentication\AccessTokenProvider;
 use Microsoft\Kiota\Abstractions\Authentication\AllowedHostsValidator;
 use Microsoft\Kiota\Abstractions\Authentication\AnonymousAuthenticationProvider;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
-use Synerise\Api\Authentication\Auth\Login\Profile\ProfilePostRequestBody;
-use Synerise\Api\Authentication\Authentication;
+use Synerise\Api\Uauth\Models\BusinessProfileAuthenticationRequest;
+use Synerise\Api\Uauth\Uauth;
 use Synerise\Sdk\Api\Config;
-use Synerise\Sdk\Exception\AuthenticationException;
 use Synerise\Sdk\Guzzle\RequestAdapterFactory;
 
 class WorkspaceAccessTokenProvider implements AccessTokenProvider
@@ -40,7 +37,7 @@ class WorkspaceAccessTokenProvider implements AccessTokenProvider
             $requestAdapterFactory = new RequestAdapterFactory($config);
             $requestAdapter = $requestAdapterFactory->create(new AnonymousAuthenticationProvider());
         }
-        $requestAdapter->setBaseUrl($config->getApiHost() . '/v4');
+        $requestAdapter->setBaseUrl($config->getApiHost() . '/uauth');
 
         $this->requestAdapter = $requestAdapter;
         $this->config = $config;
@@ -51,11 +48,11 @@ class WorkspaceAccessTokenProvider implements AccessTokenProvider
      */
     public function getAuthorizationTokenAsync(string $url, array $additionalAuthenticationContext = []): Promise
     {
-        $request = new ProfilePostRequestBody();
+        $request = new BusinessProfileAuthenticationRequest();
         $request->setApiKey($this->config->getApiKey());
 
-        $client = new Authentication($this->requestAdapter);
-        return $client->auth()->login()->profile()->post($request);
+        $client = new Uauth($this->requestAdapter);
+        return $client->v2()->auth()->login()->profile()->post($request);
     }
 
     /**

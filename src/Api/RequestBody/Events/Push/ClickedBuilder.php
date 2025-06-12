@@ -2,10 +2,10 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events\Push;
 
-use Synerise\Api\V4\Events\Push\Clicked\ClickedPostRequestBody;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
-use Synerise\Sdk\RequestBody\Events\AbstractBaseBuilder;
+use Synerise\Api\V4\Models\PushClickedEvent;
+use Synerise\Sdk\Api\RequestBody\Events\AbstractBaseBuilder;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\Push\ClickedValidator;
@@ -23,10 +23,10 @@ class ClickedBuilder extends AbstractBaseBuilder
     public const LABEL = 'Push notification clicked';
 
     /**
-     * SearchedPostRequestBody being built
-     * @var ClickedPostRequestBody
+     * PushClickedEvent being built
+     * @var PushClickedEvent
      */
-    protected ClickedPostRequestBody $requestBody;
+    protected PushClickedEvent $requestBody;
 
     /**
      * @param Client $client
@@ -38,16 +38,16 @@ class ClickedBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new ClickedPostRequestBody();
+        $this->requestBody = new PushClickedEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
     }
 
     /**
      * @inheritDoc
-     * @return ClickedPostRequestBody
+     * @return PushClickedEvent
      */
-    public function build(bool $validate = true): ClickedPostRequestBody
+    public function build(bool $validate = true): PushClickedEvent
     {
         parent::setBaseProperties();
 
@@ -69,9 +69,9 @@ class ClickedBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return ClickedPostRequestBody
+     * @return PushClickedEvent
      */
-    protected function getRequestBody(): ClickedPostRequestBody
+    protected function getRequestBody(): PushClickedEvent
     {
         return $this->requestBody;
     }

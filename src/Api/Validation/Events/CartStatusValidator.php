@@ -3,7 +3,7 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\Custom\CustomPostRequestBody;
+use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Api\V4\Models\Product;
 use Synerise\Sdk\Api\Validation\Models\ProductValidator;
@@ -11,8 +11,8 @@ use Synerise\Sdk\Api\Validation\Models\ProductValidator;
 class CartStatusValidator implements Validator
 {
     /**
-     * Validate cart.status CustomPostRequestBody.
-     * @var CustomPostRequestBody $event
+     * Validate cart.status CustomEvent.
+     * @var CustomEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -59,7 +59,7 @@ class CartStatusValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'cart.status CustomPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'cart.status CustomEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

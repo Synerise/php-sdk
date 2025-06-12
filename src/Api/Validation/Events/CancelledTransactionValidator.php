@@ -3,14 +3,14 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\CancelledTransaction\CancelledTransactionPostRequestBody;
+use Synerise\Api\V4\Models\CancelledTransactionEvent;
 use Synerise\Api\V4\Models\EventBase;
 
 class CancelledTransactionValidator implements Validator
 {
     /**
-     * Validate CancelledTransactionPostRequestBody.
-     * @param CancelledTransactionPostRequestBody $event
+     * Validate CancelledTransactionEvent.
+     * @param CancelledTransactionEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -26,7 +26,7 @@ class CancelledTransactionValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'CancelledTransactionPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'CancelledTransactionEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

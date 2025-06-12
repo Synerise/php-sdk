@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\SharedEvent;
 
 /**
  * Builds and executes requests for operations under /events/shared
@@ -31,12 +32,12 @@ class SharedRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'content shared' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `client.shared` by the backend.
-     * @param SharedPostRequestBody $body The request body
+     * @param SharedEvent $body The request body
      * @param SharedRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(SharedPostRequestBody $body, ?SharedRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(SharedEvent $body, ?SharedRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class SharedRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'content shared' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `client.shared` by the backend.
-     * @param SharedPostRequestBody $body The request body
+     * @param SharedEvent $body The request body
      * @param SharedRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(SharedPostRequestBody $body, ?SharedRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(SharedEvent $body, ?SharedRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

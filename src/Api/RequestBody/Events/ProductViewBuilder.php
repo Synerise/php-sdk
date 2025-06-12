@@ -2,9 +2,9 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\ProductView\ProductViewPostRequestBody;
-use Synerise\Api\V4\Events\ProductView\ProductViewPostRequestBody_params;
 use Synerise\Api\V4\Models\Client;
+use Synerise\Api\V4\Models\ProductViewEvent;
+use Synerise\Api\V4\Models\ProductViewEventParams;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\ProductViewValidator;
@@ -22,10 +22,10 @@ class ProductViewBuilder extends AbstractBaseBuilder
     public const LABEL = 'Item viewed';
 
     /**s
-     * ProductViewPostRequestBody being built
-     * @var ProductViewPostRequestBody
+     * ProductViewEvent being built
+     * @var ProductViewEvent
      */
-    protected ProductViewPostRequestBody $requestBody;
+    protected ProductViewEvent $requestBody;
 
     /**
      * @param Client $client
@@ -37,16 +37,16 @@ class ProductViewBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new ProductViewPostRequestBody();
+        $this->requestBody = new ProductViewEvent();
         $this->requestBody->setClient($client);
-        $this->requestBody->setParams(new ProductViewPostRequestBody_params());
+        $this->requestBody->setParams(new ProductViewEventParams());
     }
 
     /**
      * @inheritDoc
-     * @return ProductViewPostRequestBody
+     * @return ProductViewEvent
      */
-    public function build(bool $validate = true): ProductViewPostRequestBody
+    public function build(bool $validate = true): ProductViewEvent
     {
         parent::setBaseProperties();
 
@@ -140,18 +140,18 @@ class ProductViewBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return ProductViewPostRequestBody
+     * @return ProductViewEvent
      */
-    protected function getRequestBody(): ProductViewPostRequestBody
+    protected function getRequestBody(): ProductViewEvent
     {
         return $this->requestBody;
     }
 
     /**
      * @inheritDoc
-     * @return ProductViewPostRequestBody_params
+     * @return ProductViewEventParams
      */
-    protected function getParams(): ProductViewPostRequestBody_params
+    protected function getParams(): ProductViewEventParams
     {
         return $this->getRequestBody()->getParams();
     }

@@ -3,17 +3,16 @@
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\Custom\CustomPostRequestBody;
 use Synerise\Api\V4\Models\Client;
+use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\DefaultParamSource;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\CustomValidator;
-use Synerise\Sdk\Api\Validation\Events\EventBaseValidator;
 
 class CustomBuilder extends AbstractBaseBuilder
 {
-    protected CustomPostRequestBody $requestBody;
+    protected CustomEvent $requestBody;
 
     /**
      * @param Client $client
@@ -23,15 +22,15 @@ class CustomBuilder extends AbstractBaseBuilder
     {
         $this->sourceProvider = $sourceProvider ?: new DefaultEventSourceProvider();
 
-        $this->requestBody = new CustomPostRequestBody();
+        $this->requestBody = new CustomEvent();
         $this->requestBody->setClient($client);
     }
 
     /**
      * @inheritDoc
-     * @return CustomPostRequestBody
+     * @return CustomEvent
      */
-    public function build(bool $validate = true): CustomPostRequestBody
+    public function build(bool $validate = true): CustomEvent
     {
         if (!$this->action) {
             throw new InvalidArgumentException('Action must be defined for custom event');
@@ -70,9 +69,9 @@ class CustomBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return CustomPostRequestBody
+     * @return CustomEvent
      */
-    protected function getRequestBody(): CustomPostRequestBody {
+    protected function getRequestBody(): CustomEvent {
         return $this->requestBody;
     }
 

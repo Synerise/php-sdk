@@ -3,15 +3,15 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\ProductView\ProductViewPostRequestBody;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Api\V4\Models\EventSource;
+use Synerise\Api\V4\Models\ProductViewEvent;
 
 class ProductViewValidator implements Validator
 {
     /**
-     * Validate ProductViewPostRequestBody.
-     * @param ProductViewPostRequestBody $event
+     * Validate ProductViewEvent.
+     * @param ProductViewEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -28,7 +28,7 @@ class ProductViewValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'ProductViewPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'ProductViewEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

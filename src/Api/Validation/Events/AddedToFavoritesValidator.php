@@ -3,14 +3,14 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\AddedToFavorites\AddedToFavoritesPostRequestBody;
+use Synerise\Api\V4\Models\AddedToFavoritesEvent;
 use Synerise\Api\V4\Models\EventBase;
 
 class AddedToFavoritesValidator implements Validator
 {
     /**
-     * Validate AddedToFavoritesPostRequestBody.
-     * @param AddedToFavoritesPostRequestBody $event
+     * Validate AddedToFavoritesEvent.
+     * @param AddedToFavoritesEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -23,7 +23,7 @@ class AddedToFavoritesValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'AddedToFavoritesPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'AddedToFavoritesEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 
