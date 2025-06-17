@@ -10,7 +10,7 @@ use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
 use Psr\Http\Message\StreamInterface;
 use Synerise\Api\V4\Models\HTTP400;
-use Synerise\Api\V4\Models\LinkaClientdeviceRequest;
+use Synerise\Api\V4\Models\LinkAClientDeviceRequest;
 
 /**
  * Builds and executes requests for operations under /clients/{client-id}/linked-devices
@@ -33,12 +33,12 @@ class LinkedDevicesRequestBuilder extends BaseRequestBuilder
 
     /**
      *  Assign a device to a profile ID. A profile may have many devices assigned.
-     * @param LinkaClientdeviceRequest $body The request body
+     * @param LinkAClientDeviceRequest $body The request body
      * @param LinkedDevicesRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<StreamInterface|null>
      * @throws Exception
     */
-    public function post(LinkaClientdeviceRequest $body, ?LinkedDevicesRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(LinkAClientDeviceRequest $body, ?LinkedDevicesRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -53,11 +53,11 @@ class LinkedDevicesRequestBuilder extends BaseRequestBuilder
 
     /**
      *  Assign a device to a profile ID. A profile may have many devices assigned.
-     * @param LinkaClientdeviceRequest $body The request body
+     * @param LinkAClientDeviceRequest $body The request body
      * @param LinkedDevicesRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(LinkaClientdeviceRequest $body, ?LinkedDevicesRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(LinkAClientDeviceRequest $body, ?LinkedDevicesRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

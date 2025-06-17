@@ -8,8 +8,8 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
-use Synerise\Api\V4\Models\CreateatransactionRequest;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\Transaction;
 use Synerise\Api\V4\Transactions\Batch\BatchRequestBuilder;
 
 /**
@@ -40,12 +40,12 @@ class TransactionsRequestBuilder extends BaseRequestBuilder
 
     /**
      * Create a transaction record in the database.For each transaction, a `transaction.charge` event is generated automatically. In addition, each item in the `products` array produces a `product.buy` event.All monetary values must use the same currency and be greaterthan or equal to zero. `discountAmount` must be greater than zeroor omitted.
-     * @param CreateatransactionRequest $body The request body
+     * @param Transaction $body The request body
      * @param TransactionsRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(CreateatransactionRequest $body, ?TransactionsRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(Transaction $body, ?TransactionsRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -58,11 +58,11 @@ class TransactionsRequestBuilder extends BaseRequestBuilder
 
     /**
      * Create a transaction record in the database.For each transaction, a `transaction.charge` event is generated automatically. In addition, each item in the `products` array produces a `product.buy` event.All monetary values must use the same currency and be greaterthan or equal to zero. `discountAmount` must be greater than zeroor omitted.
-     * @param CreateatransactionRequest $body The request body
+     * @param Transaction $body The request body
      * @param TransactionsRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(CreateatransactionRequest $body, ?TransactionsRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(Transaction $body, ?TransactionsRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

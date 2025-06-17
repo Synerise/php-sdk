@@ -8,8 +8,8 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
-use Synerise\Api\V4\Models\CreateClientRequestBody;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\Profile;
 
 /**
  * Builds and executes requests for operations under /clients/by-email/{clientEmail}
@@ -32,12 +32,12 @@ class WithClientEmailItemRequestBuilder extends BaseRequestBuilder
 
     /**
      * Change the details of a profile in the Synerise application database. <br/><br/>Sending a null value <strong>deletes an attribute</strong> (if it's a custom attribute) or <strong>sets it to null/default value</strong> (if the attribute is Synerise-native).The `attributes` object can be used to add custom attributes of your choice. For example, `"hasDog":true`.The `tags` array contains custom tags of your choice.
-     * @param CreateClientRequestBody $body The request body
+     * @param Profile $body The request body
      * @param WithClientEmailItemRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(CreateClientRequestBody $body, ?WithClientEmailItemRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(Profile $body, ?WithClientEmailItemRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -51,11 +51,11 @@ class WithClientEmailItemRequestBuilder extends BaseRequestBuilder
 
     /**
      * Change the details of a profile in the Synerise application database. <br/><br/>Sending a null value <strong>deletes an attribute</strong> (if it's a custom attribute) or <strong>sets it to null/default value</strong> (if the attribute is Synerise-native).The `attributes` object can be used to add custom attributes of your choice. For example, `"hasDog":true`.The `tags` array contains custom tags of your choice.
-     * @param CreateClientRequestBody $body The request body
+     * @param Profile $body The request body
      * @param WithClientEmailItemRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(CreateClientRequestBody $body, ?WithClientEmailItemRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(Profile $body, ?WithClientEmailItemRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

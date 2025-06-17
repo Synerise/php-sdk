@@ -2,9 +2,9 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\LoggedOut\LoggedOutPostRequestBody;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
+use Synerise\Api\V4\Models\LoggedOutEvent;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\LoggedOutValidator;
@@ -22,10 +22,10 @@ class LoggedOutBuilder extends AbstractBaseBuilder
     public const LABEL = 'Profile logged out';
 
     /**
-     *  LoggedOutPostRequestBody being built
-     * @var LoggedOutPostRequestBody
+     *  LoggedOutEvent being built
+     * @var LoggedOutEvent
      */
-    protected LoggedOutPostRequestBody $requestBody;
+    protected LoggedOutEvent $requestBody;
 
     /**
      * @param Client $client
@@ -37,16 +37,16 @@ class LoggedOutBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new LoggedOutPostRequestBody();
+        $this->requestBody = new LoggedOutEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
     }
 
     /**
      * @inheritDoc
-     * @return LoggedOutPostRequestBody
+     * @return LoggedOutEvent
      */
-    public function build(bool $validate = true): LoggedOutPostRequestBody
+    public function build(bool $validate = true): LoggedOutEvent
     {
         parent::setBaseProperties();
 
@@ -68,9 +68,9 @@ class LoggedOutBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return LoggedOutPostRequestBody
+     * @return LoggedOutEvent
      */
-    protected function getRequestBody(): LoggedOutPostRequestBody
+    protected function getRequestBody(): LoggedOutEvent
     {
         return $this->requestBody;
     }

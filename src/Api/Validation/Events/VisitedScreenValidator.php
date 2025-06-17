@@ -3,15 +3,15 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\VisitedScreen\VisitedScreenPostRequestBody;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Api\V4\Models\EventSource;
+use Synerise\Api\V4\Models\VisitedScreenEvent;
 
 class VisitedScreenValidator implements Validator
 {
     /**
-     * Validate VisitedScreenPostRequestBody.
-     * @param VisitedScreenPostRequestBody $event
+     * Validate VisitedScreenEvent.
+     * @param VisitedScreenEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -28,7 +28,7 @@ class VisitedScreenValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'VisitedScreenPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'VisitedScreenEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 
