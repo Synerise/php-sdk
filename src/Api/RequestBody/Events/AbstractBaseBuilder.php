@@ -3,6 +3,7 @@
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use DateTime;
+use DateTimeInterface;
 use InvalidArgumentException;
 use Microsoft\Kiota\Abstractions\Serialization\AdditionalDataHolder;
 use RuntimeException;
@@ -13,10 +14,13 @@ use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\Validator;
 use TypeError;
 
+/**
+ * @template T of EventBase
+ */
 abstract class AbstractBaseBuilder
 {
     /**
-     * Event action describing event.
+     * Action describing event.
      * Optional, except for custom.
      * Suggested format: <string>.<string>
      * @var string|null
@@ -31,7 +35,7 @@ abstract class AbstractBaseBuilder
     protected ?string $eventSalt = null;
 
     /**
-     * Human readable label describing event.
+     * Human-readable label describing event.
      * Optional, except for custom.
      * @var string|null
      */
@@ -44,11 +48,11 @@ abstract class AbstractBaseBuilder
     protected ?EventSource $source = null;
 
     /**
-     * DateTime representing them moment event occurred.
+     * DateTime representing the moment an event occurred.
      * Optional.
-     * @var DateTime|null
+     * @var DateTimeInterface|null
      */
-    protected ?DateTime $time = null;
+    protected ?DateTimeInterface $time = null;
 
     /**
      * Provides EventSource enum value
@@ -69,26 +73,62 @@ abstract class AbstractBaseBuilder
     abstract protected function __construct(Client $client, ?EventSourceProvider $sourceProvider = null);
 
     /**
-     * Returns request body object with provided data.
+     * Returns a request body object with provided data.
      * @param bool $validate Determines if validation should be done on building.
-     * @return EventBase
+     * @return T
      * @throws InvalidArgumentException
      */
-    abstract public function build(bool $validate = true): EventBase;
+    public function build(bool $validate = true): EventBase
+    {
+        $requestBody = $this->getRequestBody();
+        $client = $requestBody->getClient();
+
+        $identifier = $client->getId()
+            ?? $client->getUuid()
+            ?? $client->getCustomId()
+            ?? $client->getEmail();
+
+        if (!$identifier) {
+            throw new InvalidArgumentException('You must provide at least one of profile identifier.');
+        }
+
+        if(!$this->time) {
+            $this->time = new DateTime();
+        }
+
+        $this->setParam('source', $this->determineSource());
+
+        $requestBody->setLabel($this->label);
+        $requestBody->setTime($this->time->format(DateTimeInterface::ATOM));
+        $requestBody->setEventSalt($this->eventSalt ?: $this->time->getTimestamp()."_{$this->action}_$identifier");
+        if (method_exists($requestBody, 'setAction')) {
+            $requestBody->setAction($this->action);
+        }
+
+        if (!empty($this->additionalData)) {
+            $this->getParams()->setAdditionalData($this->additionalData);
+        }
+
+        if ($validate) {
+            static::getValidator()::validate($requestBody);
+        }
+
+        return $requestBody;
+    }
 
     /**
-     * Initialize new builder instance.
+     * Initialize a new builder instance.
      * @param Client $client
      * @param EventSourceProvider|null $sourceProvider
      * @return static
      */
-    public static function initialize(Client $client, ?EventSourceProvider $sourceProvider = null)
+    public static function initialize(Client $client, ?EventSourceProvider $sourceProvider = null): AbstractBaseBuilder
     {
         return new static($client, $sourceProvider);
     }
 
     /**
-     * Provides validator for build object.
+     * Provides a validator for a built object.
      * Ensures required properties are set and all properties are in valid format.
      * @return Validator
      */
@@ -120,10 +160,10 @@ abstract class AbstractBaseBuilder
     /**
      * Set event time
      * Optional.
-     * @param DateTime $time
+     * @param DateTimeInterface $time
      * @return $this
      */
-    public function setTime(DateTime $time): self
+    public function setTime(DateTimeInterface $time): self
     {
         $this->time = $time;
         return $this;
@@ -142,7 +182,7 @@ abstract class AbstractBaseBuilder
     }
 
     /**
-     * Set single params value with setter or as additional data.
+     * Set a single params value with setter or as additional data.
      * @param string $key
      * @param mixed $value
      * @return self
@@ -165,7 +205,7 @@ abstract class AbstractBaseBuilder
     }
 
     /**
-     * Set params properties from array using setters or as additional data.
+     * Set params properties from an array using setters or as additional data.
      * @param array $data
      * @return self
      * @throws InvalidArgumentException
@@ -174,31 +214,6 @@ abstract class AbstractBaseBuilder
     {
         foreach($data as $key => $value) {
             $this->setParam($key, $value);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set required base params.
-     * @return self
-     */
-    protected function setBaseProperties(): self
-    {
-        $time = $this->time ?: new DateTime();
-
-        $requestBody = $this->getRequestBody();
-        if (!$uuid = $requestBody->getClient()->getUuid()) {
-            throw new InvalidArgumentException('Client uuid not found');
-        }
-
-        $this->setParam('source', $this->determineSource());
-
-        $requestBody->setLabel($this->label);
-        $requestBody->setTime($time->format(DateTime::ATOM));
-        $requestBody->setEventSalt($this->eventSalt ?: time()."_{$this->action}_$uuid");
-        if (!empty($this->additionalData)) {
-            $this->getParams()->setAdditionalData($this->additionalData);
         }
 
         return $this;
@@ -228,9 +243,11 @@ abstract class AbstractBaseBuilder
 
     /**
      * Returns event object being built
-     * @return EventBase
+     * @return T
      */
-    abstract protected function getRequestBody(): EventBase;
+    protected function getRequestBody(): EventBase {
+        return $this->requestBody;
+    }
 
     /**
      * Returns event object's params being built

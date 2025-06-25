@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\PushViewedEvent;
 
 /**
  * Builds and executes requests for operations under /events/push/viewed
@@ -31,12 +32,12 @@ class ViewedRequestBuilder extends BaseRequestBuilder
 
     /**
      * Record a 'push notification was viewed' event. It is used for push message interaction tracking.When you send an event to this endpoint, the `action` field is set to `push.view` by the backend.
-     * @param ViewedPostRequestBody $body The request body
+     * @param PushViewedEvent $body The request body
      * @param ViewedRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(ViewedPostRequestBody $body, ?ViewedRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(PushViewedEvent $body, ?ViewedRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class ViewedRequestBuilder extends BaseRequestBuilder
 
     /**
      * Record a 'push notification was viewed' event. It is used for push message interaction tracking.When you send an event to this endpoint, the `action` field is set to `push.view` by the backend.
-     * @param ViewedPostRequestBody $body The request body
+     * @param PushViewedEvent $body The request body
      * @param ViewedRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(ViewedPostRequestBody $body, ?ViewedRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(PushViewedEvent $body, ?ViewedRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;
