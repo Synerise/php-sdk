@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\Serialization\SerializationWriterFactory;
 use Microsoft\Kiota\Http\GuzzleRequestAdapter;
 use Microsoft\Kiota\Serialization\Json\JsonParseNodeFactory;
 use Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory;
+use Psr\Log\LoggerInterface;
 use Synerise\Sdk\Api\Config;
 
 class RequestAdapterFactory
@@ -25,11 +26,12 @@ class RequestAdapterFactory
 
     public function __construct(
         Config $apiConfig,
+        ?LoggerInterface $logger = null,
         ?ClientFactory $guzzleClientFactory = null
     )
     {
         $this->apiConfig = $apiConfig;
-        $this->guzzleClientFactory = $guzzleClientFactory ?: new ClientFactory($this->apiConfig);
+        $this->guzzleClientFactory = $guzzleClientFactory ?: new ClientFactory($this->apiConfig, $logger);
     }
 
     /**

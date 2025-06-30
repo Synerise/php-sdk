@@ -2,14 +2,17 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events\Push;
 
-use Synerise\Api\V4\Events\Push\Cancelled\CancelledPostRequestBody;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
-use Synerise\Sdk\RequestBody\Events\AbstractBaseBuilder;
+use Synerise\Api\V4\Models\PushCancelledEvent;
+use Synerise\Sdk\Api\RequestBody\Events\AbstractBaseBuilder;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\Push\CancelledValidator;
 
+/**
+ * @extends AbstractBaseBuilder<PushCancelledEvent>
+ */
 class CancelledBuilder extends AbstractBaseBuilder
 {
     /**
@@ -23,10 +26,10 @@ class CancelledBuilder extends AbstractBaseBuilder
     public const LABEL = 'Push notifications cancelled';
 
     /**
-     * SearchedPostRequestBody being built
-     * @var CancelledPostRequestBody
+     * PushCancelledEvent being built
+     * @var PushCancelledEvent
      */
-    protected CancelledPostRequestBody $requestBody;
+    protected PushCancelledEvent $requestBody;
 
     /**
      * @param Client $client
@@ -38,24 +41,9 @@ class CancelledBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new CancelledPostRequestBody();
+        $this->requestBody = new PushCancelledEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
-    }
-
-    /**
-     * @inheritDoc
-     * @return CancelledPostRequestBody
-     */
-    public function build(bool $validate = true): CancelledPostRequestBody
-    {
-        parent::setBaseProperties();
-
-        if ($validate) {
-            self::getValidator()::validate($this->requestBody);
-        }
-
-        return $this->requestBody;
     }
 
     /**
@@ -69,9 +57,9 @@ class CancelledBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return CancelledPostRequestBody
+     * @return PushCancelledEvent
      */
-    protected function getRequestBody(): CancelledPostRequestBody
+    protected function getRequestBody(): PushCancelledEvent
     {
         return $this->requestBody;
     }

@@ -8,8 +8,8 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
-use Synerise\Api\V4\Models\CreateatransactionRequest;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\Transaction;
 
 /**
  * Builds and executes requests for operations under /transactions/batch
@@ -32,7 +32,7 @@ class BatchRequestBuilder extends BaseRequestBuilder
 
     /**
      * Enqueue a number of add/update operations in the Syneriseapplication database. For each transaction, a `transaction.charge` event is generated automatically. In addition, each item in the `products` array produces a `product.buy` event.If you don't have some information about a transaction, don't insert a null-value parameter - omit the parameter entirely. Sending a null value <strong>deletes an attribute</strong> (if it's a custom attribute) or <strong>sets it to null/default value</strong> (if the attribute is Synerise-native).The body contains an array of objects to update. The objects arethe same as in the *Update transaction* and *Create transaction*endpoints.All monetary values must use the same currency and be greaterthan or equal to zero. `discountAmount` must be greater than zeroor omitted.
-     * @param array<CreateatransactionRequest> $body The request body
+     * @param array<Transaction> $body The request body
      * @param BatchRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
@@ -50,7 +50,7 @@ class BatchRequestBuilder extends BaseRequestBuilder
 
     /**
      * Enqueue a number of add/update operations in the Syneriseapplication database. For each transaction, a `transaction.charge` event is generated automatically. In addition, each item in the `products` array produces a `product.buy` event.If you don't have some information about a transaction, don't insert a null-value parameter - omit the parameter entirely. Sending a null value <strong>deletes an attribute</strong> (if it's a custom attribute) or <strong>sets it to null/default value</strong> (if the attribute is Synerise-native).The body contains an array of objects to update. The objects arethe same as in the *Update transaction* and *Create transaction*endpoints.All monetary values must use the same currency and be greaterthan or equal to zero. `discountAmount` must be greater than zeroor omitted.
-     * @param array<CreateatransactionRequest> $body The request body
+     * @param array<Transaction> $body The request body
      * @param BatchRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */

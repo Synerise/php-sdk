@@ -8,7 +8,7 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
-use Synerise\Api\V4\Models\ClientCartEventRequest;
+use Synerise\Api\V4\Models\CartEvent;
 use Synerise\Api\V4\Models\HTTP400;
 
 /**
@@ -32,12 +32,12 @@ class AddedToCartRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send an 'item added to cart' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `product.addToCart` by the backend.
-     * @param ClientCartEventRequest $body The request body
+     * @param CartEvent $body The request body
      * @param AddedToCartRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(ClientCartEventRequest $body, ?AddedToCartRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(CartEvent $body, ?AddedToCartRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -50,11 +50,11 @@ class AddedToCartRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send an 'item added to cart' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `product.addToCart` by the backend.
-     * @param ClientCartEventRequest $body The request body
+     * @param CartEvent $body The request body
      * @param AddedToCartRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(ClientCartEventRequest $body, ?AddedToCartRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(CartEvent $body, ?AddedToCartRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

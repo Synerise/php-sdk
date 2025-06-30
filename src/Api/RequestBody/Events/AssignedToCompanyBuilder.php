@@ -9,6 +9,9 @@ use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\AssignedToCompanyValidator;
 
+/**
+ * @extends AbstractBaseBuilder<AssignedToCompanyPostRequestBody>
+ */
 class AssignedToCompanyBuilder extends AbstractBaseBuilder
 {
     /**
@@ -40,21 +43,6 @@ class AssignedToCompanyBuilder extends AbstractBaseBuilder
         $this->requestBody = new AssignedToCompanyPostRequestBody();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new AssignedToCompanyPostRequestBody_params());
-    }
-
-    /**
-     * @inheritDoc
-     * @return AssignedToCompanyPostRequestBody
-     */
-    public function build(bool $validate = true): AssignedToCompanyPostRequestBody
-    {
-        parent::setBaseProperties();
-
-        if ($validate) {
-            self::getValidator()::validate($this->requestBody);
-        }
-
-        return $this->requestBody;
     }
 
     /**

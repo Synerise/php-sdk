@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\ProductViewEvent;
 
 /**
  * Builds and executes requests for operations under /events/product-view
@@ -31,12 +32,12 @@ class ProductViewRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send an 'item viewed' event.When you send an event to this endpoint, the `action` field is set to `product.view` by the backend.
-     * @param ProductViewPostRequestBody $body The request body
+     * @param ProductViewEvent $body The request body
      * @param ProductViewRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(ProductViewPostRequestBody $body, ?ProductViewRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(ProductViewEvent $body, ?ProductViewRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class ProductViewRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send an 'item viewed' event.When you send an event to this endpoint, the `action` field is set to `product.view` by the backend.
-     * @param ProductViewPostRequestBody $body The request body
+     * @param ProductViewEvent $body The request body
      * @param ProductViewRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(ProductViewPostRequestBody $body, ?ProductViewRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(ProductViewEvent $body, ?ProductViewRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

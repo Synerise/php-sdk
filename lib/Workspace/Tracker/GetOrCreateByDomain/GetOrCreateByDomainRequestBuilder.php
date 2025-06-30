@@ -8,8 +8,8 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
-use Psr\Http\Message\StreamInterface;
 use Synerise\Api\Workspace\Models\TrackingCodeCreationByDomainRequest;
+use Synerise\Api\Workspace\Models\TrackingCodeResponse;
 
 /**
  * Builds and executes requests for operations under /tracker/get-or-create-by-domain
@@ -33,14 +33,12 @@ class GetOrCreateByDomainRequestBuilder extends BaseRequestBuilder
     /**
      * @param TrackingCodeCreationByDomainRequest $body The request body
      * @param GetOrCreateByDomainRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
-     * @return Promise<StreamInterface|null>
+     * @return Promise<TrackingCodeResponse|null>
      * @throws Exception
     */
     public function post(TrackingCodeCreationByDomainRequest $body, ?GetOrCreateByDomainRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
-        /** @var Promise<StreamInterface|null> $result */
-        $result = $this->requestAdapter->sendPrimitiveAsync($requestInfo, StreamInterface::class, null);
-        return $result;
+        return $this->requestAdapter->sendAsync($requestInfo, [TrackingCodeResponse::class, 'createFromDiscriminatorValue'], null);
     }
 
     /**
@@ -57,7 +55,7 @@ class GetOrCreateByDomainRequestBuilder extends BaseRequestBuilder
             $requestInfo->addHeaders($requestConfiguration->headers);
             $requestInfo->addRequestOptions(...$requestConfiguration->options);
         }
-        $requestInfo->tryAddHeader('Accept', "*/*");
+        $requestInfo->tryAddHeader('Accept', "application/json");
         $requestInfo->setContentFromParsable($this->requestAdapter, "application/json", $body);
         return $requestInfo;
     }

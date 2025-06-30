@@ -8,7 +8,7 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
-use Synerise\Api\V4\Models\ApplicationstartedRequest;
+use Synerise\Api\V4\Models\ApplicationStartedEvent;
 use Synerise\Api\V4\Models\HTTP400;
 
 /**
@@ -32,12 +32,12 @@ class ApplicationStartedRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'client application started' event.This endpoint is available from API version 4.1.2.When you send an event to this endpoint, the `action` field is set to `client.applicationStarted` by the backend.
-     * @param ApplicationstartedRequest $body The request body
+     * @param ApplicationStartedEvent $body The request body
      * @param ApplicationStartedRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(ApplicationstartedRequest $body, ?ApplicationStartedRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(ApplicationStartedEvent $body, ?ApplicationStartedRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -51,11 +51,11 @@ class ApplicationStartedRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'client application started' event.This endpoint is available from API version 4.1.2.When you send an event to this endpoint, the `action` field is set to `client.applicationStarted` by the backend.
-     * @param ApplicationstartedRequest $body The request body
+     * @param ApplicationStartedEvent $body The request body
      * @param ApplicationStartedRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(ApplicationstartedRequest $body, ?ApplicationStartedRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(ApplicationStartedEvent $body, ?ApplicationStartedRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

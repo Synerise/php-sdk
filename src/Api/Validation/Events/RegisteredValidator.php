@@ -3,15 +3,15 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\Registered\RegisteredPostRequestBody;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Api\V4\Models\EventSource;
+use Synerise\Api\V4\Models\RegisteredEvent;
 
 class RegisteredValidator implements Validator
 {
     /**
-     * Validate RegisteredPostRequestBody.
-     * @param RegisteredPostRequestBody $event
+     * Validate RegisteredEvent.
+     * @param RegisteredEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -28,7 +28,7 @@ class RegisteredValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'RegisteredPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'RegisteredEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

@@ -2,7 +2,7 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\AddedToFavorites\AddedToFavoritesPostRequestBody;
+use Synerise\Api\V4\Models\AddedToFavoritesEvent;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
 use Synerise\Api\V4\Models\DiscountedUnitPrice;
@@ -12,6 +12,9 @@ use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\AddedToFavoritesValidator;
 
+/**
+ * @extends AbstractBaseBuilder<AddedToFavoritesEvent>
+ */
 class AddedToFavoritesBuilder extends AbstractBaseBuilder
 {
     /**
@@ -25,10 +28,10 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
     public const LABEL = 'Product added to favorites';
 
     /**
-     *  AddedToFavoritesPostRequestBody being built
-     * @var AddedToFavoritesPostRequestBody
+     *  AddedToFavoritesEvent being built
+     * @var AddedToFavoritesEvent
      */
-    protected AddedToFavoritesPostRequestBody $requestBody;
+    protected AddedToFavoritesEvent $requestBody;
 
     protected function __construct(Client $client, ?EventSourceProvider $sourceProvider = null)
     {
@@ -36,24 +39,9 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new AddedToFavoritesPostRequestBody();
+        $this->requestBody = new AddedToFavoritesEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
-    }
-
-    /**
-     * @inheritDoc
-     * @return AddedToFavoritesPostRequestBody
-     */
-    public function build(bool $validate = true): AddedToFavoritesPostRequestBody
-    {
-        parent::setBaseProperties();
-
-        if ($validate) {
-            self::getValidator()::validate($this->requestBody);
-        }
-
-        return $this->requestBody;
     }
 
     /**
@@ -175,9 +163,9 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return AddedToFavoritesPostRequestBody
+     * @return AddedToFavoritesEvent
      */
-    protected function getRequestBody(): AddedToFavoritesPostRequestBody
+    protected function getRequestBody(): AddedToFavoritesEvent
     {
         return $this->requestBody;
     }

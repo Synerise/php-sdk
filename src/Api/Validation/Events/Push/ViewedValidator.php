@@ -3,17 +3,17 @@
 namespace Synerise\Sdk\Api\Validation\Events\Push;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\Push\Viewed\ViewedPostRequestBody;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Api\V4\Models\EventSource;
+use Synerise\Api\V4\Models\PushViewedEvent;
 use Synerise\Sdk\Api\Validation\Events\EventBaseValidator;
 use Synerise\Sdk\Api\Validation\Events\Validator;
 
 class ViewedValidator implements Validator
 {
     /**
-     * Validate ViewedPostRequestBody.
-     * @param ViewedPostRequestBody $event
+     * Validate PushViewedEvent.
+     * @param PushViewedEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -30,7 +30,7 @@ class ViewedValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'ViewedPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'PushViewedEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

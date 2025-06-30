@@ -3,14 +3,14 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\AppearedInLocation\AppearedInLocationPostRequestBody;
+use Synerise\Api\V4\Models\AppearedInLocationEvent;
 use Synerise\Api\V4\Models\EventBase;
 
 class AppearedInLocationValidator implements Validator
 {
     /**
      * Validate ClientCartEventRequest.
-     * @param AppearedInLocationPostRequestBody $event
+     * @param AppearedInLocationEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -30,7 +30,7 @@ class AppearedInLocationValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'AppearedInLocationPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'AppearedInLocationEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 
