@@ -6,6 +6,7 @@ use Microsoft\Kiota\Abstractions\ApiClientBuilder;
 use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Synerise\Api\Uauth\ApiKey\ApiKeyRequestBuilder;
+use Synerise\Api\Uauth\V2\V2RequestBuilder;
 
 /**
  * The main entry point of the SDK, exposes the configuration and the fluent API.
@@ -17,6 +18,13 @@ class Uauth extends BaseRequestBuilder
     */
     public function apiKey(): ApiKeyRequestBuilder {
         return new ApiKeyRequestBuilder($this->pathParameters, $this->requestAdapter);
+    }
+    
+    /**
+     * The v2 property
+    */
+    public function v2(): V2RequestBuilder {
+        return new V2RequestBuilder($this->pathParameters, $this->requestAdapter);
     }
     
     /**

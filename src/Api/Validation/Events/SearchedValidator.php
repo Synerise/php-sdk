@@ -3,15 +3,15 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Events\Searched\SearchedPostRequestBody;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Api\V4\Models\EventSource;
+use Synerise\Api\V4\Models\SearchedEvent;
 
 class SearchedValidator implements Validator
 {
     /**
-     * Validate SearchedPostRequestBody.
-     * @param SearchedPostRequestBody $event
+     * Validate SearchedEvent.
+     * @param SearchedEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -28,7 +28,7 @@ class SearchedValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'SearchedPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'SearchedEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

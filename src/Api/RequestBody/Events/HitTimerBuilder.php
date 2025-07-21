@@ -2,14 +2,16 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\AddedToFavorites\AddedToFavoritesPostRequestBody;
-use Synerise\Api\V4\Events\HitTimer\HitTimerPostRequestBody;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
+use Synerise\Api\V4\Models\HitTimerEvent;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\HitTimerValidator;
 
+/**
+ * @extends AbstractBaseBuilder<HitTimerEvent>
+ */
 class HitTimerBuilder extends AbstractBaseBuilder
 {
     /**
@@ -23,10 +25,10 @@ class HitTimerBuilder extends AbstractBaseBuilder
     public const LABEL = 'Timer hit';
 
     /**
-     * HitTimerPostRequestBody being built
-     * @var HitTimerPostRequestBody
+     * HitTimerEvent being built
+     * @var HitTimerEvent
      */
-    protected HitTimerPostRequestBody $requestBody;
+    protected HitTimerEvent $requestBody;
 
     /**
      * @param Client $client
@@ -38,23 +40,8 @@ class HitTimerBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new HitTimerPostRequestBody();
+        $this->requestBody = new HitTimerEvent();
         $this->requestBody->setClient($client);
-    }
-
-    /**
-     * @inheritDoc
-     * @return HitTimerPostRequestBody
-     */
-    public function build(bool $validate = true): HitTimerPostRequestBody
-    {
-        parent::setBaseProperties();
-
-        if ($validate) {
-            self::getValidator()::validate($this->requestBody);
-        }
-
-        return $this->requestBody;
     }
 
     /**
@@ -68,9 +55,9 @@ class HitTimerBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return HitTimerPostRequestBody
+     * @return HitTimerEvent
      */
-    protected function getRequestBody(): HitTimerPostRequestBody
+    protected function getRequestBody(): HitTimerEvent
     {
         return $this->requestBody;
     }

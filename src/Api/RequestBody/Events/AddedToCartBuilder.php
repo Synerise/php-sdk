@@ -2,9 +2,13 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use Synerise\Api\V4\Models\CartEvent;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 
+/**
+ * @extends AbstractBaseBuilder<CartEvent>
+ */
 class AddedToCartBuilder extends AbstractCartBuilder
 {
     /**

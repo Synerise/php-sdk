@@ -2,13 +2,16 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\Custom\CustomPostRequestBody;
 use Synerise\Api\V4\Models\Client;
+use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\DefaultParamSource;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\AddedReviewValidator;
 
+/**
+ * @extends AbstractBaseBuilder<CustomEvent>
+ */
 class AddedReviewBuilder extends AbstractBaseBuilder
 {
     /**
@@ -22,10 +25,10 @@ class AddedReviewBuilder extends AbstractBaseBuilder
     public const LABEL = 'Profile reviewed product';
 
     /**
-     *  CustomPostRequestBody being built
-     * @var CustomPostRequestBody
+     * CustomEvent being built
+     * @var CustomEvent
      */
-    protected CustomPostRequestBody $requestBody;
+    protected CustomEvent $requestBody;
 
     protected function __construct(Client $client, ?EventSourceProvider $sourceProvider = null)
     {
@@ -33,24 +36,9 @@ class AddedReviewBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new CustomPostRequestBody();
+        $this->requestBody = new CustomEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
-    }
-
-    /**
-     * @inheritDoc
-     * @return CustomPostRequestBody
-     */
-    public function build(bool $validate = true): CustomPostRequestBody
-    {
-        parent::setBaseProperties();
-
-        if ($validate) {
-            self::getValidator()::validate($this->requestBody);
-        }
-
-        return $this->requestBody;
     }
 
     /**
@@ -65,80 +53,120 @@ class AddedReviewBuilder extends AbstractBaseBuilder
     /**
      * Set sku.
      * Optional.
-     * @param string $sku
+     * @param string|null $sku
      * @return $this
      */
-    public function setSku(string $sku): self
+    public function setSku(?string $sku): self
     {
-        $this->additionalData['sku'] = $sku;
+        if ($sku !== null) {
+            $this->additionalData['sku'] = $sku;
+        }
         return $this;
     }
 
     /**
-     * Set sku.
+     * Set rating.
      * Optional.
-     * @param string $sku
+     * @param int|string|null $rating
      * @return $this
      */
-    public function setRating(string $sku): self
+    public function setRating($rating): self
     {
-        $this->additionalData['rating'] = $sku;
+        if ($rating !== null) {
+            $this->additionalData['rating'] = $rating;
+        }
         return $this;
     }
 
     /**
-     * Set name.
+     * Set an author name.
      * Optional.
-     * @param string $name
+     * @param string|null $name
      * @return $this
      */
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
-        $this->additionalData['name'] = $name;
+        if ($name !== null) {
+            $this->additionalData['name'] = $name;
+        }
         return $this;
     }
 
     /**
-     * Set item url address.
+     * Set product url address.
      * Optional.
-     * @param string $itemUrlAddress
+     * @param string|null $url
      * @return $this
      */
-    public function setItemUrlAddress(string $itemUrlAddress): self
+    public function setUrl(?string $url): self
     {
-        $this->additionalData['itemUrlAddress'] = $itemUrlAddress;
+        if ($url !== null) {
+            $this->additionalData['url'] = $url;
+        }
         return $this;
     }
 
     /**
-     * Set category.
+     * Set a product category.
      * Optional.
-     * @param string $category
+     * @param string|null $category
      * @return $this
      */
-    public function setCategory(string $category): self
+    public function setCategory(?string $category): self
     {
-        $this->additionalData['category'] = $category;
+        if ($category !== null) {
+            $this->additionalData['category'] = $category;
+        }
         return $this;
     }
 
     /**
      * Set additional categories.
      * Optional.
-     * @param string[] $categories
+     * @param string[]|null $categories
      * @return $this
      */
-    public function setCategories(array $categories): self
+    public function setCategories(?array $categories): self
     {
-        $this->additionalData['categories'] = $categories;
+        if ($categories !== null) {
+            $this->additionalData['categories'] = $categories;
+        }
+        return $this;
+    }
+
+    /**
+     * Set a review title.
+     * Optional.
+     * @param string|null $title
+     * @return $this
+     */
+    public function setTitle(?string $title): self
+    {
+        if($title !== null) {
+            $this->additionalData['title'] = $title;
+        }
+        return $this;
+    }
+
+    /**
+     * Set review comment.
+     * Optional.
+     * @param string|null $comment
+     * @return $this
+     */
+    public function setComment(?string $comment): self
+    {
+        if($comment !== null) {
+            $this->additionalData['comment'] = $comment;
+        }
         return $this;
     }
 
     /**
      * @inheritDoc
-     * @return CustomPostRequestBody
+     * @return CustomEvent
      */
-    protected function getRequestBody(): CustomPostRequestBody
+    protected function getRequestBody(): CustomEvent
     {
         return $this->requestBody;
     }

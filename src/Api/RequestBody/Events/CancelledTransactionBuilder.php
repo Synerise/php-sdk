@@ -2,13 +2,16 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\CancelledTransaction\CancelledTransactionPostRequestBody;
-use Synerise\Api\V4\Events\CancelledTransaction\CancelledTransactionPostRequestBody_params;
+use Synerise\Api\V4\Models\CancelledTransactionEvent;
+use Synerise\Api\V4\Models\CancelledTransactionEventParams;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\AddedToFavoritesValidator;
 
+/**
+ * @extends AbstractBaseBuilder<CancelledTransactionEvent>
+ */
 class CancelledTransactionBuilder extends AbstractBaseBuilder
 {
     /**
@@ -22,10 +25,10 @@ class CancelledTransactionBuilder extends AbstractBaseBuilder
     public const LABEL = 'Transaction cancelled';
 
     /**
-     * CancelledTransactionPostRequestBody being built
-     * @var CancelledTransactionPostRequestBody
+     * CancelledTransactionEvent being built
+     * @var CancelledTransactionEvent
      */
-    protected CancelledTransactionPostRequestBody $requestBody;
+    protected CancelledTransactionEvent $requestBody;
 
     /**
      * @param Client $client
@@ -37,24 +40,9 @@ class CancelledTransactionBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new CancelledTransactionPostRequestBody();
+        $this->requestBody = new CancelledTransactionEvent();
         $this->requestBody->setClient($client);
-        $this->requestBody->setParams(new CancelledTransactionPostRequestBody_params());
-    }
-
-    /**
-     * @inheritDoc
-     * @return CancelledTransactionPostRequestBody
-     */
-    public function build(bool $validate = true): CancelledTransactionPostRequestBody
-    {
-        parent::setBaseProperties();
-
-        if ($validate) {
-            self::getValidator()::validate($this->requestBody);
-        }
-
-        return $this->requestBody;
+        $this->requestBody->setParams(new CancelledTransactionEventParams());
     }
 
     /**
@@ -80,18 +68,18 @@ class CancelledTransactionBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return CancelledTransactionPostRequestBody
+     * @return CancelledTransactionEvent
      */
-    protected function getRequestBody(): CancelledTransactionPostRequestBody
+    protected function getRequestBody(): CancelledTransactionEvent
     {
         return $this->requestBody;
     }
 
     /**
      * @inheritDoc
-     * @return CancelledTransactionPostRequestBody_params
+     * @return CancelledTransactionEventParams
      */
-    protected function getParams(): CancelledTransactionPostRequestBody_params
+    protected function getParams(): CancelledTransactionEventParams
     {
         return $this->getRequestBody()->getParams();
     }

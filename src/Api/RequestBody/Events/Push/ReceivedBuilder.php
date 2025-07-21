@@ -2,14 +2,17 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events\Push;
 
-use Synerise\Api\V4\Events\Push\Received\ReceivedPostRequestBody;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
-use Synerise\Sdk\RequestBody\Events\AbstractBaseBuilder;
+use Synerise\Api\V4\Models\PushReceivedEvent;
+use Synerise\Sdk\Api\RequestBody\Events\AbstractBaseBuilder;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\Push\ReceivedValidator;
 
+/**
+ * @extends AbstractBaseBuilder<PushReceivedEvent>
+ */
 class ReceivedBuilder extends AbstractBaseBuilder
 {
     /**
@@ -24,9 +27,9 @@ class ReceivedBuilder extends AbstractBaseBuilder
 
     /**
      * SearchedPostRequestBody being built
-     * @var ReceivedPostRequestBody
+     * @var PushReceivedEvent
      */
-    protected ReceivedPostRequestBody $requestBody;
+    protected PushReceivedEvent $requestBody;
 
     /**
      * @param Client $client
@@ -38,24 +41,9 @@ class ReceivedBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new ReceivedPostRequestBody();
+        $this->requestBody = new PushReceivedEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
-    }
-
-    /**
-     * @inheritDoc
-     * @return ReceivedPostRequestBody
-     */
-    public function build(bool $validate = true): ReceivedPostRequestBody
-    {
-        parent::setBaseProperties();
-
-        if ($validate) {
-            self::getValidator()::validate($this->requestBody);
-        }
-
-        return $this->requestBody;
     }
 
     /**
@@ -69,9 +57,9 @@ class ReceivedBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return ReceivedPostRequestBody
+     * @return PushReceivedEvent
      */
-    protected function getRequestBody(): ReceivedPostRequestBody
+    protected function getRequestBody(): PushReceivedEvent
     {
         return $this->requestBody;
     }

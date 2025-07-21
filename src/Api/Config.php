@@ -31,6 +31,12 @@ interface Config
     public function isKeepAliveEnabled(): bool;
 
     /**
+     * Check if request logging is enabled
+     * @return bool
+     */
+    public function isRequestLoggingEnabled(): bool;
+
+    /**
      * Get API key
      * @return string|null
      */
