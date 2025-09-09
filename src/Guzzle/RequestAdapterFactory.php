@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\Serialization\SerializationWriterFactory;
 use Microsoft\Kiota\Http\GuzzleRequestAdapter;
 use Microsoft\Kiota\Serialization\Json\JsonParseNodeFactory;
 use Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory;
+use Psr\Log\LoggerInterface;
 use Synerise\Sdk\Api\Config;
 use Synerise\Sdk\Guzzle\Middleware\LogMiddlewareFactory;
 use Synerise\Sdk\Guzzle\Middleware\RetryMiddlewareFactory;
