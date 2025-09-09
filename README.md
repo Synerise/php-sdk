@@ -56,6 +56,22 @@ use Synerise\Sdk\Api\Config;
 $clientBuilder = new ClientBuilder($config, $requestAdapter);
 ```
 
+## Token Caching
+
+The SDK supports token caching to reduce authentication requests:
+
+### With PSR Cache (Recommended)
+```php
+// Install cache implementation
+composer require symfony/cache
+
+use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Synerise\Sdk\Api\Authentication\TokenProviderFactory;
+
+$cache = new RedisAdapter(RedisAdapter::createConnection('redis://localhost'));
+$tokenProvider = TokenProviderFactory::createWithPsrCache($config, $cache);
+```
+
 ## Changelog
 Changelog can be found [here](./CHANGELOG.md).
 

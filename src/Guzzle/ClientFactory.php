@@ -13,35 +13,16 @@ use Synerise\Sdk\Api\Config;
 class ClientFactory
 {
     /**
-     * @var Config
-     */
-    private Config $apiConfig;
-
-    /**
-     * @var LoggerInterface
-     */
-    private LoggerInterface $logger;
-
-    /**
-     * @param Config $apiConfig
-     * @param LoggerInterface|null $logger
-     */
-    public function __construct(Config $apiConfig, ?LoggerInterface $logger = null)
-    {
-        $this->apiConfig = $apiConfig;
-        $this->logger = $logger ?: new NullLogger();
-    }
-
-    /**
+     * @param Config $config
      * @param array $middlewares
      * @return Client
      */
-    public function create(array $middlewares = []): Client
+    public function create(Config $config, array $middlewares = []): Client
     {
         $options = [
-            'headers' => $this->prepareHeaders(),
-            'connect_timeout' => $this->apiConfig->getTimeout(),
-            'timeout' => $this->apiConfig->getTimeout(),
+            'headers' => $this->prepareHeaders($config),
+            'connect_timeout' => $config->getTimeout(),
+            'timeout' => $config->getTimeout(),
             'handler' => $this->prepareHandler($middlewares)
         ];
 
@@ -61,30 +42,23 @@ class ClientFactory
             }
         }
 
-        if ($this->apiConfig->isRequestLoggingEnabled()) {
-            $logMiddleware = new LogMiddleware(
-                $this->logger,
-                ['request_formatter' => new RequestCurlSanitizedFormatter()]
-            );
-
-            $handlerStack->push($logMiddleware, 'syneriseLogMiddleware');
-        }
-
         return $handlerStack;
     }
 
     /**
      * Get default headers
+     * @param Config $config
      * @return string[]
      */
-    protected function prepareHeaders(): array
+    protected function prepareHeaders(Config $config): array
     {
         $headers = [
-            'User-Agent' => $this->apiConfig->getUserAgent(),
+            'User-Agent' => $config->getUserAgent(),
             'Api-Version' => '4.4'
         ];
 
-        if ($this->apiConfig->isKeepAliveEnabled()) {
+        if ($config->isKeepAliveEnabled()) {
+
             $headers['Connection'] = ['keep-alive'];
         }
 

@@ -4,52 +4,60 @@ namespace Synerise\Sdk\Api\Authentication;
 
 use Microsoft\Kiota\Abstractions\Authentication\AnonymousAuthenticationProvider;
 use Microsoft\Kiota\Abstractions\Authentication\AuthenticationProvider;
-use Microsoft\Kiota\Abstractions\Authentication\BaseBearerTokenAuthenticationProvider;
-use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Synerise\Sdk\Api\Config;
-use Synerise\Sdk\Model\AuthenticationMethodLegacyEnum;
+use Synerise\Sdk\Api\Cache\TokenCacheInterface;
+use Synerise\Sdk\Guzzle\RequestAdapterFactory;
+use Synerise\Sdk\Model\AuthenticationMethodInterface;
 
 class AuthenticationProviderFactory
 {
     /**
-     * Api Config
-     * @var Config
+     * @var RequestAdapterFactory
      */
-    private Config $config;
+    private RequestAdapterFactory $requestAdapterFactory;
 
     /**
-     * @var RequestAdapter|null
+     * @var TokenCacheInterface|null
      */
-    private ?RequestAdapter $requestAdapter;
+    private ?TokenCacheInterface $tokenCache;
 
     /**
      * Authentication provider
-     * @var AuthenticationProvider|null
+     * @var AuthenticationProvider[]
      */
-    private ?AuthenticationProvider $authenticationProvider = null;
+    private array $authenticationProvider = [];
+
+    private int $ttl;
 
     /**
      * Authentication provider factory.
-     * @param Config $config
-     * @param RequestAdapter|null $requestAdapter Used for obtaining JWT.
+     * @param RequestAdapterFactory $requestAdapterFactory Used for obtaining JWT.
+     * @param TokenCacheInterface|null $tokenCache Token cache implementation, defaults to InMemoryTokenCache
+     * @param int $ttl
      */
-    public function __construct(Config $config, ?RequestAdapter $requestAdapter = null)
+    public function __construct(
+        RequestAdapterFactory $requestAdapterFactory,
+        ?TokenCacheInterface $tokenCache = null,
+        int $ttl = 3550
+    )
     {
-        $this->config = $config;
-        $this->requestAdapter = $requestAdapter;
+        $this->requestAdapterFactory = $requestAdapterFactory;
+        $this->tokenCache = $tokenCache;
+        $this->ttl = $ttl;
     }
 
     /**
      * Create authentication provider by config
+     * @param Config $config
      * @return AuthenticationProvider
      */
-    public function create(): AuthenticationProvider
+    public function create(Config $config): AuthenticationProvider
     {
-        switch ($this->config->getAuthenticationMethod()->value()) {
-            case \Synerise\Sdk\Model\AuthenticationMethodInterface::BASIC_VALUE:
-                return $this->getBasicAuthenticationProvider();
-            case \Synerise\Sdk\Model\AuthenticationMethodInterface::BEARER_VALUE:
-                return $this->getWorkspaceBearerTokenAuthenticationProvider();
+        switch ($config->getAuthenticationMethod()->value()) {
+            case AuthenticationMethodInterface::BASIC_VALUE:
+                return $this->getBasicAuthenticationProvider($config);
+            case AuthenticationMethodInterface::BEARER_VALUE:
+                return $this->getWorkspaceBearerTokenAuthenticationProvider($config);
             default:
                 return new AnonymousAuthenticationProvider();
         }
@@ -57,33 +65,42 @@ class AuthenticationProviderFactory
 
     /**
      * Get authentication provider by config
+     * @param Config $config
      * @return AuthenticationProvider
      */
-    public function get(): AuthenticationProvider
+    public function get(Config $config): AuthenticationProvider
     {
-        if (!$this->authenticationProvider) {
-            $this->authenticationProvider = $this->create();
+        if (!$config->getApiKey()) {
+            throw new \InvalidArgumentException('API key is required');
         }
-        return $this->authenticationProvider;
+
+        if (!isset($this->authenticationProvider[$config->getApiKey()])) {
+            $this->authenticationProvider[$config->getApiKey()] = $this->create($config);
+        }
+        return $this->authenticationProvider[$config->getApiKey()];
     }
 
     /**
      * Get Basic authentication Provider
+     * @param Config $config
      * @return BasicAuthenticationProvider
      */
-    public function getBasicAuthenticationProvider(): BasicAuthenticationProvider
+    public function getBasicAuthenticationProvider(Config $config): BasicAuthenticationProvider
     {
-        return new BasicAuthenticationProvider($this->config);
+        return new BasicAuthenticationProvider($config);
     }
 
     /**
      * Get workspace Bearer token authentication Provider
-     * @return BaseBearerTokenAuthenticationProvider
+     * @param Config $config
+     * @return WorkspaceBearerTokenAuthenticationProvider
      */
-    public function getWorkspaceBearerTokenAuthenticationProvider(): BaseBearerTokenAuthenticationProvider
+    public function getWorkspaceBearerTokenAuthenticationProvider(Config $config): WorkspaceBearerTokenAuthenticationProvider
     {
-        return new BaseBearerTokenAuthenticationProvider(
-            new WorkspaceAccessTokenProvider($this->config, $this->requestAdapter)
+        $requestAdapter = $this->requestAdapterFactory->create($config, new AnonymousAuthenticationProvider());
+
+        return new WorkspaceBearerTokenAuthenticationProvider(
+            new WorkspaceAccessTokenProvider($config, $requestAdapter, $this->tokenCache, $this->ttl),
         );
     }
 }
