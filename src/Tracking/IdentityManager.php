@@ -70,16 +70,14 @@ class IdentityManager
      */
     public function identify(string $email)
     {
-        $profile = $this->profileManager->getProfile();
         $uuid = $this->uuidGenerator->uuid5($email);
 
         if ($this->isResetRequired($uuid)) {
-            $previousUuid = $profile->getUuid();
-            $this->profileManager->resetProfile($uuid);
-
-            if ($this->isMergeRequired($email) && $this->profileMergeAction) {
-                $this->profileMergeAction->execute($email, $uuid, $previousUuid);
+            if ($this->profileMergeAction && $this->isMergeRequired($email)) {
+                $this->profileMergeAction->execute($email, $uuid, $this->profileManager->getProfile()->getUuid());
             }
+
+            $this->profileManager->resetProfile($uuid);
         }
     }
 

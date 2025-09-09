@@ -4,6 +4,8 @@ namespace Synerise\Sdk\Api;
 
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Synerise\Api\Catalogs\Catalogs;
+use Synerise\Api\RecommendationCampaigns\RecommendationCampaigns\RecommendationCampaigns;
+use Synerise\Api\Recommendations\Recommendations\Recommendations;
 use Synerise\Api\Search\Search;
 use Synerise\Api\SearchConfig\SearchConfig;
 use Synerise\Api\Uauth\Uauth;
@@ -64,11 +66,32 @@ class ClientBuilder
     }
 
     /**
+     * Returns recommendations api client with fixed path.
+     * @return Recommendations
+     */
+    public function recommendations(): Recommendations
+    {
+        $this->requestAdapter->setBaseUrl($this->config->getApiHost());
+        return new Recommendations($this->requestAdapter);
+    }
+
+    /**
+     * Returns recommendation campaigns api client with fixed path.
+     * @return RecommendationCampaigns
+     */
+    public function recommendationCampaigns(): RecommendationCampaigns
+    {
+        $this->requestAdapter->setBaseUrl($this->config->getApiHost());
+        return new RecommendationCampaigns($this->requestAdapter);
+    }
+
+    /**
      * Returns search api client with fixed path.
      * @return Search
      */
     public function search(): Search
     {
+        $this->requestAdapter->setBaseUrl($this->config->getApiHost());
         return new Search($this->requestAdapter);
     }
 
@@ -78,6 +101,7 @@ class ClientBuilder
      */
     public function searchConfig(): SearchConfig
     {
+        $this->requestAdapter->setBaseUrl($this->config->getApiHost());
         return new SearchConfig($this->requestAdapter);
     }
 

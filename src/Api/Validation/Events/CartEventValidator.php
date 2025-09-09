@@ -3,15 +3,15 @@
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
-use Synerise\Api\V4\Models\ClientCartEventRequest;
+use Synerise\Api\V4\Models\CartEvent;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Sdk\Api\Validation\Models\UnitPriceValidator;
 
 class CartEventValidator implements Validator
 {
     /**
-     * Validate ClientCartEventRequest.
-     * @param ClientCartEventRequest $event
+     * Validate CartEvent.
+     * @param CartEvent $event
      * @inheritDoc
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
@@ -48,7 +48,7 @@ class CartEventValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'ClientCartEventRequest validation failed: ' . implode(', ', $invalid)
+                'CartEvent validation failed: ' . implode(', ', $invalid)
             );
         }
 

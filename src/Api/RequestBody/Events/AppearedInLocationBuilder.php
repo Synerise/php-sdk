@@ -2,13 +2,16 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\AppearedInLocation\AppearedInLocationPostRequestBody;
-use Synerise\Api\V4\Events\AppearedInLocation\AppearedInLocationPostRequestBody_params;
+use Synerise\Api\V4\Models\AppearedInLocationEvent;
+use Synerise\Api\V4\Models\AppearedInLocationEventParams;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\AppearedInLocationValidator;
 use Synerise\Sdk\Api\Validation\Events\Validator;
 
+/**
+ * @extends AbstractBaseBuilder<AppearedInLocationEvent>
+ */
 class AppearedInLocationBuilder extends AbstractBaseBuilder
 {
     /**
@@ -22,10 +25,10 @@ class AppearedInLocationBuilder extends AbstractBaseBuilder
     public const LABEL = 'Profile logged location';
 
     /**
-     * AppearedInLocationPostRequestBody being built
-     * @var AppearedInLocationPostRequestBody
+     * AppearedInLocationEvent being built
+     * @var AppearedInLocationEvent
      */
-    protected AppearedInLocationPostRequestBody $requestBody;
+    protected AppearedInLocationEvent $requestBody;
 
     protected function __construct(Client $client, ?EventSourceProvider $sourceProvider = null)
     {
@@ -33,24 +36,9 @@ class AppearedInLocationBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new AppearedInLocationPostRequestBody();
+        $this->requestBody = new AppearedInLocationEvent();
         $this->requestBody->setClient($client);
-        $this->requestBody->setParams(new AppearedInLocationPostRequestBody_params());
-    }
-
-    /**
-     * @inheritDoc
-     * @return AppearedInLocationPostRequestBody
-     */
-    public function build(bool $validate = true): AppearedInLocationPostRequestBody
-    {
-        parent::setBaseProperties();
-
-        if ($validate) {
-            self::getValidator()::validate($this->requestBody);
-        }
-
-        return $this->requestBody;
+        $this->requestBody->setParams(new AppearedInLocationEventParams());
     }
 
     /**
@@ -84,18 +72,18 @@ class AppearedInLocationBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return AppearedInLocationPostRequestBody
+     * @return AppearedInLocationEvent
      */
-    protected function getRequestBody(): AppearedInLocationPostRequestBody
+    protected function getRequestBody(): AppearedInLocationEvent
     {
         return $this->requestBody;
     }
 
     /**
      * @inheritDoc
-     * @return AppearedInLocationPostRequestBody_params
+     * @return AppearedInLocationEventParams
      */
-    protected function getParams(): AppearedInLocationPostRequestBody_params
+    protected function getParams(): AppearedInLocationEventParams
     {
         return $this->getRequestBody()->getParams();
     }

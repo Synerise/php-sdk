@@ -15,12 +15,12 @@ class AiCompatBatchEventRequest implements AdditionalDataHolder, Parsable
     private ?array $additionalData = null;
     
     /**
-     * @var AiCompatBatchEventRequest_eventType|null $eventType A request can only include events of the same type.
+     * @var AICompatBatchEventRequestType|null $eventType A request can only include events of the same type.
     */
-    private ?AiCompatBatchEventRequest_eventType $eventType = null;
+    private ?AICompatBatchEventRequestType $eventType = null;
     
     /**
-     * @var array<AiCompatBatchEventRequest_items>|null $items An array of events
+     * @var array<Batch>|null $items An array of events
     */
     private ?array $items = null;
     
@@ -50,9 +50,9 @@ class AiCompatBatchEventRequest implements AdditionalDataHolder, Parsable
 
     /**
      * Gets the eventType property value. A request can only include events of the same type.
-     * @return AiCompatBatchEventRequest_eventType|null
+     * @return AICompatBatchEventRequestType|null
     */
-    public function getEventType(): ?AiCompatBatchEventRequest_eventType {
+    public function getEventType(): ?AICompatBatchEventRequestType {
         return $this->eventType;
     }
 
@@ -63,14 +63,14 @@ class AiCompatBatchEventRequest implements AdditionalDataHolder, Parsable
     public function getFieldDeserializers(): array {
         $o = $this;
         return  [
-            'eventType' => fn(ParseNode $n) => $o->setEventType($n->getEnumValue(AiCompatBatchEventRequest_eventType::class)),
-            'items' => fn(ParseNode $n) => $o->setItems($n->getCollectionOfObjectValues([AiCompatBatchEventRequest_items::class, 'createFromDiscriminatorValue'])),
+            'eventType' => fn(ParseNode $n) => $o->setEventType($n->getEnumValue(AICompatBatchEventRequestType::class)),
+            'items' => fn(ParseNode $n) => $o->setItems($n->getCollectionOfObjectValues([Batch::class, 'createFromDiscriminatorValue'])),
         ];
     }
 
     /**
      * Gets the items property value. An array of events
-     * @return array<AiCompatBatchEventRequest_items>|null
+     * @return array<Batch>|null
     */
     public function getItems(): ?array {
         return $this->items;
@@ -96,15 +96,15 @@ class AiCompatBatchEventRequest implements AdditionalDataHolder, Parsable
 
     /**
      * Sets the eventType property value. A request can only include events of the same type.
-     * @param AiCompatBatchEventRequest_eventType|null $value Value to set for the eventType property.
+     * @param AICompatBatchEventRequestType|null $value Value to set for the eventType property.
     */
-    public function setEventType(?AiCompatBatchEventRequest_eventType $value): void {
+    public function setEventType(?AICompatBatchEventRequestType $value): void {
         $this->eventType = $value;
     }
 
     /**
      * Sets the items property value. An array of events
-     * @param array<AiCompatBatchEventRequest_items>|null $value Value to set for the items property.
+     * @param array<Batch>|null $value Value to set for the items property.
     */
     public function setItems(?array $value): void {
         $this->items = $value;

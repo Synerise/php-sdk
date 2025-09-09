@@ -5,14 +5,14 @@ namespace Synerise\Sdk\Tracking;
 use Exception;
 use RuntimeException;
 use Synerise\Sdk\Api\ClientBuilder;
-use Synerise\Api\V4\Clients\Batch\Batch;
+use Synerise\Api\V4\Models\Profile;
 
 class ProfileMergeDoRequest implements ProfileMergeAction
 {
     /**
      * @var ClientBuilder
      */
-    protected ClientBuilder $apiClientFactory;
+    protected ClientBuilder $clientBuilder;
 
     /**
      * @param ClientBuilder $clientBuilder
@@ -20,7 +20,7 @@ class ProfileMergeDoRequest implements ProfileMergeAction
     public function __construct(
         ClientBuilder $clientBuilder
     ) {
-        $this->apiClientFactory = $clientBuilder;
+        $this->clientBuilder = $clientBuilder;
     }
 
     /**
@@ -28,16 +28,16 @@ class ProfileMergeDoRequest implements ProfileMergeAction
      */
     public function execute(string $email, string $uuid, string $previousUuid): void
     {
-        $previousProfile = new Batch();
+        $previousProfile = new Profile();
         $previousProfile->setUuid($previousUuid);
         $previousProfile->setEmail($email);
 
-        $currentProfile = new Batch();
+        $currentProfile = new Profile();
         $currentProfile->setUuid($uuid);
         $currentProfile->setEmail($email);
 
         try {
-            $this->apiClientFactory->v4()->clients()->batch()->post([
+            $this->clientBuilder->v4()->clients()->batch()->post([
                 $previousProfile,
                 $currentProfile
             ]);
