@@ -4,10 +4,7 @@ namespace Synerise\Sdk\Guzzle;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
-use Loguzz\Middleware\LogMiddleware;
 use Microsoft\Kiota\Http\KiotaClientFactory;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use Synerise\Sdk\Api\Config;
 
 class ClientFactory
@@ -58,7 +55,6 @@ class ClientFactory
         ];
 
         if ($config->isKeepAliveEnabled()) {
-
             $headers['Connection'] = ['keep-alive'];
         }
 
