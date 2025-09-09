@@ -2,8 +2,8 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\Custom\CustomPostRequestBody;
 use Synerise\Api\V4\Models\Client;
+use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\DefaultParamSource;
 use Synerise\Api\V4\Models\DiscountedUnitPrice;
 use Synerise\Api\V4\Models\FinalUnitPrice;
@@ -25,10 +25,10 @@ class RemovedFromFavoritesBuilder extends AbstractBaseBuilder
     public const LABEL = 'Product removed from favourites';
 
     /**
-     * CustomPostRequestBody being built
-     * @var CustomPostRequestBody
+     * CustomEvent being built
+     * @var CustomEvent
      */
-    protected CustomPostRequestBody $requestBody;
+    protected CustomEvent $requestBody;
 
     /**
      * @param Client $client
@@ -40,25 +40,9 @@ class RemovedFromFavoritesBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new CustomPostRequestBody();
+        $this->requestBody = new CustomEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
-    }
-
-    /**
-     * @inheritDoc
-     * @return CustomPostRequestBody
-     */
-    public function build(bool $validate = true): CustomPostRequestBody
-    {
-        parent::setBaseProperties();
-        $this->requestBody->setAction($this->action);
-
-        if ($validate) {
-            self::getValidator()::validate($this->requestBody);
-        }
-
-        return $this->requestBody;
     }
 
     /**
@@ -180,9 +164,9 @@ class RemovedFromFavoritesBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return CustomPostRequestBody
+     * @return CustomEvent
      */
-    protected function getRequestBody(): CustomPostRequestBody
+    protected function getRequestBody(): CustomEvent
     {
         return $this->requestBody;
     }

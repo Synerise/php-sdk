@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\PushReceivedEvent;
 
 /**
  * Builds and executes requests for operations under /events/push/received
@@ -31,12 +32,12 @@ class ReceivedRequestBuilder extends BaseRequestBuilder
 
     /**
      * Record a 'push notification was received' event. It is used for push message interaction tracking.This endpoint is available from API version 4.1.2.When you send an event to this endpoint, the `action` field is set to `push.receiveInBackground` by the backend.
-     * @param ReceivedPostRequestBody $body The request body
+     * @param PushReceivedEvent $body The request body
      * @param ReceivedRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(ReceivedPostRequestBody $body, ?ReceivedRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(PushReceivedEvent $body, ?ReceivedRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class ReceivedRequestBuilder extends BaseRequestBuilder
 
     /**
      * Record a 'push notification was received' event. It is used for push message interaction tracking.This endpoint is available from API version 4.1.2.When you send an event to this endpoint, the `action` field is set to `push.receiveInBackground` by the backend.
-     * @param ReceivedPostRequestBody $body The request body
+     * @param PushReceivedEvent $body The request body
      * @param ReceivedRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(ReceivedPostRequestBody $body, ?ReceivedRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(PushReceivedEvent $body, ?ReceivedRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

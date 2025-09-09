@@ -10,33 +10,18 @@ use Synerise\Sdk\Api\Config;
 class ClientFactory
 {
     /**
-     * @var Config
-     */
-    private Config $apiConfig;
-
-    /**
-     * @param Config $apiConfig
-     */
-    public function __construct(Config $apiConfig)
-    {
-        $this->apiConfig = $apiConfig;
-    }
-
-    /**
+     * @param Config $config
      * @param array $middlewares
      * @return Client
      */
-    public function create(array $middlewares = []): Client
+    public function create(Config $config, array $middlewares = []): Client
     {
         $options = [
-            'headers' => $this->prepareHeaders(),
-            'connect_timeout' => $this->apiConfig->getTimeout(),
-            'timeout' => $this->apiConfig->getTimeout(),
+            'headers' => $this->prepareHeaders($config),
+            'connect_timeout' => $config->getTimeout(),
+            'timeout' => $config->getTimeout(),
+            'handler' => $this->prepareHandler($middlewares)
         ];
-
-        if (!empty($middlewares)) {
-            $options['handler'] = $this->prepareHandler($middlewares);
-        }
 
         return KiotaClientFactory::createWithConfig($options);
     }
@@ -47,27 +32,30 @@ class ClientFactory
      */
     protected function prepareHandler(array $middlewares): HandlerStack
     {
-        /** @todo: check if this is necessary */
         $handlerStack = KiotaClientFactory::getDefaultHandlerStack();
-        foreach ($middlewares as $key => $middleware) {
-            $handlerStack->push($middleware, $key);
+        if (!empty($middlewares)) {
+            foreach ($middlewares as $key => $middleware) {
+                $handlerStack->push($middleware, $key);
+            }
         }
+
         return $handlerStack;
     }
 
     /**
      * Get default headers
+     * @param Config $config
      * @return string[]
      */
-    protected function prepareHeaders(): array
+    protected function prepareHeaders(Config $config): array
     {
         $headers = [
-            'User-Agent' => $this->apiConfig->getUserAgent(),
+            'User-Agent' => $config->getUserAgent(),
             'Api-Version' => '4.4'
         ];
 
-        if ($this->apiConfig->isKeepAliveEnabled()) {
-            $headers['Connection'] = [ 'keep-alive' ];
+        if ($config->isKeepAliveEnabled()) {
+            $headers['Connection'] = ['keep-alive'];
         }
 
         return $headers;

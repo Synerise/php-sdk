@@ -26,14 +26,14 @@ class Product implements AdditionalDataHolder, Parsable
     private ?float $discountPercent = null;
     
     /**
-     * @var Product_discountPrice|null $discountPrice Discount as an amount. For example, if the regular price is 500, and the final price is 450, the discount amount is 50.
+     * @var DiscountPrice|null $discountPrice Discount as an amount. For example, if the regular price is 500, and the final price is 450, the discount amount is 50.
     */
-    private ?Product_discountPrice $discountPrice = null;
+    private ?DiscountPrice $discountPrice = null;
     
     /**
-     * @var Product_finalUnitPrice|null $finalUnitPrice Total final price of the item per unit, including tax and discounts
+     * @var FinalUnitPrice|null $finalUnitPrice Final price per unit. This value must be multiplied by `quantity` and added to `revenue`.
     */
-    private ?Product_finalUnitPrice $finalUnitPrice = null;
+    private ?FinalUnitPrice $finalUnitPrice = null;
     
     /**
      * @var string|null $image URL of the item's image
@@ -46,9 +46,9 @@ class Product implements AdditionalDataHolder, Parsable
     private ?string $name = null;
     
     /**
-     * @var Product_netUnitPrice|null $netUnitPrice Price before taxation (before or after discounts, depending on your implementation and discount type)
+     * @var NetUnitPrice|null $netUnitPrice Price before taxation (before or after discounts, depending on your implementation and discount type)
     */
-    private ?Product_netUnitPrice $netUnitPrice = null;
+    private ?NetUnitPrice $netUnitPrice = null;
     
     /**
      * @var float|null $quantity The number or amount of purchased items
@@ -56,9 +56,9 @@ class Product implements AdditionalDataHolder, Parsable
     private ?float $quantity = null;
     
     /**
-     * @var Product_regularPrice|null $regularPrice Regular price of the item after taxation, before discounts
+     * @var RegularPrice|null $regularPrice Regular price of the item after taxation, before discounts
     */
-    private ?Product_regularPrice $regularPrice = null;
+    private ?RegularPrice $regularPrice = null;
     
     /**
      * @var string|null $sku SKU of the item
@@ -117,9 +117,9 @@ class Product implements AdditionalDataHolder, Parsable
 
     /**
      * Gets the discountPrice property value. Discount as an amount. For example, if the regular price is 500, and the final price is 450, the discount amount is 50.
-     * @return Product_discountPrice|null
+     * @return DiscountPrice|null
     */
-    public function getDiscountPrice(): ?Product_discountPrice {
+    public function getDiscountPrice(): ?DiscountPrice {
         return $this->discountPrice;
     }
 
@@ -139,13 +139,13 @@ class Product implements AdditionalDataHolder, Parsable
                 $this->setCategories($val);
             },
             'discountPercent' => fn(ParseNode $n) => $o->setDiscountPercent($n->getFloatValue()),
-            'discountPrice' => fn(ParseNode $n) => $o->setDiscountPrice($n->getObjectValue([Product_discountPrice::class, 'createFromDiscriminatorValue'])),
-            'finalUnitPrice' => fn(ParseNode $n) => $o->setFinalUnitPrice($n->getObjectValue([Product_finalUnitPrice::class, 'createFromDiscriminatorValue'])),
+            'discountPrice' => fn(ParseNode $n) => $o->setDiscountPrice($n->getObjectValue([DiscountPrice::class, 'createFromDiscriminatorValue'])),
+            'finalUnitPrice' => fn(ParseNode $n) => $o->setFinalUnitPrice($n->getObjectValue([FinalUnitPrice::class, 'createFromDiscriminatorValue'])),
             'image' => fn(ParseNode $n) => $o->setImage($n->getStringValue()),
             'name' => fn(ParseNode $n) => $o->setName($n->getStringValue()),
-            'netUnitPrice' => fn(ParseNode $n) => $o->setNetUnitPrice($n->getObjectValue([Product_netUnitPrice::class, 'createFromDiscriminatorValue'])),
+            'netUnitPrice' => fn(ParseNode $n) => $o->setNetUnitPrice($n->getObjectValue([NetUnitPrice::class, 'createFromDiscriminatorValue'])),
             'quantity' => fn(ParseNode $n) => $o->setQuantity($n->getFloatValue()),
-            'regularPrice' => fn(ParseNode $n) => $o->setRegularPrice($n->getObjectValue([Product_regularPrice::class, 'createFromDiscriminatorValue'])),
+            'regularPrice' => fn(ParseNode $n) => $o->setRegularPrice($n->getObjectValue([RegularPrice::class, 'createFromDiscriminatorValue'])),
             'sku' => fn(ParseNode $n) => $o->setSku($n->getStringValue()),
             'tax' => fn(ParseNode $n) => $o->setTax($n->getFloatValue()),
             'url' => fn(ParseNode $n) => $o->setUrl($n->getStringValue()),
@@ -153,10 +153,10 @@ class Product implements AdditionalDataHolder, Parsable
     }
 
     /**
-     * Gets the finalUnitPrice property value. Total final price of the item per unit, including tax and discounts
-     * @return Product_finalUnitPrice|null
+     * Gets the finalUnitPrice property value. Final price per unit. This value must be multiplied by `quantity` and added to `revenue`.
+     * @return FinalUnitPrice|null
     */
-    public function getFinalUnitPrice(): ?Product_finalUnitPrice {
+    public function getFinalUnitPrice(): ?FinalUnitPrice {
         return $this->finalUnitPrice;
     }
 
@@ -178,9 +178,9 @@ class Product implements AdditionalDataHolder, Parsable
 
     /**
      * Gets the netUnitPrice property value. Price before taxation (before or after discounts, depending on your implementation and discount type)
-     * @return Product_netUnitPrice|null
+     * @return NetUnitPrice|null
     */
-    public function getNetUnitPrice(): ?Product_netUnitPrice {
+    public function getNetUnitPrice(): ?NetUnitPrice {
         return $this->netUnitPrice;
     }
 
@@ -194,9 +194,9 @@ class Product implements AdditionalDataHolder, Parsable
 
     /**
      * Gets the regularPrice property value. Regular price of the item after taxation, before discounts
-     * @return Product_regularPrice|null
+     * @return RegularPrice|null
     */
-    public function getRegularPrice(): ?Product_regularPrice {
+    public function getRegularPrice(): ?RegularPrice {
         return $this->regularPrice;
     }
 
@@ -270,17 +270,17 @@ class Product implements AdditionalDataHolder, Parsable
 
     /**
      * Sets the discountPrice property value. Discount as an amount. For example, if the regular price is 500, and the final price is 450, the discount amount is 50.
-     * @param Product_discountPrice|null $value Value to set for the discountPrice property.
+     * @param DiscountPrice|null $value Value to set for the discountPrice property.
     */
-    public function setDiscountPrice(?Product_discountPrice $value): void {
+    public function setDiscountPrice(?DiscountPrice $value): void {
         $this->discountPrice = $value;
     }
 
     /**
-     * Sets the finalUnitPrice property value. Total final price of the item per unit, including tax and discounts
-     * @param Product_finalUnitPrice|null $value Value to set for the finalUnitPrice property.
+     * Sets the finalUnitPrice property value. Final price per unit. This value must be multiplied by `quantity` and added to `revenue`.
+     * @param FinalUnitPrice|null $value Value to set for the finalUnitPrice property.
     */
-    public function setFinalUnitPrice(?Product_finalUnitPrice $value): void {
+    public function setFinalUnitPrice(?FinalUnitPrice $value): void {
         $this->finalUnitPrice = $value;
     }
 
@@ -302,9 +302,9 @@ class Product implements AdditionalDataHolder, Parsable
 
     /**
      * Sets the netUnitPrice property value. Price before taxation (before or after discounts, depending on your implementation and discount type)
-     * @param Product_netUnitPrice|null $value Value to set for the netUnitPrice property.
+     * @param NetUnitPrice|null $value Value to set for the netUnitPrice property.
     */
-    public function setNetUnitPrice(?Product_netUnitPrice $value): void {
+    public function setNetUnitPrice(?NetUnitPrice $value): void {
         $this->netUnitPrice = $value;
     }
 
@@ -318,9 +318,9 @@ class Product implements AdditionalDataHolder, Parsable
 
     /**
      * Sets the regularPrice property value. Regular price of the item after taxation, before discounts
-     * @param Product_regularPrice|null $value Value to set for the regularPrice property.
+     * @param RegularPrice|null $value Value to set for the regularPrice property.
     */
-    public function setRegularPrice(?Product_regularPrice $value): void {
+    public function setRegularPrice(?RegularPrice $value): void {
         $this->regularPrice = $value;
     }
 

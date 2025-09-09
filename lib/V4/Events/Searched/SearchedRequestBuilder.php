@@ -9,6 +9,7 @@ use Microsoft\Kiota\Abstractions\HttpMethod;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Microsoft\Kiota\Abstractions\RequestInformation;
 use Synerise\Api\V4\Models\HTTP400;
+use Synerise\Api\V4\Models\SearchedEvent;
 
 /**
  * Builds and executes requests for operations under /events/searched
@@ -31,12 +32,12 @@ class SearchedRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'search requested' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `client.search` by the backend.
-     * @param SearchedPostRequestBody $body The request body
+     * @param SearchedEvent $body The request body
      * @param SearchedRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(SearchedPostRequestBody $body, ?SearchedRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(SearchedEvent $body, ?SearchedRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -49,11 +50,11 @@ class SearchedRequestBuilder extends BaseRequestBuilder
 
     /**
      * Send a 'search requested' event. <br/><br/>If you don't have a value for a field, omit that field. Do not send null values.When you send an event to this endpoint, the `action` field is set to `client.search` by the backend.
-     * @param SearchedPostRequestBody $body The request body
+     * @param SearchedEvent $body The request body
      * @param SearchedRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(SearchedPostRequestBody $body, ?SearchedRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(SearchedEvent $body, ?SearchedRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

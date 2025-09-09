@@ -2,14 +2,17 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events\Push;
 
-use Synerise\Api\V4\Events\Push\Viewed\ViewedPostRequestBody;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
-use Synerise\Sdk\RequestBody\Events\AbstractBaseBuilder;
+use Synerise\Api\V4\Models\PushViewedEvent;
+use Synerise\Sdk\Api\RequestBody\Events\AbstractBaseBuilder;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\Push\ViewedValidator;
 
+/**
+ * @extends AbstractBaseBuilder<PushViewedEvent>
+ */
 class ViewedBuilder extends AbstractBaseBuilder
 {
     /**
@@ -23,10 +26,10 @@ class ViewedBuilder extends AbstractBaseBuilder
     public const LABEL = 'Push notification viewed';
 
     /**
-     * SearchedPostRequestBody being built
-     * @var ViewedPostRequestBody
+     * PushViewedEvent being built
+     * @var PushViewedEvent
      */
-    protected ViewedPostRequestBody $requestBody;
+    protected PushViewedEvent $requestBody;
 
     /**
      * @param Client $client
@@ -38,24 +41,9 @@ class ViewedBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new ViewedPostRequestBody();
+        $this->requestBody = new PushViewedEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
-    }
-
-    /**
-     * @inheritDoc
-     * @return ViewedPostRequestBody
-     */
-    public function build(bool $validate = true): ViewedPostRequestBody
-    {
-        parent::setBaseProperties();
-
-        if ($validate) {
-            self::getValidator()::validate($this->requestBody);
-        }
-
-        return $this->requestBody;
     }
 
     /**
@@ -69,9 +57,9 @@ class ViewedBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return ViewedPostRequestBody
+     * @return PushViewedEvent
      */
-    protected function getRequestBody(): ViewedPostRequestBody
+    protected function getRequestBody(): PushViewedEvent
     {
         return $this->requestBody;
     }

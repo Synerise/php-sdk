@@ -18,6 +18,7 @@ use Synerise\Api\V4\Clients\Merge\MergeRequestBuilder;
 use Synerise\Api\V4\Clients\Tags\TagsRequestBuilder;
 use Synerise\Api\V4\Models\HTTP400;
 use Synerise\Api\V4\Models\InResponseClientDetails;
+use Synerise\Api\V4\Models\Profile;
 
 /**
  * Builds and executes requests for operations under /clients
@@ -117,12 +118,12 @@ class ClientsRequestBuilder extends BaseRequestBuilder
 
     /**
      * Create a new profile in the Synerise application database. If you don't have some information about the profile, don't insert a null-value parameter - omit the parameter entirely.
-     * @param ClientsPostRequestBody $body The request body
+     * @param Profile $body The request body
      * @param ClientsRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return Promise<void|null>
      * @throws Exception
     */
-    public function post(ClientsPostRequestBody $body, ?ClientsRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
+    public function post(Profile $body, ?ClientsRequestBuilderPostRequestConfiguration $requestConfiguration = null): Promise {
         $requestInfo = $this->toPostRequestInformation($body, $requestConfiguration);
         $errorMappings = [
                 '400' => [HTTP400::class, 'createFromDiscriminatorValue'],
@@ -156,11 +157,11 @@ class ClientsRequestBuilder extends BaseRequestBuilder
 
     /**
      * Create a new profile in the Synerise application database. If you don't have some information about the profile, don't insert a null-value parameter - omit the parameter entirely.
-     * @param ClientsPostRequestBody $body The request body
+     * @param Profile $body The request body
      * @param ClientsRequestBuilderPostRequestConfiguration|null $requestConfiguration Configuration for the request such as headers, query parameters, and middleware options.
      * @return RequestInformation
     */
-    public function toPostRequestInformation(ClientsPostRequestBody $body, ?ClientsRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
+    public function toPostRequestInformation(Profile $body, ?ClientsRequestBuilderPostRequestConfiguration $requestConfiguration = null): RequestInformation {
         $requestInfo = new RequestInformation();
         $requestInfo->urlTemplate = $this->urlTemplate;
         $requestInfo->pathParameters = $this->pathParameters;

@@ -2,13 +2,16 @@
 
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use Synerise\Api\V4\Events\Searched\SearchedPostRequestBody;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
+use Synerise\Api\V4\Models\SearchedEvent;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\SearchedValidator;
 
+/**
+ * @extends AbstractBaseBuilder<SearchedEvent>
+ */
 class SearchedBuilder extends AbstractBaseBuilder
 {
     /**
@@ -22,10 +25,10 @@ class SearchedBuilder extends AbstractBaseBuilder
     public const LABEL = 'Search requested';
 
     /**
-     * SearchedPostRequestBody being built
-     * @var SearchedPostRequestBody
+     * SearchedEvent being built
+     * @var SearchedEvent
      */
-    protected SearchedPostRequestBody $requestBody;
+    protected SearchedEvent $requestBody;
 
     /**
      * @param Client $client
@@ -37,24 +40,9 @@ class SearchedBuilder extends AbstractBaseBuilder
         $this->action = self::ACTION;
         $this->label = self::LABEL;
 
-        $this->requestBody = new SearchedPostRequestBody();
+        $this->requestBody = new SearchedEvent();
         $this->requestBody->setClient($client);
         $this->requestBody->setParams(new DefaultParamSource());
-    }
-
-    /**
-     * @inheritDoc
-     * @return SearchedPostRequestBody
-     */
-    public function build(bool $validate = true): SearchedPostRequestBody
-    {
-        parent::setBaseProperties();
-
-        if ($validate) {
-            self::getValidator()::validate($this->requestBody);
-        }
-
-        return $this->requestBody;
     }
 
     /**
@@ -68,9 +56,9 @@ class SearchedBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return SearchedPostRequestBody
+     * @return SearchedEvent
      */
-    protected function getRequestBody(): SearchedPostRequestBody
+    protected function getRequestBody(): SearchedEvent
     {
         return $this->requestBody;
     }

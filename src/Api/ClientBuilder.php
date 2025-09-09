@@ -4,12 +4,16 @@ namespace Synerise\Sdk\Api;
 
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Synerise\Api\Catalogs\Catalogs;
+use Synerise\Api\RecommendationCampaigns\RecommendationCampaigns\RecommendationCampaigns;
+use Synerise\Api\Recommendations\Recommendations\Recommendations;
 use Synerise\Api\Search\Search;
 use Synerise\Api\SearchConfig\SearchConfig;
 use Synerise\Api\Uauth\Uauth;
 use Synerise\Api\V4\V4;
 use Synerise\Api\Workspace\Workspace;
 use Synerise\Sdk\Api\Authentication\AuthenticationProviderFactory;
+use Synerise\Sdk\Api\Cache\InMemoryTokenCache;
+use Synerise\Sdk\Api\Cache\TokenCacheInterface;
 use Synerise\Sdk\Guzzle\RequestAdapterFactory;
 
 class ClientBuilder
@@ -31,14 +35,8 @@ class ClientBuilder
      */
     public function __construct(
         Config $config,
-        ?RequestAdapter $requestAdapter = null
+        ?RequestAdapter $requestAdapter = null,
     ) {
-        if (!$requestAdapter) {
-            $authenticationProviderFactory = new AuthenticationProviderFactory($config);
-            $requestAdapterFactory = new RequestAdapterFactory($config);
-            $requestAdapter = $requestAdapterFactory->create($authenticationProviderFactory->create());
-        }
-
         $this->config = $config;
         $this->requestAdapter = $requestAdapter;
     }
@@ -64,11 +62,32 @@ class ClientBuilder
     }
 
     /**
+     * Returns recommendations api client with fixed path.
+     * @return Recommendations
+     */
+    public function recommendations(): Recommendations
+    {
+        $this->requestAdapter->setBaseUrl($this->config->getApiHost());
+        return new Recommendations($this->requestAdapter);
+    }
+
+    /**
+     * Returns recommendation campaigns api client with fixed path.
+     * @return RecommendationCampaigns
+     */
+    public function recommendationCampaigns(): RecommendationCampaigns
+    {
+        $this->requestAdapter->setBaseUrl($this->config->getApiHost());
+        return new RecommendationCampaigns($this->requestAdapter);
+    }
+
+    /**
      * Returns search api client with fixed path.
      * @return Search
      */
     public function search(): Search
     {
+        $this->requestAdapter->setBaseUrl($this->config->getApiHost());
         return new Search($this->requestAdapter);
     }
 
@@ -78,6 +97,7 @@ class ClientBuilder
      */
     public function searchConfig(): SearchConfig
     {
+        $this->requestAdapter->setBaseUrl($this->config->getApiHost());
         return new SearchConfig($this->requestAdapter);
     }
 

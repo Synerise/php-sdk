@@ -23,16 +23,20 @@ class ProductValidator
         if (empty($product->getFinalUnitPrice())) {
             $invalid[] = 'Final unit price is required';
         } else {
-            $invalid += UnitPriceValidator::validate($product->getFinalUnitPrice());
+            $priceErrors = UnitPriceValidator::validate($product->getFinalUnitPrice());
+            $invalid = array_merge($invalid, $priceErrors);
         }
         if (!empty($product->getDiscountPrice())) {
-            $invalid += UnitPriceValidator::validate($product->getDiscountPrice());
+            $priceErrors = UnitPriceValidator::validate($product->getDiscountPrice());
+            $invalid = array_merge($invalid, $priceErrors);
         }
         if (!empty($product->getNetUnitPrice())) {
-            $invalid += UnitPriceValidator::validate($product->getNetUnitPrice());
+            $priceErrors = UnitPriceValidator::validate($product->getNetUnitPrice());
+            $invalid = array_merge($invalid, $priceErrors);
         }
         if (!empty($product->getRegularPrice())) {
-            $invalid += UnitPriceValidator::validate($product->getRegularPrice());
+            $priceErrors = UnitPriceValidator::validate($product->getRegularPrice());
+            $invalid = array_merge($invalid, $priceErrors);
         }
 
         return $invalid;
