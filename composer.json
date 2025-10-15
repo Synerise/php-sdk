@@ -1,47 +1,46 @@
 {
-    "name": "synerise/php-sdk",
-    "version": "0.6.0",
-    "description": "SDK allowing basic integration with Synerise API",
-    "type": "library",
-    "require": {
-        "php": "^8.0 || ^7.4",
-        "ext-json": "*",
-        "anik/loguzz": "^2.2 || ^4.0",
-        "microsoft/kiota-abstractions": "^1.4",
-        "microsoft/kiota-http-guzzle": "^1.5",
-        "microsoft/kiota-serialization-json": "^1.5",
-        "microsoft/kiota-serialization-text": "^1.5",
-        "psr/cache": "^1.0 || ^2.0 || ^3.0",
-        "psr/simple-cache": "^1.0 || ^2.0 || ^3.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^10.5"
-    },
-    "suggest": {
-        "mobiledetect/mobiledetectlib": "Used by default source provider.",
-        "symfony/cache": "Recommended PSR cache implementation for token caching"
-    },
-    "autoload": {
-        "psr-4": {
-            "Synerise\\Api\\": "lib/",
-            "Synerise\\Sdk\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Synerise\\Tests\\": "tests/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Synerise",
-            "email": "developer@synerise.com"
-        }
-    ],
-    "config": {
-        "allow-plugins": {
-            "php-http/discovery": true,
-            "tbachert/spi": true
-        }
+  "name": "synerise/php-sdk",
+  "description": "SDK allowing basic integration with Synerise API",
+  "type": "library",
+  "require": {
+    "php": "^8.0 || ^7.4",
+    "ext-json": "*",
+    "anik/loguzz": "^2.2 || ^4.0",
+    "microsoft/kiota-abstractions": "^1.4",
+    "microsoft/kiota-http-guzzle": "^1.5",
+    "microsoft/kiota-serialization-json": "^1.5",
+    "microsoft/kiota-serialization-text": "^1.5",
+    "psr/cache": "^1.0 || ^2.0 || ^3.0",
+    "psr/simple-cache": "^1.0 || ^2.0 || ^3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5"
+  },
+  "suggest": {
+    "mobiledetect/mobiledetectlib": "Used by default source provider.",
+    "symfony/cache": "Recommended PSR cache implementation for token caching"
+  },
+  "autoload": {
+    "psr-4": {
+      "Synerise\\Api\\": "lib/",
+      "Synerise\\Sdk\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Synerise\\Tests\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Synerise",
+      "email": "developer@synerise.com"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true,
+      "tbachert/spi": true
+    }
+  }
 }

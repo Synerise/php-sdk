@@ -6,15 +6,15 @@ use Microsoft\Kiota\Abstractions\Authentication\AnonymousAuthenticationProvider;
 use Microsoft\Kiota\Abstractions\Authentication\AuthenticationProvider;
 use Synerise\Sdk\Api\Config;
 use Synerise\Sdk\Api\Cache\TokenCacheInterface;
-use Synerise\Sdk\Guzzle\RequestAdapterFactory;
+use Synerise\Sdk\Guzzle\RequestAdapterFactoryInterface;
 use Synerise\Sdk\Model\AuthenticationMethodInterface;
 
 class AuthenticationProviderFactory
 {
     /**
-     * @var RequestAdapterFactory
+     * @var RequestAdapterFactoryInterface
      */
-    private RequestAdapterFactory $requestAdapterFactory;
+    private RequestAdapterFactoryInterface $requestAdapterFactory;
 
     /**
      * @var TokenCacheInterface|null
@@ -31,12 +31,12 @@ class AuthenticationProviderFactory
 
     /**
      * Authentication provider factory.
-     * @param RequestAdapterFactory $requestAdapterFactory Used for obtaining JWT.
+     * @param RequestAdapterFactoryInterface $requestAdapterFactory Used for obtaining JWT.
      * @param TokenCacheInterface|null $tokenCache Token cache implementation, defaults to InMemoryTokenCache
      * @param int $ttl
      */
     public function __construct(
-        RequestAdapterFactory $requestAdapterFactory,
+        RequestAdapterFactoryInterface $requestAdapterFactory,
         ?TokenCacheInterface $tokenCache = null,
         int $ttl = 3550
     )

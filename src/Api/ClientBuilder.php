@@ -11,10 +11,6 @@ use Synerise\Api\SearchConfig\SearchConfig;
 use Synerise\Api\Uauth\Uauth;
 use Synerise\Api\V4\V4;
 use Synerise\Api\Workspace\Workspace;
-use Synerise\Sdk\Api\Authentication\AuthenticationProviderFactory;
-use Synerise\Sdk\Api\Cache\InMemoryTokenCache;
-use Synerise\Sdk\Api\Cache\TokenCacheInterface;
-use Synerise\Sdk\Guzzle\RequestAdapterFactory;
 
 class ClientBuilder
 {

@@ -6,17 +6,17 @@ namespace Synerise\Sdk\Api;
 
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Synerise\Sdk\Api\Authentication\AuthenticationProviderFactory;
-use Synerise\Sdk\Guzzle\RequestAdapterFactory;
+use Synerise\Sdk\Guzzle\RequestAdapterFactoryInterface;
 
-class ClientBuilderFactory
+class ClientBuilderFactory implements ClientBuilderFactoryInterface
 {
     private AuthenticationProviderFactory $authenticationProviderFactory;
 
-    private RequestAdapterFactory $requestAdapterFactory;
+    private RequestAdapterFactoryInterface $requestAdapterFactory;
 
     public function __construct(
         AuthenticationProviderFactory $authenticationProviderFactory,
-        RequestAdapterFactory $requestAdapterFactory
+        RequestAdapterFactoryInterface $requestAdapterFactory
     ) {
         $this->authenticationProviderFactory = $authenticationProviderFactory;
         $this->requestAdapterFactory = $requestAdapterFactory;

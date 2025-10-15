@@ -1,6 +1,6 @@
 <?php
 
-namespace Synerise\SDK\Api\RequestBody\Models;
+namespace Synerise\Sdk\Api\RequestBody\Models;
 
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DiscountAmount;

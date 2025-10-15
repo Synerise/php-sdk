@@ -9,12 +9,11 @@ use Microsoft\Kiota\Abstractions\Serialization\SerializationWriterFactory;
 use Microsoft\Kiota\Http\GuzzleRequestAdapter;
 use Microsoft\Kiota\Serialization\Json\JsonParseNodeFactory;
 use Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory;
-use Psr\Log\LoggerInterface;
 use Synerise\Sdk\Api\Config;
 use Synerise\Sdk\Guzzle\Middleware\LogMiddlewareFactory;
 use Synerise\Sdk\Guzzle\Middleware\RetryMiddlewareFactory;
 
-class RequestAdapterFactory
+class RequestAdapterFactory implements RequestAdapterFactoryInterface
 {
     /**
      * @var ClientFactory
@@ -42,13 +41,7 @@ class RequestAdapterFactory
     }
 
     /**
-     * Create request adapter authentication provider
-     * @param Config $config
-     * @param AuthenticationProvider $authenticationProvider
-     * @param array $middlewares
-     * @param ParseNodeFactory|null $parseNodeFactory
-     * @param SerializationWriterFactory|null $serializationWriterFactory
-     * @return RequestAdapter
+     * @inheritdoc
      */
     public function create(
         Config $config,
