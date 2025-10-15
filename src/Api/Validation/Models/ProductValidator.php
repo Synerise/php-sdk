@@ -11,34 +11,78 @@ class ProductValidator
      * @param Product $product
      * @return array
      */
-    public static function validate(Product $product): array
+    public static function validate(Product $product, bool $throwOnError = true): array
     {
-        $invalid = [];
-        if (empty($product->getSku())) {
-            $invalid[] = 'Sku is required';
-        }
-        if (empty($product->getName())) {
-            $invalid[] = 'Name is required';
-        }
-        if (empty($product->getFinalUnitPrice())) {
-            $invalid[] = 'Final unit price is required';
+        $errors = [];
+
+        $skuErrors = self::validateSku($product->getSku());
+        $errors = array_merge($errors, $skuErrors);
+
+        $nameErrors = self::validateName($product->getName());
+        $errors = array_merge($errors, $nameErrors);
+
+        if (null !== $product->getFinalUnitPrice()) {
+            $finalUnitPriceErrors = UnitPriceValidator::validate($product->getFinalUnitPrice());
+            $errors = array_merge($errors, $finalUnitPriceErrors);
         } else {
-            $priceErrors = UnitPriceValidator::validate($product->getFinalUnitPrice());
-            $invalid = array_merge($invalid, $priceErrors);
-        }
-        if (!empty($product->getDiscountPrice())) {
-            $priceErrors = UnitPriceValidator::validate($product->getDiscountPrice());
-            $invalid = array_merge($invalid, $priceErrors);
-        }
-        if (!empty($product->getNetUnitPrice())) {
-            $priceErrors = UnitPriceValidator::validate($product->getNetUnitPrice());
-            $invalid = array_merge($invalid, $priceErrors);
-        }
-        if (!empty($product->getRegularPrice())) {
-            $priceErrors = UnitPriceValidator::validate($product->getRegularPrice());
-            $invalid = array_merge($invalid, $priceErrors);
+            $errors[] = 'Final unit price is required';
         }
 
-        return $invalid;
+        if (null !== $product->getDiscountPrice()) {
+            $discountPriceErrors = UnitPriceValidator::validate($product->getDiscountPrice());
+            $errors = array_merge($errors, $discountPriceErrors);
+        }
+
+        if (null !== $product->getNetUnitPrice()) {
+            $netUnitPriceErrors = UnitPriceValidator::validate($product->getNetUnitPrice());
+            $errors = array_merge($errors, $netUnitPriceErrors);
+        }
+
+        if (null !== $product->getRegularPrice()) {
+            $regularPriceErrors = UnitPriceValidator::validate($product->getRegularPrice());
+            $errors = array_merge($errors, $regularPriceErrors);
+        }
+
+        if ($throwOnError && !empty($errors)) {
+            throw new \InvalidArgumentException(
+                'Product validation failed: ' . implode(', ', $errors)
+            );
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Validate product sku
+     *
+     * @param string|null $sku
+     * @return array
+     */
+    private static function validateSku(?string $sku): array
+    {
+        $errors = [];
+
+        if (null === $sku) {
+            $errors[] = 'Sku is required';
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Validate product name
+     *
+     * @param string|null $name
+     * @return array
+     */
+    private static function validateName(?string $name): array
+    {
+        $errors = [];
+
+        if (null === $name) {
+            $errors[] = 'Name is required';
+        }
+
+        return $errors;
     }
 }
