@@ -6,15 +6,21 @@ use Microsoft\Kiota\Abstractions\Authentication\AnonymousAuthenticationProvider;
 use Microsoft\Kiota\Abstractions\Authentication\AuthenticationProvider;
 use Synerise\Sdk\Api\Config;
 use Synerise\Sdk\Api\Cache\TokenCacheInterface;
+use Synerise\Sdk\Guzzle\MiddlewareFactoryInterface;
 use Synerise\Sdk\Guzzle\RequestAdapterFactoryInterface;
 use Synerise\Sdk\Model\AuthenticationMethodInterface;
 
-class AuthenticationProviderFactory
+class DefaultAuthenticationProviderFactory implements AuthenticationProviderFactoryInterface
 {
     /**
      * @var RequestAdapterFactoryInterface
      */
     private RequestAdapterFactoryInterface $requestAdapterFactory;
+
+    /**
+     * @var MiddlewareFactoryInterface|null
+     */
+    private ?MiddlewareFactoryInterface $middlewareFactory;
 
     /**
      * @var TokenCacheInterface|null
@@ -32,16 +38,19 @@ class AuthenticationProviderFactory
     /**
      * Authentication provider factory.
      * @param RequestAdapterFactoryInterface $requestAdapterFactory Used for obtaining JWT.
+     * @param MiddlewareFactoryInterface|null $middlewareFactory Middleware factory
      * @param TokenCacheInterface|null $tokenCache Token cache implementation, defaults to InMemoryTokenCache
      * @param int $ttl
      */
     public function __construct(
         RequestAdapterFactoryInterface $requestAdapterFactory,
-        ?TokenCacheInterface $tokenCache = null,
+        ?MiddlewareFactoryInterface $middlewareFactory = null,
+        TokenCacheInterface $tokenCache = null,
         int $ttl = 3550
     )
     {
         $this->requestAdapterFactory = $requestAdapterFactory;
+        $this->middlewareFactory = $middlewareFactory;
         $this->tokenCache = $tokenCache;
         $this->ttl = $ttl;
     }
@@ -97,7 +106,11 @@ class AuthenticationProviderFactory
      */
     public function getWorkspaceBearerTokenAuthenticationProvider(Config $config): WorkspaceBearerTokenAuthenticationProvider
     {
-        $requestAdapter = $this->requestAdapterFactory->create($config, new AnonymousAuthenticationProvider());
+        $requestAdapter = $this->requestAdapterFactory->create(
+            $config,
+            new AnonymousAuthenticationProvider(),
+            $this->middlewareFactory ? $this->middlewareFactory->create($config): []
+        );
 
         return new WorkspaceBearerTokenAuthenticationProvider(
             new WorkspaceAccessTokenProvider($config, $requestAdapter, $this->tokenCache, $this->ttl),

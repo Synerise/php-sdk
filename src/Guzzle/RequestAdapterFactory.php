@@ -10,8 +10,6 @@ use Microsoft\Kiota\Http\GuzzleRequestAdapter;
 use Microsoft\Kiota\Serialization\Json\JsonParseNodeFactory;
 use Microsoft\Kiota\Serialization\Json\JsonSerializationWriterFactory;
 use Synerise\Sdk\Api\Config;
-use Synerise\Sdk\Guzzle\Middleware\LogMiddlewareFactory;
-use Synerise\Sdk\Guzzle\Middleware\RetryMiddlewareFactory;
 
 class RequestAdapterFactory implements RequestAdapterFactoryInterface
 {
@@ -20,24 +18,10 @@ class RequestAdapterFactory implements RequestAdapterFactoryInterface
      */
     private ClientFactory $guzzleClientFactory;
 
-    /**
-     * @var LogMiddlewareFactory|null
-     */
-    private ?LogMiddlewareFactory $logMiddlewareFactory;
-
-    /**
-     * @var RetryMiddlewareFactory|null
-     */
-    private ?RetryMiddlewareFactory $retryMiddlewareFactory;
-
     public function __construct(
-        ClientFactory $guzzleClientFactory,
-        ?LogMiddlewareFactory $logMiddlewareFactory = null,
-        ?RetryMiddlewareFactory $retryMiddlewareFactory = null
+        ClientFactory $guzzleClientFactory
     ) {
         $this->guzzleClientFactory = $guzzleClientFactory;
-        $this->logMiddlewareFactory = $logMiddlewareFactory;
-        $this->retryMiddlewareFactory = $retryMiddlewareFactory;
     }
 
     /**
@@ -51,14 +35,6 @@ class RequestAdapterFactory implements RequestAdapterFactoryInterface
         ?SerializationWriterFactory $serializationWriterFactory = null
     ): RequestAdapter
     {
-        if ($this->retryMiddlewareFactory != null) {
-            $middlewares['retryMiddleware'] = $this->retryMiddlewareFactory->create($authenticationProvider);
-        }
-
-        if ($this->logMiddlewareFactory != null && $config->isRequestLoggingEnabled()) {
-            $middlewares['logMiddleware'] = $this->logMiddlewareFactory->create();
-        }
-
         return new GuzzleRequestAdapter(
             $authenticationProvider,
             $parseNodeFactory ?: new JsonParseNodeFactory(),
