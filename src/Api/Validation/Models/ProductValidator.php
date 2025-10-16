@@ -58,7 +58,7 @@ class ProductValidator
      * @param string|null $sku
      * @return array
      */
-    private static function validateSku(?string $sku): array
+    public static function validateSku(?string $sku): array
     {
         $errors = [];
 
@@ -75,7 +75,7 @@ class ProductValidator
      * @param string|null $name
      * @return array
      */
-    private static function validateName(?string $name): array
+    public static function validateName(?string $name): array
     {
         $errors = [];
 

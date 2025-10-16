@@ -52,7 +52,7 @@ class CartStatusValidator implements Validator
                         $invalid[] = 'Product type invalid';
                         break;
                     }
-                    ProductValidator::validate($product);
+                    $invalid = array_merge($invalid, ProductValidator::validateSku($product->getSku()));
                 }
             }
         }
