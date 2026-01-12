@@ -45,7 +45,7 @@ class DefaultAuthenticationProviderFactory implements AuthenticationProviderFact
     public function __construct(
         RequestAdapterFactoryInterface $requestAdapterFactory,
         ?MiddlewareFactoryInterface $middlewareFactory = null,
-        TokenCacheInterface $tokenCache = null,
+        ?TokenCacheInterface $tokenCache = null,
         int $ttl = 3550
     )
     {
