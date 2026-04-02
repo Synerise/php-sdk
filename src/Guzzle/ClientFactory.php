@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Guzzle;
 
 use GuzzleHttp\Client;
@@ -11,7 +13,7 @@ class ClientFactory
 {
     /**
      * @param Config $config
-     * @param array $middlewares
+     * @param array<string, callable> $middlewares
      * @return Client
      */
     public function create(Config $config, array $middlewares = []): Client
@@ -27,7 +29,7 @@ class ClientFactory
     }
 
     /**
-     * @param array $middlewares
+     * @param array<string, callable> $middlewares
      * @return HandlerStack
      */
     protected function prepareHandler(array $middlewares): HandlerStack

@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use Synerise\Api\V4\Models\AppearedInLocationEvent;
 use Synerise\Api\V4\Models\AppearedInLocationEventParams;
 use Synerise\Api\V4\Models\Client;
-use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\AppearedInLocationValidator;
-use Synerise\Sdk\Api\Validation\Events\Validator;
+use Synerise\Sdk\Tracking\EventSourceProvider;
 
 /**
  * @extends AbstractBaseBuilder<AppearedInLocationEvent>
@@ -43,7 +44,6 @@ class AppearedInLocationBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return Validator
      */
     public static function getValidator(): AppearedInLocationValidator
     {

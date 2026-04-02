@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Cookie;
 
 use Synerise\Sdk\Exception\NotFoundException;
@@ -57,7 +59,7 @@ class CookieProfileManager implements ProfileManager
             throw new \InvalidArgumentException('Failed to reset profile. Uuid cannot be empty');
         }
         $this->getProfile()->setUuid($uuid);
-        if ($emailHash) {
+        if ($emailHash && $this->getProfile()->getBaseParams()) {
             $this->getProfile()->getBaseParams()->setIdentityHash($emailHash);
         }
         $this->cookieAdapter->setValue(Constants::COOKIE_RESET_UUID, $uuid);

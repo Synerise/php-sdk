@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Guzzle\Middleware;
 
 use Loguzz\Middleware\LogMiddleware;
@@ -10,11 +12,13 @@ class LogMiddlewareFactory
 {
     private LoggerInterface $logger;
 
-    public function __construct(LoggerInterface $logger){
+    public function __construct(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
 
-    public function create() {
+    public function create(): LogMiddleware
+    {
         return new LogMiddleware(
             $this->logger,
             ['request_formatter' => new RequestCurlSanitizedFormatter()]

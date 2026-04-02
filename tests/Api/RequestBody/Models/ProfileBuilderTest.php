@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Synerise\Sdk\Api\RequestBody\Models;
 
 use InvalidArgumentException;

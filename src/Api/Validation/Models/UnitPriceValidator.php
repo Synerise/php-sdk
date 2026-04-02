@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Models;
 
 class UnitPriceValidator
@@ -7,7 +9,7 @@ class UnitPriceValidator
     /**
      * Validate unit price
      * @param mixed $price
-     * @return array
+     * @return array<int, string>
      */
     public static function validate($price): array
     {

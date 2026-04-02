@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Serialization;
 
 class KeyValuePairSerializer implements Serializer
@@ -26,6 +28,7 @@ class KeyValuePairSerializer implements Serializer
 
     /**
      * @inheritDoc
+     * @param array<string, mixed> $data
      */
     public function serialize(array $data): string
     {
@@ -40,6 +43,7 @@ class KeyValuePairSerializer implements Serializer
 
     /**
      * @inheritDoc
+     * @return array<string, mixed>
      */
     public function deserialize(string $string): array
     {

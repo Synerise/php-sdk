@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Models;
 
 use Synerise\Api\V4\Models\Client;
@@ -47,7 +49,7 @@ class TransactionBuilder
 
     public function removeProduct(Product $value): self
     {
-        $products = $this->transaction->getProducts();
+        $products = $this->transaction->getProducts() ?? [];
         foreach ($products as $i => $product) {
             if ($product->getSku() === $value->getSku()) {
                 array_splice($products, $i, 1);

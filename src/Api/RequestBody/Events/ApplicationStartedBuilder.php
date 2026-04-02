@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use Synerise\Api\V4\Models\ApplicationStartedEvent;
 use Synerise\Api\V4\Models\ApplicationStartedEventParams;
 use Synerise\Api\V4\Models\Client;
+use Synerise\Sdk\Api\Validation\Events\ApplicationStartedValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\ApplicationStartedValidator;
 
 /**
  * @extends AbstractBaseBuilder<ApplicationStartedEvent>

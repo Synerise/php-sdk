@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api;
 
 use Microsoft\Kiota\Abstractions\RequestAdapter;

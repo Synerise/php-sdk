@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
@@ -16,6 +18,7 @@ class EventBaseValidator implements Validator
     /**
      * Validate EventBase.
      * @inheritDoc
+     * @return array<int, string>
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
     {
@@ -48,7 +51,7 @@ class EventBaseValidator implements Validator
      */
     public static function ISO8601(string $dateTime): bool
     {
-        return preg_match(self::PATTERN_ISO8601, $dateTime);
+        return preg_match(self::PATTERN_ISO8601, $dateTime) === 1;
     }
 
 }

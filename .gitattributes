@@ -1,0 +1,9 @@
+# Exclude dev-only files from Composer dist archives
+/tests export-ignore
+/phpstan.neon export-ignore
+/phpstan-baseline.neon export-ignore
+/.php-cs-fixer.dist.php export-ignore
+/.git-blame-ignore-revs export-ignore
+/.gitattributes export-ignore
+/phpunit.xml export-ignore
+/CLAUDE.md export-ignore

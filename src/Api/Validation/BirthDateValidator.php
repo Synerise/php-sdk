@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation;
 
 class BirthDateValidator
@@ -11,7 +13,7 @@ class BirthDateValidator
      * Validate birthDate
      *
      * @param string|null $birthDate
-     * @return array
+     * @return array<int, string>
      */
     public static function validate(?string $birthDate): array
     {

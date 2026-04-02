@@ -1,8 +1,8 @@
 <?php
 
-namespace Synerise\Sdk\Cookie;
+declare(strict_types=1);
 
-use Synerise\Sdk\Exception\NotFoundException;
+namespace Synerise\Sdk\Cookie;
 
 interface CookieAdapter
 {

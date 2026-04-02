@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\DefaultParamSource;
+use Synerise\Sdk\Api\Validation\Events\AddedReviewValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\AddedReviewValidator;
 
 /**
  * @extends AbstractBaseBuilder<CustomEvent>
@@ -142,7 +144,7 @@ class AddedReviewBuilder extends AbstractBaseBuilder
      */
     public function setTitle(?string $title): self
     {
-        if($title !== null) {
+        if ($title !== null) {
             $this->additionalData['title'] = $title;
         }
         return $this;
@@ -156,7 +158,7 @@ class AddedReviewBuilder extends AbstractBaseBuilder
      */
     public function setComment(?string $comment): self
     {
-        if($comment !== null) {
+        if ($comment !== null) {
             $this->additionalData['comment'] = $comment;
         }
         return $this;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
@@ -12,8 +14,9 @@ class CartStatusValidator implements Validator
 {
     /**
      * Validate cart.status CustomEvent.
-     * @var CustomEvent $event
+     * @phpstan-param CustomEvent $event
      * @inheritDoc
+     * @return array<int, string>
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
     {

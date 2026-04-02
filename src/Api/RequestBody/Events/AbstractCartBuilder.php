@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use Synerise\Api\V4\Models\CartEvent;
@@ -8,9 +10,9 @@ use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DiscountedUnitPrice;
 use Synerise\Api\V4\Models\FinalUnitPrice;
 use Synerise\Api\V4\Models\RegularUnitPrice;
+use Synerise\Sdk\Api\Validation\Events\CartEventValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\CartEventValidator;
 
 /**
  * @extends AbstractBaseBuilder<CartEvent>
@@ -180,7 +182,7 @@ class AbstractCartBuilder extends AbstractBaseBuilder
     /**
      * Set snrsParams. Params set by url query.
      * Optional.
-     * @param array|null $params
+     * @param array<string, mixed>|null $params
      * @return $this
      */
     public function setSnrsParams(?array $params): self

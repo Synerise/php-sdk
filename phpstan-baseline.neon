@@ -1,0 +1,46 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method Microsoft\\\\Kiota\\\\Abstractions\\\\Authentication\\\\AccessTokenProvider\\:\\:clearCache\\(\\)\\.$#"
+			count: 1
+			path: src/Api/Authentication/WorkspaceBearerTokenAuthenticationProvider.php
+
+		-
+			message: "#^Access to an undefined property Synerise\\\\Sdk\\\\Api\\\\RequestBody\\\\Events\\\\AbstractBaseBuilder\\<T of Synerise\\\\Api\\\\V4\\\\Models\\\\EventBase\\>\\:\\:\\$requestBody\\.$#"
+			count: 1
+			path: src/Api/RequestBody/Events/AbstractBaseBuilder.php
+
+		-
+			message: "#^Method Synerise\\\\Sdk\\\\Api\\\\RequestBody\\\\Events\\\\AbstractBaseBuilder\\:\\:initialize\\(\\) should return static\\(Synerise\\\\Sdk\\\\Api\\\\RequestBody\\\\Events\\\\AbstractBaseBuilder\\<T of Synerise\\\\Api\\\\V4\\\\Models\\\\EventBase\\>\\) but returns static\\(Synerise\\\\Sdk\\\\Api\\\\RequestBody\\\\Events\\\\AbstractBaseBuilder\\<Synerise\\\\Api\\\\V4\\\\Models\\\\EventBase\\>\\)\\.$#"
+			count: 1
+			path: src/Api/RequestBody/Events/AbstractBaseBuilder.php
+
+		-
+			message: "#^Method Synerise\\\\Sdk\\\\Api\\\\RequestBody\\\\Events\\\\AbstractBaseBuilder\\:\\:setParam\\(\\) return type with generic class Synerise\\\\Sdk\\\\Api\\\\RequestBody\\\\Events\\\\AbstractBaseBuilder does not specify its types\\: T$#"
+			count: 1
+			path: src/Api/RequestBody/Events/AbstractBaseBuilder.php
+
+		-
+			message: "#^Method Synerise\\\\Sdk\\\\Api\\\\RequestBody\\\\Events\\\\AbstractBaseBuilder\\:\\:setParams\\(\\) return type with generic class Synerise\\\\Sdk\\\\Api\\\\RequestBody\\\\Events\\\\AbstractBaseBuilder does not specify its types\\: T$#"
+			count: 1
+			path: src/Api/RequestBody/Events/AbstractBaseBuilder.php
+
+		-
+			message: "#^Call to method isMobile\\(\\) on an unknown class Detection\\\\MobileDetect\\.$#"
+			count: 1
+			path: src/Tracking/DefaultEventSourceProvider.php
+
+		-
+			message: "#^Call to method isTablet\\(\\) on an unknown class Detection\\\\MobileDetect\\.$#"
+			count: 1
+			path: src/Tracking/DefaultEventSourceProvider.php
+
+		-
+			message: "#^Caught class Detection\\\\Exception\\\\MobileDetectException not found\\.$#"
+			count: 1
+			path: src/Tracking/DefaultEventSourceProvider.php
+
+		-
+			message: "#^Property Synerise\\\\Sdk\\\\Tracking\\\\DefaultEventSourceProvider\\:\\:\\$mobileDetect has unknown class Detection\\\\MobileDetect as its type\\.$#"
+			count: 2
+			path: src/Tracking/DefaultEventSourceProvider.php

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Tracking;
 
 use RuntimeException;
@@ -89,7 +91,7 @@ class IdentityManager
      */
     protected function isResetRequired(string $currentUuid): bool
     {
-        return $currentUuid != $this->profileManager->getProfile()->getUuid();
+        return $currentUuid !== $this->profileManager->getProfile()->getUuid();
     }
 
     /**
@@ -100,7 +102,11 @@ class IdentityManager
      */
     protected function isMergeRequired(string $email): bool
     {
-        $identityHash = $this->profileManager->getProfile()->getBaseParams()->getIdentityHash();
-        return !$identityHash || $identityHash == HashString::hashString($email);
+        $baseParams = $this->profileManager->getProfile()->getBaseParams();
+        if (!$baseParams) {
+            return true;
+        }
+        $identityHash = $baseParams->getIdentityHash();
+        return !$identityHash || $identityHash === (string) HashString::hashString($email);
     }
 }

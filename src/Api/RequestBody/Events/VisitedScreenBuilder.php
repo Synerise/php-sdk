@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
 use Synerise\Api\V4\Models\VisitedScreenEvent;
+use Synerise\Sdk\Api\Validation\Events\VisitedScreenValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\VisitedScreenValidator;
 
 /**
  * @extends AbstractBaseBuilder<VisitedScreenEvent>

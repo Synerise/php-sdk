@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Serialization;
 
 use Exception;
@@ -8,7 +10,7 @@ interface Serializer
 {
     /**
      * Serialize array to string
-     * @param array $data
+     * @param array<string, mixed> $data
      * @return string
      * @throws Exception
      */
@@ -17,7 +19,7 @@ interface Serializer
     /**
      * Deserialize string to array
      * @param string $string
-     * @return array
+     * @return array<string, mixed>
      * @throws Exception
      */
     public function deserialize(string $string): array;

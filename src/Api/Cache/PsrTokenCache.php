@@ -1,16 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Cache;
 
+use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
 
 class PsrTokenCache implements TokenCacheInterface
 {
     private CacheInterface $cache;
+    private ?LoggerInterface $logger;
 
-    public function __construct(CacheInterface $cache)
+    public function __construct(CacheInterface $cache, ?LoggerInterface $logger = null)
     {
         $this->cache = $cache;
+        $this->logger = $logger;
     }
 
     public function getToken(string $key): ?string
@@ -18,6 +23,9 @@ class PsrTokenCache implements TokenCacheInterface
         try {
             return $this->cache->get($key);
         } catch (\Exception $e) {
+            if ($this->logger) {
+                $this->logger->warning('Failed to get token from cache', ['key' => $key, 'exception' => $e]);
+            }
             return null;
         }
     }
@@ -27,7 +35,9 @@ class PsrTokenCache implements TokenCacheInterface
         try {
             $this->cache->set($key, $token, $ttl);
         } catch (\Exception $e) {
-            // Silently handle cache errors
+            if ($this->logger) {
+                $this->logger->warning('Failed to set token in cache', ['key' => $key, 'exception' => $e]);
+            }
         }
     }
 
@@ -36,7 +46,9 @@ class PsrTokenCache implements TokenCacheInterface
         try {
             $this->cache->delete($key);
         } catch (\Exception $e) {
-            // Silently handle cache errors
+            if ($this->logger) {
+                $this->logger->warning('Failed to clear token from cache', ['key' => $key, 'exception' => $e]);
+            }
         }
     }
 }

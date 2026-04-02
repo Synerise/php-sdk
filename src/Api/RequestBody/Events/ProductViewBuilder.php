@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\ProductViewEvent;
 use Synerise\Api\V4\Models\ProductViewEventParams;
+use Synerise\Sdk\Api\Validation\Events\ProductViewValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\ProductViewValidator;
 
 /**
  * @extends AbstractBaseBuilder<ProductViewEvent>

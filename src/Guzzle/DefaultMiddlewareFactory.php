@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Guzzle;
 
 use Synerise\Sdk\Api\Config;
@@ -25,14 +27,14 @@ class DefaultMiddlewareFactory implements MiddlewareFactoryInterface
     public function __construct(
         ?RetryMiddlewareFactory $retryMiddlewareFactory = null,
         ?LogMiddlewareFactory $logMiddlewareFactory = null
-    )
-    {
+    ) {
         $this->retryMiddlewareFactory = $retryMiddlewareFactory;
         $this->logMiddlewareFactory = $logMiddlewareFactory;
     }
 
     /**
      * @inheritDoc
+     * @return array<string, callable>
      */
     public function create(Config $config): array
     {

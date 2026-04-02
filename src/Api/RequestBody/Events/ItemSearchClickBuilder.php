@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\ItemSearchClickEventData;
 use Synerise\Api\V4\Models\ItemSearchClickEventDataParams;
 use Synerise\Api\V4\Models\SearchType;
+use Synerise\Sdk\Api\Validation\Events\ItemSearchClickValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\ItemSearchClickValidator;
 
 /**
  * @extends AbstractBaseBuilder<ItemSearchClickEventData>

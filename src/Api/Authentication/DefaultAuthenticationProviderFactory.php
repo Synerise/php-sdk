@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Authentication;
 
 use Microsoft\Kiota\Abstractions\Authentication\AnonymousAuthenticationProvider;
 use Microsoft\Kiota\Abstractions\Authentication\AuthenticationProvider;
-use Synerise\Sdk\Api\Config;
 use Synerise\Sdk\Api\Cache\TokenCacheInterface;
+use Synerise\Sdk\Api\Config;
 use Synerise\Sdk\Guzzle\MiddlewareFactoryInterface;
 use Synerise\Sdk\Guzzle\RequestAdapterFactoryInterface;
 use Synerise\Sdk\Model\AuthenticationMethodInterface;
@@ -45,10 +47,9 @@ class DefaultAuthenticationProviderFactory implements AuthenticationProviderFact
     public function __construct(
         RequestAdapterFactoryInterface $requestAdapterFactory,
         ?MiddlewareFactoryInterface $middlewareFactory = null,
-        TokenCacheInterface $tokenCache = null,
+        ?TokenCacheInterface $tokenCache = null,
         int $ttl = 3550
-    )
-    {
+    ) {
         $this->requestAdapterFactory = $requestAdapterFactory;
         $this->middlewareFactory = $middlewareFactory;
         $this->tokenCache = $tokenCache;
@@ -62,7 +63,12 @@ class DefaultAuthenticationProviderFactory implements AuthenticationProviderFact
      */
     public function create(Config $config): AuthenticationProvider
     {
-        switch ($config->getAuthenticationMethod()->value()) {
+        $authMethod = $config->getAuthenticationMethod();
+        if (!$authMethod) {
+            return new AnonymousAuthenticationProvider();
+        }
+
+        switch ($authMethod->value()) {
             case AuthenticationMethodInterface::BASIC_VALUE:
                 return $this->getBasicAuthenticationProvider($config);
             case AuthenticationMethodInterface::BEARER_VALUE:
@@ -109,7 +115,7 @@ class DefaultAuthenticationProviderFactory implements AuthenticationProviderFact
         $requestAdapter = $this->requestAdapterFactory->create(
             $config,
             new AnonymousAuthenticationProvider(),
-            $this->middlewareFactory ? $this->middlewareFactory->create($config): []
+            $this->middlewareFactory ? $this->middlewareFactory->create($config) : []
         );
 
         return new WorkspaceBearerTokenAuthenticationProvider(

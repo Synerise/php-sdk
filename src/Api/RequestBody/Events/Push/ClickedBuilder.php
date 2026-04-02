@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events\Push;
 
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
 use Synerise\Api\V4\Models\PushClickedEvent;
 use Synerise\Sdk\Api\RequestBody\Events\AbstractBaseBuilder;
+use Synerise\Sdk\Api\Validation\Events\Push\ClickedValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\Push\ClickedValidator;
 
 /**
  * @extends AbstractBaseBuilder<PushClickedEvent>

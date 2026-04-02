@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Tests\Api\Validation;
 
 use PHPUnit\Framework\TestCase;
@@ -7,7 +9,6 @@ use Synerise\Sdk\Api\Validation\PhoneValidator;
 
 class PhoneValidatorTest extends TestCase
 {
-
     private static array $validPhoneList = [
         '+48 123 456 789',           // Standard international format with spaces
         '+1-234-567-8901',           // US format with country code and hyphens
@@ -38,18 +39,17 @@ class PhoneValidatorTest extends TestCase
         '+48 123 456 789@',          // Contains @ symbol
     ];
 
-
     public function testValidPhone()
     {
         foreach (self::$validPhoneList as $validPhone) {
-            $this->assertEmpty(PhoneValidator::validate($validPhone), sprintf("Phone number should be valid: %s", $validPhone));
+            $this->assertEmpty(PhoneValidator::validate($validPhone), sprintf('Phone number should be valid: %s', $validPhone));
         }
     }
 
     public function testInvalidPhone()
     {
         foreach (self::$invalidPhoneList as $invalidPhone) {
-            $this->assertNotEmpty(PhoneValidator::validate($invalidPhone), sprintf("Phone number should be invalid: %s", $invalidPhone));       ;
+            $this->assertNotEmpty(PhoneValidator::validate($invalidPhone), sprintf('Phone number should be invalid: %s', $invalidPhone));
         }
     }
 

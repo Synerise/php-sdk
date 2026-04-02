@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation;
 
 class EmailValidator
@@ -10,7 +12,7 @@ class EmailValidator
      * Validate email
      *
      * @param string|null $email
-     * @return array
+     * @return array<int, string>
      */
     public static function validate(?string $email): array
     {

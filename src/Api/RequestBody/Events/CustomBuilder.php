@@ -1,15 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
-use InvalidArgumentException;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\DefaultParamSource;
+use Synerise\Sdk\Api\Validation\Events\CustomValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\CustomValidator;
 
+/**
+ * @extends AbstractBaseBuilder<CustomEvent>
+ */
 class CustomBuilder extends AbstractBaseBuilder
 {
     protected CustomEvent $requestBody;
@@ -51,7 +55,8 @@ class CustomBuilder extends AbstractBaseBuilder
      * @inheritDoc
      * @return CustomEvent
      */
-    protected function getRequestBody(): CustomEvent {
+    protected function getRequestBody(): CustomEvent
+    {
         return $this->requestBody;
     }
 

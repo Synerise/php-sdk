@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Models;
 
 use Synerise\Api\V4\Models\Transaction;
@@ -10,7 +12,7 @@ class TransactionValidator
     /**
      * Validate Transaction
      * @param Transaction $transaction
-     * @return array
+     * @return array<int, string>
      */
     public static function validate(Transaction $transaction, bool $throwOnError = true): array
     {
@@ -45,12 +47,20 @@ class TransactionValidator
         return $errors;
     }
 
+    /**
+     * @param array<int, mixed>|null $products
+     * @return array<int, string>
+     */
     private static function validateProducts(?array $products): array
     {
         $errors = [];
 
+        if (empty($products)) {
+            return $errors;
+        }
+
         foreach ($products as $product) {
-            $productErrors = ProductValidator::validate($product);
+            $productErrors = ProductValidator::validate($product, false);
             $errors = array_merge($errors, $productErrors);
         }
 

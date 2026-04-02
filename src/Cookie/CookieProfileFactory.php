@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Cookie;
 
 use Exception;
@@ -53,12 +55,11 @@ class CookieProfileFactory
 
     /**
      * Get extra params from cookie
-     * @return array|null
+     * @return array<string, string>|null
      * @throws Exception
      */
     protected function getExtraParams(): ?array
     {
-        if (isset($_COOKIE[Constants::COOKIE_PARAMS])) {}
         return isset($_COOKIE[Constants::COOKIE_PARAMS]) ? $this->parseNodeFactory->getRootParseNode($_COOKIE[Constants::COOKIE_PARAMS])
             ->getCollectionOfPrimitiveValues('string') : null;
     }

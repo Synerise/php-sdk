@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Authentication;
 
 use Http\Promise\FulfilledPromise;
@@ -13,14 +15,14 @@ class BasicAuthenticationProvider implements AuthenticationProvider
     /**
      * @var string $authorizationHeaderKey The Authorization header key
      */
-    private static string $authorizationHeaderKey = "Authorization";
+    private static string $authorizationHeaderKey = 'Authorization';
 
     /**
      * Claims key to search for in $additionalAuthenticationContext
      *
      * @var string
      */
-    private static string $claimsKey = "claims";
+    private static string $claimsKey = 'claims';
     /**
      * @var Config
      */

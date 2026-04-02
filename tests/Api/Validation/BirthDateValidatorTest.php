@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Tests\Api\Validation;
 
 use PHPUnit\Framework\TestCase;
 use Synerise\Sdk\Api\Validation\BirthDateValidator;
 
 class BirthDateValidatorTest extends TestCase
-
 {
     public function testValidBirthDate()
     {

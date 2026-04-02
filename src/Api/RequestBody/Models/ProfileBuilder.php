@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Models;
 
 use InvalidArgumentException;
@@ -11,7 +13,6 @@ use Synerise\Sdk\Api\Validation\Models\ProfileValidator;
 
 class ProfileBuilder
 {
-
     private Profile $profile;
 
     public function __construct()
@@ -42,6 +43,7 @@ class ProfileBuilder
         return $this->profile;
     }
 
+    /** @param mixed $attributeValue */
     public function addAttribute(string $attributeName, $attributeValue): self
     {
         $attributes = $this->profile->getAttributes();
@@ -49,7 +51,7 @@ class ProfileBuilder
             $attributes = new Attributes();
         }
 
-        $attributesAdditionalData = $attributes->getAdditionalData();
+        $attributesAdditionalData = $attributes->getAdditionalData() ?? [];
         $attributesAdditionalData[$attributeName] = $attributeValue;
         $attributes->setAdditionalData($attributesAdditionalData);
 
@@ -72,7 +74,7 @@ class ProfileBuilder
 
         $filteredData = array_filter(
             $additionalData,
-            fn($key) => $key !== $attributeName,
+            fn ($key) => $key !== $attributeName,
             ARRAY_FILTER_USE_KEY
         );
         $attributes->setAdditionalData($filteredData);

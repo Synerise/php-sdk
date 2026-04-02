@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Model\Profile;
 
 use Microsoft\Kiota\Abstractions\Serialization\AdditionalDataHolder;
@@ -74,7 +76,8 @@ class BaseParams implements AdditionalDataHolder, Parsable
      * @param ParseNode $parseNode The parse node to use to read the discriminator value and create the object
      * @return BaseParams
      */
-    public static function createFromDiscriminatorValue(ParseNode $parseNode): BaseParams {
+    public static function createFromDiscriminatorValue(ParseNode $parseNode): BaseParams
+    {
         return new BaseParams();
     }
 
@@ -181,7 +184,8 @@ class BaseParams implements AdditionalDataHolder, Parsable
      * Gets the AdditionalData property value. Stores additional data found when deserializing. Can be used for serialization as well.
      * @return array<string, mixed>|null
      */
-    public function getAdditionalData(): ?array {
+    public function getAdditionalData(): ?array
+    {
         return $this->additionalData;
     }
 
@@ -189,20 +193,21 @@ class BaseParams implements AdditionalDataHolder, Parsable
      * The deserialization information for the current model
      * @return array<string, callable(ParseNode): void>
      */
-    public function getFieldDeserializers(): array {
+    public function getFieldDeserializers(): array
+    {
         $o = $this;
         return  [
-            'allVisits' => fn(ParseNode $n) => $o->setAllVisits($n->getStringValue()),
-            'current' => fn(ParseNode $n) => $o->setCurrent($n->getStringValue()),
-            'globalControlGroup' => fn(ParseNode $n) => $o->setGlobalControlGroup($n->getStringValue()),
-            'host' => fn(ParseNode $n) => $o->setHost($n->getStringValue()),
-            'identityHash' => fn(ParseNode $n) => $o->setIdentityHash($n->getStringValue()),
-            'init' => fn(ParseNode $n) => $o->setInit($n->getStringValue()),
-            'last' => fn(ParseNode $n) => $o->setLast($n->getStringValue()),
-            'permUuid' => fn(ParseNode $n) => $o->setPermUuid($n->getStringValue()),
-            'uniqueVisits' => fn(ParseNode $n) => $o->setUniqueVisits($n->getStringValue()),
-            'user_hash' => fn(ParseNode $n) => $o->setUserHash($n->getStringValue()),
-            'uuid' => fn(ParseNode $n) => $o->setUuid($n->getStringValue())
+            'allVisits' => fn (ParseNode $n) => $o->setAllVisits($n->getStringValue()),
+            'current' => fn (ParseNode $n) => $o->setCurrent($n->getStringValue()),
+            'globalControlGroup' => fn (ParseNode $n) => $o->setGlobalControlGroup($n->getStringValue()),
+            'host' => fn (ParseNode $n) => $o->setHost($n->getStringValue()),
+            'identityHash' => fn (ParseNode $n) => $o->setIdentityHash($n->getStringValue()),
+            'init' => fn (ParseNode $n) => $o->setInit($n->getStringValue()),
+            'last' => fn (ParseNode $n) => $o->setLast($n->getStringValue()),
+            'permUuid' => fn (ParseNode $n) => $o->setPermUuid($n->getStringValue()),
+            'uniqueVisits' => fn (ParseNode $n) => $o->setUniqueVisits($n->getStringValue()),
+            'user_hash' => fn (ParseNode $n) => $o->setUserHash($n->getStringValue()),
+            'uuid' => fn (ParseNode $n) => $o->setUuid($n->getStringValue())
         ];
     }
 
@@ -210,17 +215,18 @@ class BaseParams implements AdditionalDataHolder, Parsable
      * Serializes information the current object
      * @param SerializationWriter $writer Serialization writer to use to serialize this model
      */
-    public function serialize(SerializationWriter $writer): void {
-        $writer->writeIntegerValue('allVisits', $this->getAllVisits());
-        $writer->writeIntegerValue('current', $this->getCurrent());
-        $writer->writeBooleanValue('globalControlGroup', $this->getGlobalControlGroup());
+    public function serialize(SerializationWriter $writer): void
+    {
+        $writer->writeStringValue('allVisits', $this->getAllVisits());
+        $writer->writeStringValue('current', $this->getCurrent());
+        $writer->writeStringValue('globalControlGroup', $this->getGlobalControlGroup());
         $writer->writeStringValue('host', $this->getHost());
-        $writer->writeIntegerValue('identityHash', $this->getIdentityHash());
-        $writer->writeIntegerValue('init', $this->getInit());
-        $writer->writeIntegerValue('last', $this->getLast());
+        $writer->writeStringValue('identityHash', $this->getIdentityHash());
+        $writer->writeStringValue('init', $this->getInit());
+        $writer->writeStringValue('last', $this->getLast());
         $writer->writeStringValue('permUuid', $this->getPermUuid());
-        $writer->writeIntegerValue('uniqueVisits', $this->getUniqueVisits());
-        $writer->writeIntegerValue('user_hash', $this->getUserHash());
+        $writer->writeStringValue('uniqueVisits', $this->getUniqueVisits());
+        $writer->writeStringValue('user_hash', $this->getUserHash());
         $writer->writeStringValue('uuid', $this->getUuid());
         $writer->writeAdditionalData($this->getAdditionalData());
     }
@@ -229,7 +235,8 @@ class BaseParams implements AdditionalDataHolder, Parsable
      * Sets the AdditionalData property value. Stores additional data found when deserializing. Can be used for serialization as well.
      * @param array<string,mixed> $value Value to set for the AdditionalData property.
      */
-    public function setAdditionalData(?array $value): void {
+    public function setAdditionalData(?array $value): void
+    {
         $this->additionalData = $value;
     }
 

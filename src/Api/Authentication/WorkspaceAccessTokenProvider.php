@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Authentication;
 
 use Http\Promise\FulfilledPromise;
@@ -10,9 +12,9 @@ use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Synerise\Api\Uauth\Models\BusinessProfileAuthenticationRequest;
 use Synerise\Api\Uauth\Models\TokenResponse;
 use Synerise\Api\Uauth\Uauth;
-use Synerise\Sdk\Api\Config;
-use Synerise\Sdk\Api\Cache\TokenCacheInterface;
 use Synerise\Sdk\Api\Cache\InMemoryTokenCache;
+use Synerise\Sdk\Api\Cache\TokenCacheInterface;
+use Synerise\Sdk\Api\Config;
 
 class WorkspaceAccessTokenProvider implements AccessTokenProvider
 {
@@ -54,7 +56,7 @@ class WorkspaceAccessTokenProvider implements AccessTokenProvider
     /**
      * Pick an authentication provider by config. If no request adapter provided, then it will be created by config.
      * @param Config $config
-     * @param RequestAdapter|null $requestAdapter
+     * @param RequestAdapter $requestAdapter
      * @param TokenCacheInterface|null $tokenCache
      * @param int $ttl
      */

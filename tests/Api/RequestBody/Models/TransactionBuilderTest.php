@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Synerise\Sdk\Api\RequestBody\Models;
 
 use InvalidArgumentException;
@@ -117,7 +119,6 @@ class TransactionBuilderTest extends TestCase
         $transaction = $this->transactionBuilder
             ->removeProduct($product1)
             ->build();
-
 
         $this->assertCount(1, $transaction->getProducts());
         $this->assertEquals(

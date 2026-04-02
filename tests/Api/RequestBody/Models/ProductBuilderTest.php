@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Synerise\Sdk\Api\RequestBody\Models;
 
 use PHPUnit\Framework\TestCase;
@@ -53,7 +55,7 @@ class ProductBuilderTest extends TestCase
             ->setName('Product 1')
             ->setSku('sku1')
             ->setFinalUnitPrice($finalUnitPrice)
-            ->setCategories(["category1 > subcategory1", "category1 > subcategory2"])
+            ->setCategories(['category1 > subcategory1', 'category1 > subcategory2'])
             ->build();
 
         $this->assertCount(2, $product->getCategories());

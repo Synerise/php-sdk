@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use DateTime;
@@ -10,8 +12,8 @@ use RuntimeException;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Api\V4\Models\EventSource;
-use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\Validator;
+use Synerise\Sdk\Tracking\EventSourceProvider;
 use TypeError;
 
 /**
@@ -62,9 +64,9 @@ abstract class AbstractBaseBuilder
 
     /**
      * Set of params additional data not specified by OAS.
-     * @var array
+     * @var array<string, mixed>
      */
-    protected array $additionalData;
+    protected array $additionalData = [];
 
     /**
      * @param Client $client
@@ -92,7 +94,7 @@ abstract class AbstractBaseBuilder
             throw new InvalidArgumentException('You must provide at least one of profile identifier.');
         }
 
-        if(!$this->time) {
+        if (!$this->time) {
             $this->time = new DateTime();
         }
 
@@ -194,7 +196,7 @@ abstract class AbstractBaseBuilder
         if (method_exists($this->getParams(), $setter)) {
             try {
                 $this->getParams()->$setter($value);
-            } catch(TypeError $e) {
+            } catch (TypeError $e) {
                 throw new InvalidArgumentException($e->getMessage(), $e->getCode());
             }
         } else {
@@ -206,13 +208,13 @@ abstract class AbstractBaseBuilder
 
     /**
      * Set params properties from an array using setters or as additional data.
-     * @param array $data
+     * @param array<string, mixed> $data
      * @return self
      * @throws InvalidArgumentException
      */
     public function setParams(array $data = []): self
     {
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $this->setParam($key, $value);
         }
 
@@ -230,7 +232,7 @@ abstract class AbstractBaseBuilder
             return $this->source;
         }
 
-        if( !$this->sourceProvider) {
+        if (!$this->sourceProvider) {
             return null;
         }
 
@@ -245,7 +247,8 @@ abstract class AbstractBaseBuilder
      * Returns event object being built
      * @return T
      */
-    protected function getRequestBody(): EventBase {
+    protected function getRequestBody(): EventBase
+    {
         return $this->requestBody;
     }
 

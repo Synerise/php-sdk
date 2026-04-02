@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Tracking;
 
 use Exception;
 use RuntimeException;
-use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\Api\V4\Models\Profile;
+use Synerise\Sdk\Api\ClientBuilder;
 
 class ProfileMergeDoRequest implements ProfileMergeAction
 {

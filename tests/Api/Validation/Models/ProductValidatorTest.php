@@ -1,18 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Tests\Api\Validation\Models;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Synerise\Api\V4\Models\Attributes;
 use Synerise\Api\V4\Models\DiscountPrice;
 use Synerise\Api\V4\Models\FinalUnitPrice;
 use Synerise\Api\V4\Models\NetUnitPrice;
 use Synerise\Api\V4\Models\Product;
-use Synerise\Api\V4\Models\Profile;
 use Synerise\Api\V4\Models\RegularPrice;
 use Synerise\Sdk\Api\Validation\Models\ProductValidator;
-use Synerise\Sdk\Api\Validation\Models\ProfileValidator;
 
 class ProductValidatorTest extends TestCase
 {

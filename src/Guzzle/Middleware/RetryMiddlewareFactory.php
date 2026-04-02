@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Guzzle\Middleware;
 
 use Psr\Log\LoggerInterface;
@@ -17,8 +19,8 @@ class RetryMiddlewareFactory
     public function __construct(
         AuthenticationProviderFactoryInterface $authenticationProviderFactory,
         LoggerInterface $logger,
-        $maxRetries = 1
-    ){
+        int $maxRetries = 1
+    ) {
         $this->authenticationProviderFactory = $authenticationProviderFactory;
         $this->logger = $logger;
         $this->maxRetries = $maxRetries;
