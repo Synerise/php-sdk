@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Serialization;
 
 use Exception;
 use InvalidArgumentException;
-use RuntimeException;
 use Microsoft\Kiota\Abstractions\Serialization\ParseNode;
 use Microsoft\Kiota\Serialization\Json\JsonParseNode;
+use RuntimeException;
 
 class StringJsonParseNodeFactory
 {
@@ -17,7 +19,7 @@ class StringJsonParseNodeFactory
     private array $serializers;
 
     /**
-     * @param array $serializers
+     * @param array<string, Serializer> $serializers
      */
     public function __construct(array $serializers = [])
     {
@@ -47,16 +49,16 @@ class StringJsonParseNodeFactory
         if (empty($contentType)) {
             throw new InvalidArgumentException('$contentType cannot be empty.');
         }
-        if (!in_array($contentType, $this->getValidContentTypes())){
+        if (!in_array($contentType, $this->getValidContentTypes())) {
             throw new InvalidArgumentException("Invalid content type: $contentType.");
         }
-        if (empty($string)){
+        if (empty($string)) {
             throw new InvalidArgumentException('$string cannot be empty.');
         }
         try {
             $content = $this->getSerializer($contentType)->deserialize($string);
-        } catch (Exception $ex){
-            throw new RuntimeException('The was a problem parsing the response.', 1, $ex);
+        } catch (Exception $ex) {
+            throw new RuntimeException('There was a problem parsing the response.', 1, $ex);
         }
         return new JsonParseNode($content);
     }
@@ -65,7 +67,8 @@ class StringJsonParseNodeFactory
      * Get an array of registered deserializers codes
      * @return string[]
      */
-    protected function getValidContentTypes(): array {
+    protected function getValidContentTypes(): array
+    {
         return array_keys($this->serializers);
     }
 
@@ -74,7 +77,8 @@ class StringJsonParseNodeFactory
      * @param $contentType
      * @return Serializer
      */
-    protected function getSerializer($contentType): Serializer {
+    protected function getSerializer(string $contentType): Serializer
+    {
         return $this->serializers[$contentType];
     }
 }

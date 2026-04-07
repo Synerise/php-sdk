@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Events\Push;
 
 use InvalidArgumentException;
@@ -15,6 +17,7 @@ class ReceivedValidator implements Validator
      * Validate PushReceivedEvent.
      * @param PushReceivedEvent $event
      * @inheritDoc
+     * @return array<int, string>
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
     {
@@ -22,15 +25,16 @@ class ReceivedValidator implements Validator
         $params = $event->getParams();
         if (empty($params)) {
             $invalid[] = 'Params are required';
-        }
-        $additionalData = $params->getAdditionalData();
-        if (!isset($additionalData['source']) && !is_a($additionalData['source'], EventSource::class)) {
-            $invalid[] = 'Event source is required';
+        } else {
+            $additionalData = $params->getAdditionalData();
+            if (!isset($additionalData['source']) || !($additionalData['source'] instanceof EventSource)) {
+                $invalid[] = 'Event source is required';
+            }
         }
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'PushReceivedEvent validation failed: ' . implode(', ', $invalid)
+                'PushReceivedEvent validation failed: ' . implode(', ', $invalid),
             );
         }
 

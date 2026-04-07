@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use RuntimeException;
 use Synerise\Api\V4\Models\AppearedInLocationEvent;
 use Synerise\Api\V4\Models\AppearedInLocationEventParams;
 use Synerise\Api\V4\Models\Client;
-use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\AppearedInLocationValidator;
-use Synerise\Sdk\Api\Validation\Events\Validator;
+use Synerise\Sdk\Tracking\EventSourceProvider;
 
 /**
  * @extends AbstractBaseBuilder<AppearedInLocationEvent>
@@ -43,7 +45,6 @@ class AppearedInLocationBuilder extends AbstractBaseBuilder
 
     /**
      * @inheritDoc
-     * @return Validator
      */
     public static function getValidator(): AppearedInLocationValidator
     {
@@ -54,7 +55,7 @@ class AppearedInLocationBuilder extends AbstractBaseBuilder
      * @param float $latitude
      * @return $this
      */
-    public function setLat(float $latitude): self
+    public function setLat(float $latitude): static
     {
         $this->getParams()->setLat($latitude);
         return $this;
@@ -64,7 +65,7 @@ class AppearedInLocationBuilder extends AbstractBaseBuilder
      * @param float $longitude
      * @return $this
      */
-    public function setLon(float $longitude): self
+    public function setLon(float $longitude): static
     {
         $this->getParams()->setLon($longitude);
         return $this;
@@ -85,6 +86,6 @@ class AppearedInLocationBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): AppearedInLocationEventParams
     {
-        return $this->getRequestBody()->getParams();
+        return $this->getRequestBody()->getParams() ?? throw new RuntimeException('Params not initialized');
     }
 }

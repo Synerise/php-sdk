@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Helper;
 
 class HashString
@@ -34,8 +36,8 @@ class HashString
             return $v - 4294967296;
         } elseif ($v < -2147483648) {
             return $v + 4294967296;
-        } else {
-            return $v;
         }
+        return $v;
+
     }
 }

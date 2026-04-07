@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Models;
 
 use Synerise\Api\V4\Models\Client;
@@ -36,7 +38,7 @@ class TransactionBuilder
         return $this->transaction;
     }
 
-    public function addProduct(Product $value): self
+    public function addProduct(Product $value): static
     {
         $products = $this->transaction->getProducts() ?? [];
         $products[] = $value;
@@ -45,9 +47,9 @@ class TransactionBuilder
         return $this;
     }
 
-    public function removeProduct(Product $value): self
+    public function removeProduct(Product $value): static
     {
-        $products = $this->transaction->getProducts();
+        $products = $this->transaction->getProducts() ?? [];
         foreach ($products as $i => $product) {
             if ($product->getSku() === $value->getSku()) {
                 array_splice($products, $i, 1);
@@ -64,7 +66,7 @@ class TransactionBuilder
      *
      * @param array<string,mixed> $value value to set for the AdditionalData property
      */
-    public function setAdditionalData(?array $value): self
+    public function setAdditionalData(?array $value): static
     {
         $this->transaction->setAdditionalData($value);
 
@@ -76,7 +78,7 @@ class TransactionBuilder
      *
      * @param Client|null $value value to set for the client property
      */
-    public function setClient(?Client $value): self
+    public function setClient(?Client $value): static
     {
         $this->transaction->setClient($value);
 
@@ -88,7 +90,7 @@ class TransactionBuilder
      *
      * @param DiscountAmount|null $value value to set for the discountAmount property
      */
-    public function setDiscountAmount(?DiscountAmount $value): self
+    public function setDiscountAmount(?DiscountAmount $value): static
     {
         $this->transaction->setDiscountAmount($value);
 
@@ -100,7 +102,7 @@ class TransactionBuilder
      *
      * @param string|null $value value to set for the eventSalt property
      */
-    public function setEventSalt(?string $value): self
+    public function setEventSalt(?string $value): static
     {
         $this->transaction->setEventSalt($value);
 
@@ -112,7 +114,7 @@ class TransactionBuilder
      *
      * @param TransactionMeta|null $value value to set for the metadata property
      */
-    public function setMetadata(?TransactionMeta $value): self
+    public function setMetadata(?TransactionMeta $value): static
     {
         $this->transaction->setMetadata($value);
 
@@ -124,7 +126,7 @@ class TransactionBuilder
      *
      * @param string|null $value value to set for the orderId property
      */
-    public function setOrderId(?string $value): self
+    public function setOrderId(?string $value): static
     {
         $this->transaction->setOrderId($value);
 
@@ -136,7 +138,7 @@ class TransactionBuilder
      *
      * @param PaymentInfo|null $value value to set for the paymentInfo property
      */
-    public function setPaymentInfo(?PaymentInfo $value): self
+    public function setPaymentInfo(?PaymentInfo $value): static
     {
         $this->transaction->setPaymentInfo($value);
 
@@ -148,7 +150,7 @@ class TransactionBuilder
      *
      * @param array<Product>|null $value value to set for the products property
      */
-    public function setProducts(?array $value): self
+    public function setProducts(?array $value): static
     {
         $this->transaction->setProducts($value);
 
@@ -160,7 +162,7 @@ class TransactionBuilder
      *
      * @param string|null $value value to set for the recordedAt property
      */
-    public function setRecordedAt(?string $value): self
+    public function setRecordedAt(?string $value): static
     {
         $this->transaction->setRecordedAt($value);
 
@@ -172,7 +174,7 @@ class TransactionBuilder
      *
      * @param Revenue|null $value value to set for the revenue property
      */
-    public function setRevenue(?Revenue $value): self
+    public function setRevenue(?Revenue $value): static
     {
         $this->transaction->setRevenue($value);
 
@@ -184,7 +186,7 @@ class TransactionBuilder
      *
      * @param EventSource|null $value value to set for the source property
      */
-    public function setSource(?EventSource $value): self
+    public function setSource(?EventSource $value): static
     {
         $this->transaction->setSource($value);
 
@@ -196,7 +198,7 @@ class TransactionBuilder
      *
      * @param Value|null $value value to set for the value property
      */
-    public function setValue(?Value $value): self
+    public function setValue(?Value $value): static
     {
         $this->transaction->setValue($value);
 

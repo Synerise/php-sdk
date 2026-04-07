@@ -6,8 +6,10 @@ use Microsoft\Kiota\Abstractions\BaseRequestBuilder;
 use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Synerise\Api\Search\Search\V2\Indices\Item\Attributes\AttributesRequestBuilder;
 use Synerise\Api\Search\Search\V2\Indices\Item\Autocomplete\AutocompleteRequestBuilder;
+use Synerise\Api\Search\Search\V2\Indices\Item\DeletedSearches\DeletedSearchesRequestBuilder;
 use Synerise\Api\Search\Search\V2\Indices\Item\EscapedList\ListRequestBuilder;
 use Synerise\Api\Search\Search\V2\Indices\Item\Query\QueryRequestBuilder;
+use Synerise\Api\Search\Search\V2\Indices\Item\RecentSearches\RecentSearchesRequestBuilder;
 use Synerise\Api\Search\Search\V2\Indices\Item\Visual\VisualRequestBuilder;
 
 /**
@@ -30,6 +32,13 @@ class WithIndexItemRequestBuilder extends BaseRequestBuilder
     }
     
     /**
+     * The deletedSearches property
+    */
+    public function deletedSearches(): DeletedSearchesRequestBuilder {
+        return new DeletedSearchesRequestBuilder($this->pathParameters, $this->requestAdapter);
+    }
+    
+    /**
      * The list property
     */
     public function escapedList(): ListRequestBuilder {
@@ -41,6 +50,13 @@ class WithIndexItemRequestBuilder extends BaseRequestBuilder
     */
     public function query(): QueryRequestBuilder {
         return new QueryRequestBuilder($this->pathParameters, $this->requestAdapter);
+    }
+    
+    /**
+     * The recentSearches property
+    */
+    public function recentSearches(): RecentSearchesRequestBuilder {
+        return new RecentSearchesRequestBuilder($this->pathParameters, $this->requestAdapter);
     }
     
     /**

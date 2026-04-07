@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          colors="true">
     <testsuites>
         <testsuite name="Synerise PHP SDK Test Suite">
             <directory>./tests</directory>
-            <exclude>./vendor</exclude>
         </testsuite>
     </testsuites>
-    <coverage processUncoveredFiles="true">
+    <source>
         <include>
             <directory suffix=".php">./src</directory>
         </include>
-        <exclude>
-            <directory>./vendor</directory>
-            <directory>./tests</directory>
-        </exclude>
-    </coverage>
+    </source>
     <php>
         <ini name="error_reporting" value="-1" />
         <ini name="display_errors" value="1" />

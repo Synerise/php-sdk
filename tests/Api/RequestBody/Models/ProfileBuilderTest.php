@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Synerise\Sdk\Api\RequestBody\Models;
 
 use InvalidArgumentException;
@@ -49,7 +51,7 @@ class ProfileBuilderTest extends TestCase
 
         $this->assertEquals(
             $attributeValue,
-            $profile->getAttributes()->getAdditionalData()[$attributeName]
+            $profile->getAttributes()->getAdditionalData()[$attributeName],
         );
 
         $profile = $this->profileBuilder

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Guzzle;
 
 use GuzzleHttp\Client;
@@ -11,7 +13,7 @@ class ClientFactory
 {
     /**
      * @param Config $config
-     * @param array $middlewares
+     * @param array<string, callable> $middlewares
      * @return Client
      */
     public function create(Config $config, array $middlewares = []): Client
@@ -20,14 +22,14 @@ class ClientFactory
             'headers' => $this->prepareHeaders($config),
             'connect_timeout' => $config->getTimeout(),
             'timeout' => $config->getTimeout(),
-            'handler' => $this->prepareHandler($middlewares)
+            'handler' => $this->prepareHandler($middlewares),
         ];
 
         return KiotaClientFactory::createWithConfig($options);
     }
 
     /**
-     * @param array $middlewares
+     * @param array<string, callable> $middlewares
      * @return HandlerStack
      */
     protected function prepareHandler(array $middlewares): HandlerStack
@@ -45,17 +47,17 @@ class ClientFactory
     /**
      * Get default headers
      * @param Config $config
-     * @return string[]
+     * @return array<string, string>
      */
     protected function prepareHeaders(Config $config): array
     {
         $headers = [
-            'User-Agent' => $config->getUserAgent(),
-            'Api-Version' => '4.4'
+            'User-Agent' => (string) $config->getUserAgent(),
+            'Api-Version' => '4.4',
         ];
 
         if ($config->isKeepAliveEnabled()) {
-            $headers['Connection'] = ['keep-alive'];
+            $headers['Connection'] = 'keep-alive';
         }
 
         return $headers;

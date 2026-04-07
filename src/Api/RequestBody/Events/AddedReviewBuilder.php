@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use RuntimeException;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\DefaultParamSource;
+use Synerise\Sdk\Api\Validation\Events\AddedReviewValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\AddedReviewValidator;
 
 /**
  * @extends AbstractBaseBuilder<CustomEvent>
@@ -56,7 +59,7 @@ class AddedReviewBuilder extends AbstractBaseBuilder
      * @param string|null $sku
      * @return $this
      */
-    public function setSku(?string $sku): self
+    public function setSku(?string $sku): static
     {
         if ($sku !== null) {
             $this->additionalData['sku'] = $sku;
@@ -70,7 +73,7 @@ class AddedReviewBuilder extends AbstractBaseBuilder
      * @param int|string|null $rating
      * @return $this
      */
-    public function setRating($rating): self
+    public function setRating($rating): static
     {
         if ($rating !== null) {
             $this->additionalData['rating'] = $rating;
@@ -84,7 +87,7 @@ class AddedReviewBuilder extends AbstractBaseBuilder
      * @param string|null $name
      * @return $this
      */
-    public function setName(?string $name): self
+    public function setName(?string $name): static
     {
         if ($name !== null) {
             $this->additionalData['name'] = $name;
@@ -98,7 +101,7 @@ class AddedReviewBuilder extends AbstractBaseBuilder
      * @param string|null $url
      * @return $this
      */
-    public function setUrl(?string $url): self
+    public function setUrl(?string $url): static
     {
         if ($url !== null) {
             $this->additionalData['url'] = $url;
@@ -112,7 +115,7 @@ class AddedReviewBuilder extends AbstractBaseBuilder
      * @param string|null $category
      * @return $this
      */
-    public function setCategory(?string $category): self
+    public function setCategory(?string $category): static
     {
         if ($category !== null) {
             $this->additionalData['category'] = $category;
@@ -126,7 +129,7 @@ class AddedReviewBuilder extends AbstractBaseBuilder
      * @param string[]|null $categories
      * @return $this
      */
-    public function setCategories(?array $categories): self
+    public function setCategories(?array $categories): static
     {
         if ($categories !== null) {
             $this->additionalData['categories'] = $categories;
@@ -140,9 +143,9 @@ class AddedReviewBuilder extends AbstractBaseBuilder
      * @param string|null $title
      * @return $this
      */
-    public function setTitle(?string $title): self
+    public function setTitle(?string $title): static
     {
-        if($title !== null) {
+        if ($title !== null) {
             $this->additionalData['title'] = $title;
         }
         return $this;
@@ -154,9 +157,9 @@ class AddedReviewBuilder extends AbstractBaseBuilder
      * @param string|null $comment
      * @return $this
      */
-    public function setComment(?string $comment): self
+    public function setComment(?string $comment): static
     {
-        if($comment !== null) {
+        if ($comment !== null) {
             $this->additionalData['comment'] = $comment;
         }
         return $this;
@@ -177,6 +180,6 @@ class AddedReviewBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): DefaultParamSource
     {
-        return $this->getRequestBody()->getParams();
+        return $this->getRequestBody()->getParams() ?? throw new RuntimeException('Params not initialized');
     }
 }

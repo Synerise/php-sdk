@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Cookie;
 
-use Synerise\Sdk\Exception\NotFoundException;
+use InvalidArgumentException;
+use RuntimeException;
 
 interface CookieAdapter
 {
@@ -10,7 +13,7 @@ interface CookieAdapter
      * Set cookie string value
      * @param string $name
      * @param string $value
-     * @throws \RuntimeException|\InvalidArgumentException
+     * @throws RuntimeException|InvalidArgumentException
      * @return void
      */
     public function setValue(string $name, string $value);

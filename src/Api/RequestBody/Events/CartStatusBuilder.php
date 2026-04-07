@@ -1,15 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use RuntimeException;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\CustomEvent;
 use Synerise\Api\V4\Models\DefaultParamSource;
 use Synerise\Api\V4\Models\Product;
+use Synerise\Sdk\Api\Validation\Events\CartStatusValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\CartStatusValidator;
 
+/**
+ * @extends AbstractBaseBuilder<CustomEvent>
+ */
 class CartStatusBuilder extends AbstractBaseBuilder
 {
     /**
@@ -57,7 +63,7 @@ class CartStatusBuilder extends AbstractBaseBuilder
      * @param Product[] $products
      * @return $this
      */
-    public function setProducts(array $products): self
+    public function setProducts(array $products): static
     {
         $this->additionalData['products'] = $products;
         return $this;
@@ -68,7 +74,7 @@ class CartStatusBuilder extends AbstractBaseBuilder
      * @param float $amount
      * @return $this
      */
-    public function setTotalAmount(float $amount): self
+    public function setTotalAmount(float $amount): static
     {
         $this->additionalData['total_amount'] = $amount;
         return $this;
@@ -79,7 +85,7 @@ class CartStatusBuilder extends AbstractBaseBuilder
      * @param float $quantity
      * @return $this
      */
-    public function setTotalQuantity(float $quantity): self
+    public function setTotalQuantity(float $quantity): static
     {
         $this->additionalData['total_quantity'] = $quantity;
         return $this;
@@ -100,6 +106,6 @@ class CartStatusBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): DefaultParamSource
     {
-        return $this->requestBody->getParams();
+        return $this->requestBody->getParams() ?? throw new RuntimeException('Params not initialized');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
@@ -12,6 +14,7 @@ class ApplicationStartedValidator implements Validator
      * Validate ApplicationStartedEvent.
      * @param ApplicationStartedEvent $event
      * @inheritDoc
+     * @return array<int, string>
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
     {
@@ -19,17 +22,18 @@ class ApplicationStartedValidator implements Validator
         $params = $event->getParams();
         if (empty($params)) {
             $invalid[] = 'Params are required';
-        }
-        if (empty($params->getApplicationName())) {
-            $invalid[] = 'Application name is required';
-        }
-        if (empty($params->getVersion())) {
-            $invalid[] = 'Version is required';
+        } else {
+            if (empty($params->getApplicationName())) {
+                $invalid[] = 'Application name is required';
+            }
+            if (empty($params->getVersion())) {
+                $invalid[] = 'Version is required';
+            }
         }
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'ApplicationStartedEvent validation failed: ' . implode(', ', $invalid)
+                'ApplicationStartedEvent validation failed: ' . implode(', ', $invalid),
             );
         }
 

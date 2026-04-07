@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
 use Synerise\Api\V4\Models\HitTimerEvent;
+use Synerise\Sdk\Api\Validation\Events\HitTimerValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\HitTimerValidator;
 
 /**
  * @extends AbstractBaseBuilder<HitTimerEvent>
@@ -68,9 +70,11 @@ class HitTimerBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): DefaultParamSource
     {
-        if (!$this->getRequestBody()->getParams()) {
-            $this->requestBody->setParams(new DefaultParamSource());
+        $params = $this->getRequestBody()->getParams();
+        if (!$params) {
+            $params = new DefaultParamSource();
+            $this->getRequestBody()->setParams($params);
         }
-        return $this->getRequestBody()->getParams();
+        return $params;
     }
 }

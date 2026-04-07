@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Model;
 
 interface AuthenticationMethodInterface extends Enum
@@ -10,6 +12,6 @@ interface AuthenticationMethodInterface extends Enum
 
     public const LABEL = [
         self::BEARER_VALUE => 'Bearer',
-        self::BASIC_VALUE => 'Basic'
+        self::BASIC_VALUE => 'Basic',
     ];
 }

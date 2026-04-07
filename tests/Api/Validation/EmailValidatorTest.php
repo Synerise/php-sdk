@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Tests\Api\Validation;
 
 use PHPUnit\Framework\TestCase;
@@ -36,7 +38,7 @@ class EmailValidatorTest extends TestCase
         'test[]@example.com',             // Invalid characters (square brackets) in local part
         'test@[300.300.300.300]',         // Invalid IP address (values > 255)
         'test@[123.123.123]',             // Incomplete IP address
-        'test@ąęść.com'                   // Diacritical marks in domain
+        'test@ąęść.com',                   // Diacritical marks in domain
     ];
 
     public function testValidEmail()

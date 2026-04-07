@@ -23,7 +23,7 @@ class ClientBuilderFactory implements ClientBuilderFactoryInterface
     public function __construct(
         AuthenticationProviderFactoryInterface $authenticationProviderFactory,
         RequestAdapterFactoryInterface $requestAdapterFactory,
-        ?MiddlewareFactoryInterface $middlewareFactory = null
+        ?MiddlewareFactoryInterface $middlewareFactory = null,
     ) {
         $this->authenticationProviderFactory = $authenticationProviderFactory;
         $this->requestAdapterFactory = $requestAdapterFactory;
@@ -43,7 +43,7 @@ class ClientBuilderFactory implements ClientBuilderFactoryInterface
             $requestAdapter = $this->requestAdapterFactory->create(
                 $config,
                 $authenticationProvider,
-                $this->middlewareFactory ? $this->middlewareFactory->create($config) : []
+                $this->middlewareFactory ? $this->middlewareFactory->create($config) : [],
             );
         }
 

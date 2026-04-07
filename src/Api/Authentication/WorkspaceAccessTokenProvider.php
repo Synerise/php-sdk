@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Authentication;
 
 use Http\Promise\FulfilledPromise;
@@ -10,9 +12,9 @@ use Microsoft\Kiota\Abstractions\RequestAdapter;
 use Synerise\Api\Uauth\Models\BusinessProfileAuthenticationRequest;
 use Synerise\Api\Uauth\Models\TokenResponse;
 use Synerise\Api\Uauth\Uauth;
-use Synerise\Sdk\Api\Config;
-use Synerise\Sdk\Api\Cache\TokenCacheInterface;
 use Synerise\Sdk\Api\Cache\InMemoryTokenCache;
+use Synerise\Sdk\Api\Cache\TokenCacheInterface;
+use Synerise\Sdk\Api\Config;
 
 class WorkspaceAccessTokenProvider implements AccessTokenProvider
 {
@@ -31,11 +33,11 @@ class WorkspaceAccessTokenProvider implements AccessTokenProvider
     private RequestAdapter $requestAdapter;
 
     /**
-     * Optional token cache
+     * Token cache
      *
-     * @var TokenCacheInterface|null
+     * @var TokenCacheInterface
      */
-    private ?TokenCacheInterface $tokenCache;
+    private TokenCacheInterface $tokenCache;
 
     /**
      * Key for storing token
@@ -54,7 +56,7 @@ class WorkspaceAccessTokenProvider implements AccessTokenProvider
     /**
      * Pick an authentication provider by config. If no request adapter provided, then it will be created by config.
      * @param Config $config
-     * @param RequestAdapter|null $requestAdapter
+     * @param RequestAdapter $requestAdapter
      * @param TokenCacheInterface|null $tokenCache
      * @param int $ttl
      */
@@ -62,14 +64,14 @@ class WorkspaceAccessTokenProvider implements AccessTokenProvider
         Config $config,
         RequestAdapter $requestAdapter,
         ?TokenCacheInterface $tokenCache = null,
-        int $ttl = 3550
+        int $ttl = 3550,
     ) {
         $requestAdapter->setBaseUrl($config->getApiHost() . '/uauth');
 
         $this->requestAdapter = $requestAdapter;
         $this->config = $config;
         $this->tokenCache = $tokenCache ?: new InMemoryTokenCache();
-        $this->cacheKey = 'synerise_token_' . md5($config->getApiKey());
+        $this->cacheKey = 'synerise_token_' . md5((string) $config->getApiKey());
         $this->ttl = $ttl;
     }
 
@@ -91,9 +93,12 @@ class WorkspaceAccessTokenProvider implements AccessTokenProvider
         $client = new Uauth($this->requestAdapter);
         $promise = $client->v2()->auth()->login()->profile()->post($request);
 
-        return $promise->then(function ($response) {
+        return $promise->then(function (?TokenResponse $response) {
+            if ($response === null) {
+                return null;
+            }
             $this->cacheToken($response);
-            return $response;
+            return $response->getToken();
         });
     }
 

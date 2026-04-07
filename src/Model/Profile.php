@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Model;
 
 use Microsoft\Kiota\Abstractions\Serialization\Parsable;
@@ -20,7 +22,7 @@ class Profile implements Parsable
     private ?BaseParams $baseParams;
 
     /**
-     * @var array|null
+     * @var array<string, string>|null
      */
     private ?array $extraParams;
 
@@ -29,13 +31,14 @@ class Profile implements Parsable
      * @param ParseNode $parseNode The parse node to use to read the discriminator value and create the object
      * @return Profile
      */
-    public static function createFromDiscriminatorValue(ParseNode $parseNode): Profile {
+    public static function createFromDiscriminatorValue(ParseNode $parseNode): Profile
+    {
         return new Profile();
     }
 
     /**
      * Get base params
-     * @return BaseParams
+     * @return BaseParams|null
      */
     public function getBaseParams(): ?BaseParams
     {
@@ -44,7 +47,7 @@ class Profile implements Parsable
 
     /**
      * Get extra params as array
-     * @return string[]|null
+     * @return array<string, string>|null
      */
     public function getExtraParams(): ?array
     {
@@ -60,7 +63,6 @@ class Profile implements Parsable
         return $this->uuid;
     }
 
-
     /**
      * Get single value from extra params if exists
      * @param string $name
@@ -75,11 +77,19 @@ class Profile implements Parsable
      * The deserialization information for the current model
      * @return array<string, callable(ParseNode): void>
      */
-    public function getFieldDeserializers(): array {
+    public function getFieldDeserializers(): array
+    {
         $o = $this;
         return  [
             'baseParams' => fn(ParseNode $n) => $o->setBaseParams($n->getObjectValue([BaseParams::class, 'createFromDiscriminatorValue'])),
-            'extraParams' => fn(ParseNode $n) => $o->setExtraParams($n->getCollectionOfPrimitiveValues()),
+            'extraParams' => function (ParseNode $n) use ($o) {
+                if ($n->getBinaryContent() === null) {
+                    $o->setExtraParams(null);
+                    return;
+                }
+                $decoded = json_decode($n->getBinaryContent()->getContents(), true);
+                $o->setExtraParams(is_array($decoded) ? $decoded : null);
+            },
             'uuid' => fn(ParseNode $n) => $o->setUuid($n->getStringValue()),
         ];
     }
@@ -88,24 +98,27 @@ class Profile implements Parsable
      * Serializes information the current object
      * @param SerializationWriter $writer Serialization writer to use to serialize this model
      */
-    public function serialize(SerializationWriter $writer): void {
+    public function serialize(SerializationWriter $writer): void
+    {
         $writer->writeObjectValue('baseParams', $this->getBaseParams());
         $writer->writeCollectionOfPrimitiveValues('extraParams', $this->getExtraParams());
         $writer->writeStringValue('uuid', $this->getUuid());
     }
 
-    public function setBaseParams(?BaseParams $baseParams)
+    public function setBaseParams(?BaseParams $baseParams): void
     {
         $this->baseParams = $baseParams;
     }
 
-    public function setExtraParams(?array $extraParams)
+    /**
+     * @param array<string, string>|null $extraParams
+     */
+    public function setExtraParams(?array $extraParams): void
     {
         $this->extraParams = $extraParams;
     }
 
-
-    public function setUuid(?string $uuid)
+    public function setUuid(?string $uuid): void
     {
         $this->uuid = $uuid;
     }

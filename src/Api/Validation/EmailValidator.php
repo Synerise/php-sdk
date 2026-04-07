@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation;
 
 class EmailValidator
@@ -10,7 +12,7 @@ class EmailValidator
      * Validate email
      *
      * @param string|null $email
-     * @return array
+     * @return array<int, string>
      */
     public static function validate(?string $email): array
     {
@@ -25,7 +27,7 @@ class EmailValidator
                 'Invalid email address format: %s. ' .
                 'The email address must be in a valid format, e.g., "name@domain.com" ' .
                 'or "first.last@sub.domain.com".',
-                $email
+                $email,
             );
         }
 

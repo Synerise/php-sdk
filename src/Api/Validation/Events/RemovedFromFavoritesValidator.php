@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
@@ -12,6 +14,7 @@ class RemovedFromFavoritesValidator implements Validator
      * Validate product.removeFromFavorites CustomEvent.
      * @param CustomEvent $event
      * @inheritDoc
+     * @return array<int, string>
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
     {
@@ -28,7 +31,7 @@ class RemovedFromFavoritesValidator implements Validator
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'product.removeFromFavorites CustomEvent validation failed: ' . implode(', ', $invalid)
+                'product.removeFromFavorites CustomEvent validation failed: ' . implode(', ', $invalid),
             );
         }
 

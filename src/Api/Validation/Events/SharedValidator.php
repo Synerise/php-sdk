@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
@@ -13,6 +15,7 @@ class SharedValidator implements Validator
      * Validate SharedEvent.
      * @param SharedEvent $event
      * @inheritDoc
+     * @return array<int, string>
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
     {
@@ -20,15 +23,16 @@ class SharedValidator implements Validator
         $params = $event->getParams();
         if (empty($params)) {
             $invalid[] = 'Params are required';
-        }
-        $additionalData = $params->getAdditionalData();
-        if (!isset($additionalData['source']) && !is_a($additionalData['source'], EventSource::class)) {
-            $invalid[] = 'Event source is required';
+        } else {
+            $additionalData = $params->getAdditionalData();
+            if (!isset($additionalData['source']) || !($additionalData['source'] instanceof EventSource)) {
+                $invalid[] = 'Event source is required';
+            }
         }
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'SharedEvent validation failed: ' . implode(', ', $invalid)
+                'SharedEvent validation failed: ' . implode(', ', $invalid),
             );
         }
 

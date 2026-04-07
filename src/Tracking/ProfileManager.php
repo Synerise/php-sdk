@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Tracking;
 
 use InvalidArgumentException;
@@ -11,17 +13,17 @@ interface ProfileManager
 {
     /**
      * Get tracking Profile object
-     * @return Profile
      * @throws RuntimeException|NotFoundException
-     *
+     * @return Profile
      */
     public function getProfile(): Profile;
 
     /**
      * Reset uuid value
      * @param string $uuid
-     * @return void
+     * @param string|null $emailHash
      * @throws RuntimeException|InvalidArgumentException|NotFoundException
+     * @return void
      */
-    public function resetProfile(string $uuid);
+    public function resetProfile(string $uuid, ?string $emailHash = null);
 }

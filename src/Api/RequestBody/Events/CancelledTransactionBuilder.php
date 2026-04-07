@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use RuntimeException;
 use Synerise\Api\V4\Models\CancelledTransactionEvent;
 use Synerise\Api\V4\Models\CancelledTransactionEventParams;
 use Synerise\Api\V4\Models\Client;
+use Synerise\Sdk\Api\Validation\Events\AddedToFavoritesValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\AddedToFavoritesValidator;
 
 /**
  * @extends AbstractBaseBuilder<CancelledTransactionEvent>
@@ -60,7 +63,7 @@ class CancelledTransactionBuilder extends AbstractBaseBuilder
      * @param string $orderId
      * @return $this
      */
-    public function setOrderId(string $orderId): self
+    public function setOrderId(string $orderId): static
     {
         $this->getParams()->setOrderId($orderId);
         return $this;
@@ -81,6 +84,6 @@ class CancelledTransactionBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): CancelledTransactionEventParams
     {
-        return $this->getRequestBody()->getParams();
+        return $this->getRequestBody()->getParams() ?? throw new RuntimeException('Params not initialized');
     }
 }

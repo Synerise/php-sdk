@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Tests\Api\Validation\Models;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DiscountAmount;
@@ -210,7 +213,7 @@ class TransactionValidatorTest extends TestCase
         $transaction->setRevenue($revenue);
 
         // Assert
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         // Act
         TransactionValidator::validate($transaction, true);

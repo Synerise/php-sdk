@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Guzzle;
 
 use Microsoft\Kiota\Abstractions\Authentication\AuthenticationProvider;
@@ -14,7 +16,7 @@ interface RequestAdapterFactoryInterface
      * Create request adapter with authentication provider
      * @param Config $config
      * @param AuthenticationProvider $authenticationProvider
-     * @param array $middlewares
+     * @param array<string, callable> $middlewares
      * @param ParseNodeFactory|null $parseNodeFactory
      * @param SerializationWriterFactory|null $serializationWriterFactory
      * @return RequestAdapter
@@ -24,6 +26,6 @@ interface RequestAdapterFactoryInterface
         AuthenticationProvider $authenticationProvider,
         array $middlewares = [],
         ?ParseNodeFactory $parseNodeFactory = null,
-        ?SerializationWriterFactory $serializationWriterFactory = null
+        ?SerializationWriterFactory $serializationWriterFactory = null,
     ): RequestAdapter;
 }

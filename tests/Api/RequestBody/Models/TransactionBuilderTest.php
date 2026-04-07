@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Synerise\Sdk\Api\RequestBody\Models;
 
 use InvalidArgumentException;
@@ -107,22 +109,21 @@ class TransactionBuilderTest extends TestCase
         $this->assertCount(2, $transaction->getProducts());
         $this->assertEquals(
             $product1->getSku(),
-            $transaction->getProducts()[0]->getSku()
+            $transaction->getProducts()[0]->getSku(),
         );
         $this->assertEquals(
             $product2->getSku(),
-            $transaction->getProducts()[1]->getSku()
+            $transaction->getProducts()[1]->getSku(),
         );
 
         $transaction = $this->transactionBuilder
             ->removeProduct($product1)
             ->build();
 
-
         $this->assertCount(1, $transaction->getProducts());
         $this->assertEquals(
             $product2->getSku(),
-            $transaction->getProducts()[0]->getSku()
+            $transaction->getProducts()[0]->getSku(),
         );
 
         $transaction = $this->transactionBuilder
@@ -260,7 +261,7 @@ class TransactionBuilderTest extends TestCase
         $metadata = new TransactionMeta();
         $metadata->setAdditionalData([
             'status' => 'STATUS',
-            'discountCode' => 'CODE'
+            'discountCode' => 'CODE',
         ]);
 
         $transaction = $this->transactionBuilder

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
@@ -12,6 +14,7 @@ class AssignedToCompanyValidator implements Validator
      * Validate AssignedToCompanyPostRequestBody.
      * @param AssignedToCompanyPostRequestBody $event
      * @inheritDoc
+     * @return array<int, string>
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
     {
@@ -19,14 +22,15 @@ class AssignedToCompanyValidator implements Validator
         $params = $event->getParams();
         if (empty($params)) {
             $invalid[] = 'Params are required';
-        }
-        if (empty($params->getCompanyId())) {
-            $invalid[] = 'Company id is required';
+        } else {
+            if (empty($params->getCompanyId())) {
+                $invalid[] = 'Company id is required';
+            }
         }
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'AssignedToCompanyPostRequestBody validation failed: ' . implode(', ', $invalid)
+                'AssignedToCompanyPostRequestBody validation failed: ' . implode(', ', $invalid),
             );
         }
 

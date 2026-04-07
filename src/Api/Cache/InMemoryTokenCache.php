@@ -1,32 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Cache;
 
 class InMemoryTokenCache implements TokenCacheInterface
 {
-    private static array $tokens = [];
-    private static array $expirations = [];
+    /** @var array<string, string> */
+    private array $tokens = [];
+    /** @var array<string, int> */
+    private array $expirations = [];
 
     public function getToken(string $key): ?string
     {
-        if (isset(self::$tokens[$key]) && isset(self::$expirations[$key])) {
-            if (time() < self::$expirations[$key]) {
-                return self::$tokens[$key];
+        if (isset($this->tokens[$key]) && isset($this->expirations[$key])) {
+            if (time() < $this->expirations[$key]) {
+                return $this->tokens[$key];
             }
             // Clean up expired token
-            unset(self::$tokens[$key], self::$expirations[$key]);
+            unset($this->tokens[$key], $this->expirations[$key]);
         }
         return null;
     }
 
     public function setToken(string $key, string $token, int $ttl): void
     {
-        self::$tokens[$key] = $token;
-        self::$expirations[$key] = time() + $ttl;
+        $this->tokens[$key] = $token;
+        $this->expirations[$key] = time() + $ttl;
     }
 
     public function clearToken(string $key): void
     {
-        unset(self::$tokens[$key], self::$expirations[$key]);
+        unset($this->tokens[$key], $this->expirations[$key]);
     }
 }

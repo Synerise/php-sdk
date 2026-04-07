@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use RuntimeException;
 use Synerise\Api\V4\Events\AssignedToCompany\AssignedToCompanyPostRequestBody;
 use Synerise\Api\V4\Events\AssignedToCompany\AssignedToCompanyPostRequestBody_params;
 use Synerise\Api\V4\Models\Client;
+use Synerise\Sdk\Api\Validation\Events\AssignedToCompanyValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\AssignedToCompanyValidator;
 
 /**
  * @extends AbstractBaseBuilder<AssignedToCompanyPostRequestBody>
@@ -59,7 +62,7 @@ class AssignedToCompanyBuilder extends AbstractBaseBuilder
      * @param float $companyId
      * @return $this
      */
-    public function setCompanyId(float $companyId): self
+    public function setCompanyId(float $companyId): static
     {
         $this->getParams()->setCompanyId($companyId);
         return $this;
@@ -80,6 +83,6 @@ class AssignedToCompanyBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): AssignedToCompanyPostRequestBody_params
     {
-        return $this->getRequestBody()->getParams();
+        return $this->getRequestBody()->getParams() ?? throw new RuntimeException('Params not initialized');
     }
 }

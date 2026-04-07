@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use RuntimeException;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\ProductViewEvent;
 use Synerise\Api\V4\Models\ProductViewEventParams;
+use Synerise\Sdk\Api\Validation\Events\ProductViewValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\ProductViewValidator;
 
 /**
  * @extends AbstractBaseBuilder<ProductViewEvent>
@@ -60,7 +63,7 @@ class ProductViewBuilder extends AbstractBaseBuilder
      * @param string $name
      * @return $this
      */
-    public function setName(string $name): self
+    public function setName(string $name): static
     {
         $this->getParams()->setName($name);
         return $this;
@@ -72,7 +75,7 @@ class ProductViewBuilder extends AbstractBaseBuilder
      * @param string $category
      * @return $this
      */
-    public function setCategory(string $category): self
+    public function setCategory(string $category): static
     {
         $this->getParams()->setCategory($category);
         return $this;
@@ -84,7 +87,7 @@ class ProductViewBuilder extends AbstractBaseBuilder
      * @param string $campaignHash
      * @return $this
      */
-    public function setCampaignHash(string $campaignHash): self
+    public function setCampaignHash(string $campaignHash): static
     {
         $this->getParams()->setCampaignHash($campaignHash);
         return $this;
@@ -96,7 +99,7 @@ class ProductViewBuilder extends AbstractBaseBuilder
      * @param bool $fromRecommendation
      * @return $this
      */
-    public function setFromRecommendation(bool $fromRecommendation): self
+    public function setFromRecommendation(bool $fromRecommendation): static
     {
         $this->getParams()->setFromRecommendation($fromRecommendation);
         return $this;
@@ -108,7 +111,7 @@ class ProductViewBuilder extends AbstractBaseBuilder
      * @param string $productId
      * @return $this
      */
-    public function setProductId(string $productId): self
+    public function setProductId(string $productId): static
     {
         $this->getParams()->setProductId($productId);
         return $this;
@@ -120,7 +123,7 @@ class ProductViewBuilder extends AbstractBaseBuilder
      * @param string $url
      * @return $this
      */
-    public function setUrl(string $url): self
+    public function setUrl(string $url): static
     {
         $this->getParams()->setUrl($url);
         return $this;
@@ -141,6 +144,6 @@ class ProductViewBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): ProductViewEventParams
     {
-        return $this->getRequestBody()->getParams();
+        return $this->getRequestBody()->getParams() ?? throw new RuntimeException('Params not initialized');
     }
 }

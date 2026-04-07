@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Models;
 
+use InvalidArgumentException;
 use Synerise\Api\V4\Models\Product;
 
 class ProductValidator
@@ -9,7 +12,7 @@ class ProductValidator
     /**
      * Validate Product
      * @param Product $product
-     * @return array
+     * @return array<int, string>
      */
     public static function validate(Product $product, bool $throwOnError = true): array
     {
@@ -44,8 +47,8 @@ class ProductValidator
         }
 
         if ($throwOnError && !empty($errors)) {
-            throw new \InvalidArgumentException(
-                'Product validation failed: ' . implode(', ', $errors)
+            throw new InvalidArgumentException(
+                'Product validation failed: ' . implode(', ', $errors),
             );
         }
 
@@ -56,7 +59,7 @@ class ProductValidator
      * Validate product sku
      *
      * @param string|null $sku
-     * @return array
+     * @return array<int, string>
      */
     public static function validateSku(?string $sku): array
     {
@@ -73,7 +76,7 @@ class ProductValidator
      * Validate product name
      *
      * @param string|null $name
-     * @return array
+     * @return array<int, string>
      */
     public static function validateName(?string $name): array
     {

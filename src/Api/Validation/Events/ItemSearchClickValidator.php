@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
@@ -12,6 +14,7 @@ class ItemSearchClickValidator implements Validator
      * Validate ItemSearchClickEventData.
      * @param ItemSearchClickEventData $event
      * @inheritDoc
+     * @return array<int, string>
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
     {
@@ -19,23 +22,24 @@ class ItemSearchClickValidator implements Validator
         $params = $event->getParams();
         if (empty($params)) {
             $invalid[] = 'Params are required';
-        }
-        if (empty($params->getCorrelationId())) {
-            $invalid[] = 'Correlation id is required';
-        }
-        if (empty($params->getItem())) {
-            $invalid[] = 'Item is required';
-        }
-        if (empty($params->getPosition())) {
-            $invalid[] = 'Position is required';
-        }
-        if (empty($params->getSearchType())) {
-            $invalid[] = 'Search type is required';
+        } else {
+            if (empty($params->getCorrelationId())) {
+                $invalid[] = 'Correlation id is required';
+            }
+            if (empty($params->getItem())) {
+                $invalid[] = 'Item is required';
+            }
+            if (empty($params->getPosition())) {
+                $invalid[] = 'Position is required';
+            }
+            if (empty($params->getSearchType())) {
+                $invalid[] = 'Search type is required';
+            }
         }
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'ItemSearchClickEventData validation failed: ' . implode(', ', $invalid)
+                'ItemSearchClickEventData validation failed: ' . implode(', ', $invalid),
             );
         }
 

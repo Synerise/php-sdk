@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use RuntimeException;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
 use Synerise\Api\V4\Models\LoggedInEvent;
+use Synerise\Sdk\Api\Validation\Events\LoggedInValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\LoggedInValidator;
 
 /**
  * @extends AbstractBaseBuilder<LoggedInEvent>
@@ -69,6 +72,6 @@ class LoggedInBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): DefaultParamSource
     {
-        return $this->getRequestBody()->getParams();
+        return $this->getRequestBody()->getParams() ?? throw new RuntimeException('Params not initialized');
     }
 }

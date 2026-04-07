@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Tests\Api\Validation\Models;
 
 use InvalidArgumentException;
@@ -17,7 +19,7 @@ class ProfileValidatorTest extends TestCase
         $attributes = new Attributes();
         $attributes->setAdditionalData([
             'custom_field' => 'value',
-            'another_field' => 123
+            'another_field' => 123,
         ]);
 
         $profile->setAttributes($attributes);
@@ -39,7 +41,7 @@ class ProfileValidatorTest extends TestCase
         $attributes = new Attributes();
         $attributes->setAdditionalData([
             'email' => 'test@example.com',
-            'phone' => '+48123456789'
+            'phone' => '+48123456789',
         ]);
 
         $profile->setAttributes($attributes);

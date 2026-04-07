@@ -1,7 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Cookie;
 
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
 use Synerise\Sdk\Exception\NotFoundException;
 use Synerise\Sdk\Model\Profile;
 use Synerise\Sdk\Tracking\ProfileManager;
@@ -25,7 +30,7 @@ class CookieProfileManager implements ProfileManager
 
     public function __construct(
         CookieAdapter $cookieAdapter,
-        ?CookieProfileFactory $profileFactory = null
+        ?CookieProfileFactory $profileFactory = null,
     ) {
         $this->cookieAdapter = $cookieAdapter;
         $this->profileFactory = $profileFactory ?: new CookieProfileFactory();
@@ -41,8 +46,8 @@ class CookieProfileManager implements ProfileManager
                 $this->profile = $this->profileFactory->create();
             } catch (NotFoundException $e) {
                 throw $e;
-            } catch (\Exception $e) {
-                throw new \RuntimeException('There was a problem getting Profile', 0, $e);
+            } catch (Exception $e) {
+                throw new RuntimeException('There was a problem getting Profile', 0, $e);
             }
         }
         return $this->profile;
@@ -54,10 +59,10 @@ class CookieProfileManager implements ProfileManager
     public function resetProfile(string $uuid, ?string $emailHash = null)
     {
         if (empty($uuid)) {
-            throw new \InvalidArgumentException('Failed to reset profile. Uuid cannot be empty');
+            throw new InvalidArgumentException('Failed to reset profile. Uuid cannot be empty');
         }
         $this->getProfile()->setUuid($uuid);
-        if ($emailHash) {
+        if ($emailHash && $this->getProfile()->getBaseParams()) {
             $this->getProfile()->getBaseParams()->setIdentityHash($emailHash);
         }
         $this->cookieAdapter->setValue(Constants::COOKIE_RESET_UUID, $uuid);

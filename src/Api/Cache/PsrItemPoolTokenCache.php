@@ -1,24 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Cache;
 
+use Exception;
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Log\LoggerInterface;
 
 class PsrItemPoolTokenCache implements TokenCacheInterface
 {
     private CacheItemPoolInterface $cache;
+    private ?LoggerInterface $logger;
 
-    public function __construct(CacheItemPoolInterface $cache)
+    public function __construct(CacheItemPoolInterface $cache, ?LoggerInterface $logger = null)
     {
         $this->cache = $cache;
+        $this->logger = $logger;
     }
 
     public function getToken(string $key): ?string
     {
         try {
             $item = $this->cache->getItem($key);
-            return $item->isHit() ? $item->get() : null;
-        } catch (\Exception $e) {
+            if (!$item->isHit()) {
+                return null;
+            }
+            $value = $item->get();
+            return is_string($value) ? $value : null;
+        } catch (Exception $e) {
+            if ($this->logger) {
+                $this->logger->warning('Failed to get token from cache', ['key' => $key, 'exception' => $e]);
+            }
             return null;
         }
     }
@@ -30,8 +43,10 @@ class PsrItemPoolTokenCache implements TokenCacheInterface
             $item->set($token);
             $item->expiresAfter($ttl);
             $this->cache->save($item);
-        } catch (\Exception $e) {
-            // Silently handle cache errors
+        } catch (Exception $e) {
+            if ($this->logger) {
+                $this->logger->warning('Failed to set token in cache', ['key' => $key, 'exception' => $e]);
+            }
         }
     }
 
@@ -39,8 +54,10 @@ class PsrItemPoolTokenCache implements TokenCacheInterface
     {
         try {
             $this->cache->deleteItem($key);
-        } catch (\Exception $e) {
-            // Silently handle cache errors
+        } catch (Exception $e) {
+            if ($this->logger) {
+                $this->logger->warning('Failed to clear token from cache', ['key' => $key, 'exception' => $e]);
+            }
         }
     }
 }

@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use RuntimeException;
 use Synerise\Api\V4\Models\CartEvent;
 use Synerise\Api\V4\Models\CartEventParams;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DiscountedUnitPrice;
 use Synerise\Api\V4\Models\FinalUnitPrice;
 use Synerise\Api\V4\Models\RegularUnitPrice;
+use Synerise\Sdk\Api\Validation\Events\CartEventValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\CartEventValidator;
 
 /**
  * @extends AbstractBaseBuilder<CartEvent>
@@ -51,7 +54,7 @@ class AbstractCartBuilder extends AbstractBaseBuilder
      * @param FinalUnitPrice|null $finalUnitPrice
      * @return $this
      */
-    public function setFinalUnitPrice(?FinalUnitPrice $finalUnitPrice): self
+    public function setFinalUnitPrice(?FinalUnitPrice $finalUnitPrice): static
     {
         $this->getParams()->setFinalUnitPrice($finalUnitPrice);
         return $this;
@@ -63,7 +66,7 @@ class AbstractCartBuilder extends AbstractBaseBuilder
      * @param string|null $sku
      * @return $this
      */
-    public function setSku(?string $sku): self
+    public function setSku(?string $sku): static
     {
         $this->getParams()->setSku($sku);
         return $this;
@@ -75,7 +78,7 @@ class AbstractCartBuilder extends AbstractBaseBuilder
      * @param float|null $quantity
      * @return $this
      */
-    public function setQuantity(?float $quantity): self
+    public function setQuantity(?float $quantity): static
     {
         $this->getParams()->setQuantity($quantity);
         return $this;
@@ -87,7 +90,7 @@ class AbstractCartBuilder extends AbstractBaseBuilder
      * @param string|null $name
      * @return $this
      */
-    public function setName(?string $name): self
+    public function setName(?string $name): static
     {
         $this->getParams()->setName($name);
         return $this;
@@ -99,7 +102,7 @@ class AbstractCartBuilder extends AbstractBaseBuilder
      * @param bool|null $offline
      * @return $this
      */
-    public function setOffline(?bool $offline): self
+    public function setOffline(?bool $offline): static
     {
         $this->getParams()->setOffline($offline);
         return $this;
@@ -111,7 +114,7 @@ class AbstractCartBuilder extends AbstractBaseBuilder
      * @param string|null $producer
      * @return $this
      */
-    public function setProducer(?string $producer): self
+    public function setProducer(?string $producer): static
     {
         $this->getParams()->setProducer($producer);
         return $this;
@@ -123,7 +126,7 @@ class AbstractCartBuilder extends AbstractBaseBuilder
      * @param string|null $itemUrlAddress
      * @return $this
      */
-    public function setItemUrlAddress(?string $itemUrlAddress): self
+    public function setItemUrlAddress(?string $itemUrlAddress): static
     {
         $this->getParams()->setItemUrlAddress($itemUrlAddress);
         return $this;
@@ -135,7 +138,7 @@ class AbstractCartBuilder extends AbstractBaseBuilder
      * @param string|null $category
      * @return $this
      */
-    public function setCategory(?string $category): self
+    public function setCategory(?string $category): static
     {
         $this->getParams()->setCategory($category);
         return $this;
@@ -147,7 +150,7 @@ class AbstractCartBuilder extends AbstractBaseBuilder
      * @param string[]|null $categories
      * @return $this
      */
-    public function setCategories(?array $categories): self
+    public function setCategories(?array $categories): static
     {
         $this->getParams()->setCategories($categories);
         return $this;
@@ -159,7 +162,7 @@ class AbstractCartBuilder extends AbstractBaseBuilder
      * @param DiscountedUnitPrice|null $discountedUnitPrice
      * @return $this
      */
-    public function setDiscountedUnitPrice(?DiscountedUnitPrice $discountedUnitPrice): self
+    public function setDiscountedUnitPrice(?DiscountedUnitPrice $discountedUnitPrice): static
     {
         $this->getParams()->setDiscountedUnitPrice($discountedUnitPrice);
         return $this;
@@ -171,23 +174,9 @@ class AbstractCartBuilder extends AbstractBaseBuilder
      * @param RegularUnitPrice|null $regularUnitPrice
      * @return $this
      */
-    public function setRegularUnitPrice(?RegularUnitPrice $regularUnitPrice): self
+    public function setRegularUnitPrice(?RegularUnitPrice $regularUnitPrice): static
     {
         $this->getParams()->setRegularUnitPrice($regularUnitPrice);
-        return $this;
-    }
-
-    /**
-     * Set snrsParams. Params set by url query.
-     * Optional.
-     * @param array|null $params
-     * @return $this
-     */
-    public function setSnrsParams(?array $params): self
-    {
-        if ($params) {
-            $this->additionalData['snrsParams'] = $params;
-        }
         return $this;
     }
 
@@ -206,6 +195,6 @@ class AbstractCartBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): CartEventParams
     {
-        return $this->requestBody->getParams();
+        return $this->requestBody->getParams() ?? throw new RuntimeException('Params not initialized');
     }
 }

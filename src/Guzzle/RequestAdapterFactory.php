@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Guzzle;
 
 use Microsoft\Kiota\Abstractions\Authentication\AuthenticationProvider;
@@ -19,27 +21,27 @@ class RequestAdapterFactory implements RequestAdapterFactoryInterface
     private ClientFactory $guzzleClientFactory;
 
     public function __construct(
-        ClientFactory $guzzleClientFactory
+        ClientFactory $guzzleClientFactory,
     ) {
         $this->guzzleClientFactory = $guzzleClientFactory;
     }
 
     /**
      * @inheritdoc
+     * @param array<string, callable> $middlewares
      */
     public function create(
         Config $config,
         AuthenticationProvider $authenticationProvider,
         array $middlewares = [],
         ?ParseNodeFactory $parseNodeFactory = null,
-        ?SerializationWriterFactory $serializationWriterFactory = null
-    ): RequestAdapter
-    {
+        ?SerializationWriterFactory $serializationWriterFactory = null,
+    ): RequestAdapter {
         return new GuzzleRequestAdapter(
             $authenticationProvider,
             $parseNodeFactory ?: new JsonParseNodeFactory(),
             $serializationWriterFactory ?: new JsonSerializationWriterFactory(),
-            $this->guzzleClientFactory->create($config, $middlewares)
+            $this->guzzleClientFactory->create($config, $middlewares),
         );
     }
 }

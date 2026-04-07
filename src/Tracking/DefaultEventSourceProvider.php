@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Tracking;
 
 use Detection\Exception\MobileDetectException;
@@ -35,9 +37,9 @@ class DefaultEventSourceProvider implements EventSourceProvider
             try {
                 if ($this->mobileDetect->isMobile() || $this->mobileDetect->isTablet()) {
                     return new EventSource(EventSource::W_E_B__M_O_B_I_L_E);
-                } else {
-                    return new EventSource(EventSource::W_E_B__D_E_S_K_T_O_P);
                 }
+                return new EventSource(EventSource::W_E_B__D_E_S_K_T_O_P);
+
             } catch (MobileDetectException $e) {
                 throw new RuntimeException('EventSourceProvider warning', 0, $e);
             }

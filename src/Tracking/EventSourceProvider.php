@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Tracking;
 
 use RuntimeException;
@@ -9,8 +11,8 @@ interface EventSourceProvider
 {
     /**
      * Determine and provide event source
-     * @return EventSource
      * @throws RuntimeException
+     * @return EventSource
      */
     public function getEventSource(): EventSource;
 }

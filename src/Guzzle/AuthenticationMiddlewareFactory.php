@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Guzzle;
 
 use Synerise\Sdk\Api\Config;
@@ -16,14 +18,14 @@ class AuthenticationMiddlewareFactory implements MiddlewareFactoryInterface
      * @param RetryMiddlewareFactory|null $retryMiddlewareFactory
      */
     public function __construct(
-        ?RetryMiddlewareFactory $retryMiddlewareFactory = null
-    )
-    {
+        ?RetryMiddlewareFactory $retryMiddlewareFactory = null,
+    ) {
         $this->retryMiddlewareFactory = $retryMiddlewareFactory;
     }
 
     /**
      * @inheritDoc
+     * @return array<string, callable>
      */
     public function create(Config $config): array
     {

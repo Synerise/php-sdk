@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use RuntimeException;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\ItemSearchClickEventData;
 use Synerise\Api\V4\Models\ItemSearchClickEventDataParams;
 use Synerise\Api\V4\Models\SearchType;
+use Synerise\Sdk\Api\Validation\Events\ItemSearchClickValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\ItemSearchClickValidator;
 
 /**
  * @extends AbstractBaseBuilder<ItemSearchClickEventData>
@@ -59,9 +62,9 @@ class ItemSearchClickBuilder extends AbstractBaseBuilder
      * Set correlation id
      * Required.
      * @param string $correlationId
-     * @return self
+     * @return $this
      */
-    public function setCorrelationId(string $correlationId): self
+    public function setCorrelationId(string $correlationId): static
     {
         $this->getParams()->setCorrelationId($correlationId);
         return $this;
@@ -71,9 +74,9 @@ class ItemSearchClickBuilder extends AbstractBaseBuilder
      * Set item
      * Required.
      * @param string $item
-     * @return self
+     * @return $this
      */
-    public function setItem(string $item): self
+    public function setItem(string $item): static
     {
         $this->getParams()->setItem($item);
         return $this;
@@ -83,9 +86,9 @@ class ItemSearchClickBuilder extends AbstractBaseBuilder
      * Set position
      * Required.
      * @param int $position
-     * @return self
+     * @return $this
      */
-    public function setPosition(int $position): self
+    public function setPosition(int $position): static
     {
         $this->getParams()->setPosition($position);
         return $this;
@@ -95,9 +98,9 @@ class ItemSearchClickBuilder extends AbstractBaseBuilder
      * Set search type
      * Required.
      * @param SearchType $searchType
-     * @return self
+     * @return $this
      */
-    public function setSearchType(SearchType $searchType): self
+    public function setSearchType(SearchType $searchType): static
     {
         $this->getParams()->setSearchType($searchType);
         return $this;
@@ -118,6 +121,6 @@ class ItemSearchClickBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): ItemSearchClickEventDataParams
     {
-        return $this->getRequestBody()->getParams();
+        return $this->getRequestBody()->getParams() ?? throw new RuntimeException('Params not initialized');
     }
 }

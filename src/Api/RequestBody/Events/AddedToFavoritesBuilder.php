@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use RuntimeException;
 use Synerise\Api\V4\Models\AddedToFavoritesEvent;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
 use Synerise\Api\V4\Models\DiscountedUnitPrice;
 use Synerise\Api\V4\Models\FinalUnitPrice;
 use Synerise\Api\V4\Models\RegularUnitPrice;
+use Synerise\Sdk\Api\Validation\Events\AddedToFavoritesValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\AddedToFavoritesValidator;
 
 /**
  * @extends AbstractBaseBuilder<AddedToFavoritesEvent>
@@ -59,7 +62,7 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
      * @param FinalUnitPrice $finalUnitPrice
      * @return $this
      */
-    public function setFinalUnitPrice(FinalUnitPrice $finalUnitPrice): self
+    public function setFinalUnitPrice(FinalUnitPrice $finalUnitPrice): static
     {
         $this->additionalData['finalUnitPrice'] = $finalUnitPrice;
         return $this;
@@ -71,7 +74,7 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
      * @param string $sku
      * @return $this
      */
-    public function setSku(string $sku): self
+    public function setSku(string $sku): static
     {
         $this->additionalData['sku'] = $sku;
         return $this;
@@ -83,7 +86,7 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
      * @param string $name
      * @return $this
      */
-    public function setName(string $name): self
+    public function setName(string $name): static
     {
         $this->additionalData['name'] = $name;
         return $this;
@@ -95,7 +98,7 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
      * @param string $producer
      * @return $this
      */
-    public function setProducer(string $producer): self
+    public function setProducer(string $producer): static
     {
         $this->additionalData['producer'] = $producer;
         return $this;
@@ -107,7 +110,7 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
      * @param string $itemUrlAddress
      * @return $this
      */
-    public function setItemUrlAddress(string $itemUrlAddress): self
+    public function setItemUrlAddress(string $itemUrlAddress): static
     {
         $this->additionalData['itemUrlAddress'] = $itemUrlAddress;
         return $this;
@@ -119,7 +122,7 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
      * @param string $category
      * @return $this
      */
-    public function setCategory(string $category): self
+    public function setCategory(string $category): static
     {
         $this->additionalData['category'] = $category;
         return $this;
@@ -131,7 +134,7 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
      * @param string[] $categories
      * @return $this
      */
-    public function setCategories(array $categories): self
+    public function setCategories(array $categories): static
     {
         $this->additionalData['categories'] = $categories;
         return $this;
@@ -143,7 +146,7 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
      * @param DiscountedUnitPrice $discountedUnitPrice
      * @return $this
      */
-    public function setDiscountedUnitPrice(DiscountedUnitPrice $discountedUnitPrice): self
+    public function setDiscountedUnitPrice(DiscountedUnitPrice $discountedUnitPrice): static
     {
         $this->additionalData['discountedUnitPrice'] = $discountedUnitPrice;
         return $this;
@@ -155,7 +158,7 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
      * @param RegularUnitPrice $regularUnitPrice
      * @return $this
      */
-    public function setRegularUnitPrice(RegularUnitPrice $regularUnitPrice): self
+    public function setRegularUnitPrice(RegularUnitPrice $regularUnitPrice): static
     {
         $this->additionalData['regularUnitPrice'] = $regularUnitPrice;
         return $this;
@@ -176,6 +179,6 @@ class AddedToFavoritesBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): DefaultParamSource
     {
-        return $this->getRequestBody()->getParams();
+        return $this->getRequestBody()->getParams() ?? throw new RuntimeException('Params not initialized');
     }
 }

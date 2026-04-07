@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Tests\Api\Validation;
 
 use PHPUnit\Framework\TestCase;

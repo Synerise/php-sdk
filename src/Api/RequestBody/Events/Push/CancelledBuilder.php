@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events\Push;
 
+use RuntimeException;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\DefaultParamSource;
 use Synerise\Api\V4\Models\PushCancelledEvent;
 use Synerise\Sdk\Api\RequestBody\Events\AbstractBaseBuilder;
+use Synerise\Sdk\Api\Validation\Events\Push\CancelledValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\Push\CancelledValidator;
 
 /**
  * @extends AbstractBaseBuilder<PushCancelledEvent>
@@ -70,6 +73,6 @@ class CancelledBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): DefaultParamSource
     {
-        return $this->getRequestBody()->getParams();
+        return $this->getRequestBody()->getParams() ?? throw new RuntimeException('Params not initialized');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Cookie;
 
 use Exception;
@@ -15,16 +17,16 @@ class CookieProfileFactory
      * @param StringJsonParseNodeFactory|null $parseNodeFactory
      */
     public function __construct(
-        ?StringJsonParseNodeFactory $parseNodeFactory = null
+        ?StringJsonParseNodeFactory $parseNodeFactory = null,
     ) {
         $this->parseNodeFactory = $parseNodeFactory ?: new StringJsonParseNodeFactory();
     }
 
     /**
      * Create Profile from cookies
-     * @return Profile
      * @throws NotFoundException
      * @throws Exception
+     * @return Profile
      */
     public function create(): Profile
     {
@@ -42,24 +44,33 @@ class CookieProfileFactory
 
     /**
      * Get base params from cookie
-     * @return Profile\BaseParams
      * @throws Exception
+     * @return Profile\BaseParams
      */
     protected function getBaseParams(): Profile\BaseParams
     {
-        return $this->parseNodeFactory->getRootParseNode($_COOKIE[Constants::COOKIE_P], 'key-value')
+        $params = $this->parseNodeFactory->getRootParseNode($_COOKIE[Constants::COOKIE_P], 'key-value')
             ->getObjectValue([Profile\BaseParams::class, 'createFromDiscriminatorValue']);
+
+        if (!$params instanceof Profile\BaseParams) {
+            throw new Exception('Failed to parse base params from cookie');
+        }
+
+        return $params;
     }
 
     /**
      * Get extra params from cookie
-     * @return array|null
-     * @throws Exception
+     * @return array<string, string>|null
      */
     protected function getExtraParams(): ?array
     {
-        if (isset($_COOKIE[Constants::COOKIE_PARAMS])) {}
-        return isset($_COOKIE[Constants::COOKIE_PARAMS]) ? $this->parseNodeFactory->getRootParseNode($_COOKIE[Constants::COOKIE_PARAMS])
-            ->getCollectionOfPrimitiveValues('string') : null;
+        if (!isset($_COOKIE[Constants::COOKIE_PARAMS])) {
+            return null;
+        }
+
+        $decoded = json_decode($_COOKIE[Constants::COOKIE_PARAMS], true);
+
+        return is_array($decoded) ? $decoded : null;
     }
 }

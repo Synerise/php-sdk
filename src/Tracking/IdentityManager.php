@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Tracking;
 
 use RuntimeException;
@@ -34,7 +36,7 @@ class IdentityManager
     public function __construct(
         ProfileManager $profileManager,
         UuidGenerator $uuidGenerator,
-        ?ProfileMergeAction $profileMergeAction = null
+        ?ProfileMergeAction $profileMergeAction = null,
     ) {
         $this->uuidGenerator = $uuidGenerator;
         $this->profileManager = $profileManager;
@@ -42,8 +44,8 @@ class IdentityManager
     }
 
     /**
-     * @return Client
      * @throws NotFoundException
+     * @return Client
      */
     public function getClient(): Client
     {
@@ -54,8 +56,8 @@ class IdentityManager
     }
 
     /**
-     * @return Profile
      * @throws NotFoundException
+     * @return Profile
      */
     public function getProfile(): Profile
     {
@@ -65,16 +67,17 @@ class IdentityManager
     /**
      * Verify if identity has changed. Reset uuid and merge profiles if necessary.
      * @param string $email Profile email
-     * @return void
      * @throws RuntimeException|NotFoundException
+     * @return void
      */
     public function identify(string $email)
     {
         $uuid = $this->uuidGenerator->uuid5($email);
 
         if ($this->isResetRequired($uuid)) {
-            if ($this->profileMergeAction && $this->isMergeRequired($email)) {
-                $this->profileMergeAction->execute($email, $uuid, $this->profileManager->getProfile()->getUuid());
+            $previousUuid = $this->profileManager->getProfile()->getUuid();
+            if ($this->profileMergeAction && $previousUuid && $this->isMergeRequired($email)) {
+                $this->profileMergeAction->execute($email, $uuid, $previousUuid);
             }
 
             $this->profileManager->resetProfile($uuid);
@@ -84,23 +87,27 @@ class IdentityManager
     /**
      * Uuid reset is required if its value has changed
      * @param string $currentUuid
-     * @return bool
      * @throws NotFoundException
+     * @return bool
      */
     protected function isResetRequired(string $currentUuid): bool
     {
-        return $currentUuid != $this->profileManager->getProfile()->getUuid();
+        return $currentUuid !== $this->profileManager->getProfile()->getUuid();
     }
 
     /**
      * Merge required if profile is anonymous or email didn't change
      * @param string $email
-     * @return bool
      * @throws NotFoundException
+     * @return bool
      */
     protected function isMergeRequired(string $email): bool
     {
-        $identityHash = $this->profileManager->getProfile()->getBaseParams()->getIdentityHash();
-        return !$identityHash || $identityHash == HashString::hashString($email);
+        $baseParams = $this->profileManager->getProfile()->getBaseParams();
+        if (!$baseParams) {
+            return true;
+        }
+        $identityHash = $baseParams->getIdentityHash();
+        return !$identityHash || $identityHash === (string) HashString::hashString($email);
     }
 }

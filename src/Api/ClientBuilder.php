@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api;
 
 use Microsoft\Kiota\Abstractions\RequestAdapter;
@@ -27,11 +29,11 @@ class ClientBuilder
     /**
      * Client builder. Fixes paths. If no request adapter provided, then it will be created by config.
      * @param Config $config
-     * @param RequestAdapter|null $requestAdapter Request adapter with authentication
+     * @param RequestAdapter $requestAdapter Request adapter with authentication
      */
     public function __construct(
         Config $config,
-        ?RequestAdapter $requestAdapter = null,
+        RequestAdapter $requestAdapter,
     ) {
         $this->config = $config;
         $this->requestAdapter = $requestAdapter;
@@ -43,7 +45,7 @@ class ClientBuilder
      */
     public function v4(): V4
     {
-        $this->requestAdapter->setBaseUrl($this->config->getApiHost() . '/v4');
+        $this->requestAdapter->setBaseUrl((string) $this->config->getApiHost() . '/v4');
         return new V4($this->requestAdapter);
     }
 
@@ -53,7 +55,7 @@ class ClientBuilder
      */
     public function catalogs(): Catalogs
     {
-        $this->requestAdapter->setBaseUrl($this->config->getApiHost() . '/catalogs');
+        $this->requestAdapter->setBaseUrl((string) $this->config->getApiHost() . '/catalogs');
         return new Catalogs($this->requestAdapter);
     }
 
@@ -63,7 +65,7 @@ class ClientBuilder
      */
     public function recommendations(): Recommendations
     {
-        $this->requestAdapter->setBaseUrl($this->config->getApiHost());
+        $this->requestAdapter->setBaseUrl((string) $this->config->getApiHost());
         return new Recommendations($this->requestAdapter);
     }
 
@@ -73,7 +75,7 @@ class ClientBuilder
      */
     public function recommendationCampaigns(): RecommendationCampaigns
     {
-        $this->requestAdapter->setBaseUrl($this->config->getApiHost());
+        $this->requestAdapter->setBaseUrl((string) $this->config->getApiHost());
         return new RecommendationCampaigns($this->requestAdapter);
     }
 
@@ -83,7 +85,7 @@ class ClientBuilder
      */
     public function search(): Search
     {
-        $this->requestAdapter->setBaseUrl($this->config->getApiHost());
+        $this->requestAdapter->setBaseUrl((string) $this->config->getApiHost());
         return new Search($this->requestAdapter);
     }
 
@@ -93,7 +95,7 @@ class ClientBuilder
      */
     public function searchConfig(): SearchConfig
     {
-        $this->requestAdapter->setBaseUrl($this->config->getApiHost());
+        $this->requestAdapter->setBaseUrl((string) $this->config->getApiHost());
         return new SearchConfig($this->requestAdapter);
     }
 
@@ -103,7 +105,7 @@ class ClientBuilder
      */
     public function uauth(): Uauth
     {
-        $this->requestAdapter->setBaseUrl($this->config->getApiHost() . '/uauth');
+        $this->requestAdapter->setBaseUrl((string) $this->config->getApiHost() . '/uauth');
         return new Uauth($this->requestAdapter);
     }
 
@@ -113,7 +115,7 @@ class ClientBuilder
      */
     public function workspace(): Workspace
     {
-        $this->requestAdapter->setBaseUrl($this->config->getApiHost() . '/business-profile-service');
+        $this->requestAdapter->setBaseUrl((string) $this->config->getApiHost() . '/business-profile-service');
         return new Workspace($this->requestAdapter);
     }
 }

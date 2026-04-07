@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
 use DateTime;
@@ -10,8 +12,8 @@ use RuntimeException;
 use Synerise\Api\V4\Models\Client;
 use Synerise\Api\V4\Models\EventBase;
 use Synerise\Api\V4\Models\EventSource;
-use Synerise\Sdk\Tracking\EventSourceProvider;
 use Synerise\Sdk\Api\Validation\Events\Validator;
+use Synerise\Sdk\Tracking\EventSourceProvider;
 use TypeError;
 
 /**
@@ -62,9 +64,9 @@ abstract class AbstractBaseBuilder
 
     /**
      * Set of params additional data not specified by OAS.
-     * @var array
+     * @var array<string, mixed>
      */
-    protected array $additionalData;
+    protected array $additionalData = [];
 
     /**
      * @param Client $client
@@ -75,13 +77,17 @@ abstract class AbstractBaseBuilder
     /**
      * Returns a request body object with provided data.
      * @param bool $validate Determines if validation should be done on building.
-     * @return T
      * @throws InvalidArgumentException
+     * @return T
      */
     public function build(bool $validate = true): EventBase
     {
         $requestBody = $this->getRequestBody();
         $client = $requestBody->getClient();
+
+        if ($client === null) {
+            throw new InvalidArgumentException('Client is required.');
+        }
 
         $identifier = $client->getId()
             ?? $client->getUuid()
@@ -92,15 +98,14 @@ abstract class AbstractBaseBuilder
             throw new InvalidArgumentException('You must provide at least one of profile identifier.');
         }
 
-        if(!$this->time) {
-            $this->time = new DateTime();
-        }
+        $time = $this->time ?? new DateTime();
+        $this->time = $time;
 
         $this->setParam('source', $this->determineSource());
 
         $requestBody->setLabel($this->label);
-        $requestBody->setTime($this->time->format(DateTimeInterface::ATOM));
-        $requestBody->setEventSalt($this->eventSalt ?: $this->time->getTimestamp()."_{$this->action}_$identifier");
+        $requestBody->setTime($time->format(DateTimeInterface::ATOM));
+        $requestBody->setEventSalt($this->eventSalt ?: $time->getTimestamp() . "_{$this->action}_$identifier");
         if (method_exists($requestBody, 'setAction')) {
             $requestBody->setAction($this->action);
         }
@@ -122,7 +127,7 @@ abstract class AbstractBaseBuilder
      * @param EventSourceProvider|null $sourceProvider
      * @return static
      */
-    public static function initialize(Client $client, ?EventSourceProvider $sourceProvider = null): AbstractBaseBuilder
+    public static function initialize(Client $client, ?EventSourceProvider $sourceProvider = null): static
     {
         return new static($client, $sourceProvider);
     }
@@ -140,7 +145,7 @@ abstract class AbstractBaseBuilder
      * @param string $eventSalt
      * @return $this
      */
-    public function setEventSalt(string $eventSalt): self
+    public function setEventSalt(string $eventSalt): static
     {
         $this->eventSalt = $eventSalt;
         return $this;
@@ -151,7 +156,7 @@ abstract class AbstractBaseBuilder
      * @param EventSource $source
      * @return $this
      */
-    public function setSource(EventSource $source): self
+    public function setSource(EventSource $source): static
     {
         $this->source = $source;
         return $this;
@@ -163,7 +168,7 @@ abstract class AbstractBaseBuilder
      * @param DateTimeInterface $time
      * @return $this
      */
-    public function setTime(DateTimeInterface $time): self
+    public function setTime(DateTimeInterface $time): static
     {
         $this->time = $time;
         return $this;
@@ -175,7 +180,7 @@ abstract class AbstractBaseBuilder
      * @param string $label
      * @return $this
      */
-    public function setLabel(string $label): self
+    public function setLabel(string $label): static
     {
         $this->label = $label;
         return $this;
@@ -185,16 +190,16 @@ abstract class AbstractBaseBuilder
      * Set a single params value with setter or as additional data.
      * @param string $key
      * @param mixed $value
-     * @return self
      * @throws InvalidArgumentException
+     * @return $this
      */
-    public function setParam(string $key, $value): self
+    public function setParam(string $key, $value): static
     {
-        $setter = 'set'.ucfirst($key);
+        $setter = 'set' . ucfirst($key);
         if (method_exists($this->getParams(), $setter)) {
             try {
                 $this->getParams()->$setter($value);
-            } catch(TypeError $e) {
+            } catch (TypeError $e) {
                 throw new InvalidArgumentException($e->getMessage(), $e->getCode());
             }
         } else {
@@ -206,13 +211,13 @@ abstract class AbstractBaseBuilder
 
     /**
      * Set params properties from an array using setters or as additional data.
-     * @param array $data
-     * @return self
+     * @param array<string, mixed> $data
      * @throws InvalidArgumentException
+     * @return $this
      */
-    public function setParams(array $data = []): self
+    public function setParams(array $data = []): static
     {
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $this->setParam($key, $value);
         }
 
@@ -220,9 +225,24 @@ abstract class AbstractBaseBuilder
     }
 
     /**
+     * Set snrsParams. Params set by url query.
+     * Optional.
+     * @param array<string, mixed>|null $params
+     * @return $this
+     */
+    public function setSnrsParams(?array $params): static
+    {
+        if ($params) {
+            $this->additionalData['snrsParams'] = $params;
+        }
+
+        return $this;
+    }
+
+    /**
      * Determine source. Return directly set value or use source provider.
-     * @return EventSource|null
      * @throws InvalidArgumentException
+     * @return EventSource|null
      */
     protected function determineSource(): ?EventSource
     {
@@ -230,7 +250,7 @@ abstract class AbstractBaseBuilder
             return $this->source;
         }
 
-        if( !$this->sourceProvider) {
+        if (!$this->sourceProvider) {
             return null;
         }
 
@@ -245,7 +265,8 @@ abstract class AbstractBaseBuilder
      * Returns event object being built
      * @return T
      */
-    protected function getRequestBody(): EventBase {
+    protected function getRequestBody(): EventBase
+    {
         return $this->requestBody;
     }
 

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Guzzle\Middleware;
 
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Promise\PromiseInterface;
 use Microsoft\Kiota\Abstractions\Authentication\AuthenticationProvider;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -20,7 +23,7 @@ class RetryMiddleware
     public function __construct(
         AuthenticationProvider $authenticationProvider,
         ?LoggerInterface $logger = null,
-        int $maxRetries = 1
+        int $maxRetries = 1,
     ) {
         $this->authenticationProvider = $authenticationProvider;
         $this->logger = $logger;
@@ -37,8 +40,7 @@ class RetryMiddleware
                     function (ResponseInterface $response) use ($currentRequest, &$retryCount, &$attemptRequest) {
                         if ($this->authenticationProvider instanceof AuthenticationWithRetryProvider &&
                             $response->getStatusCode() === 401 &&
-                            $retryCount < $this->maxRetries)
-                        {
+                            $retryCount < $this->maxRetries) {
                             return $this->retryWithReauthorization($attemptRequest, $retryCount, $currentRequest);
                         }
 
@@ -51,13 +53,12 @@ class RetryMiddleware
                             $reason instanceof RequestException &&
                             $reason->getResponse() &&
                             $reason->getResponse()->getStatusCode() === 401 &&
-                            $retryCount < $this->maxRetries)
-                        {
-                            $this->retryWithReauthorization($attemptRequest, $retryCount, $currentRequest);
+                            $retryCount < $this->maxRetries) {
+                            return $this->retryWithReauthorization($attemptRequest, $retryCount, $currentRequest);
                         }
 
                         throw $reason;
-                    }
+                    },
                 );
             };
 
@@ -68,8 +69,8 @@ class RetryMiddleware
     protected function retryOnFailedConnection(
         callable &$attemptRequest,
         int &$retryCount,
-        RequestInterface $currentRequest
-    ) {
+        RequestInterface $currentRequest,
+    ): PromiseInterface {
         $retryCount++;
 
         if ($this->logger) {
@@ -84,8 +85,8 @@ class RetryMiddleware
     protected function retryWithReauthorization(
         callable &$attemptRequest,
         int &$retryCount,
-        RequestInterface $currentRequest
-    ) {
+        RequestInterface $currentRequest,
+    ): PromiseInterface {
         $retryCount++;
 
         if ($this->logger) {

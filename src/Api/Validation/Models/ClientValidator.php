@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Models;
 
 use Synerise\Api\V4\Models\Client;
@@ -14,18 +16,17 @@ class ClientValidator
     /**
      * Validate Client
      * @param Client $client
-     * @return array
+     * @return array<int, string>
      */
     public static function validate(Client $client): array
     {
         $invalid = [];
         if (empty($client->getUuid()) && empty($client->getEmail()) &&
-            empty($client->getCustomId()) && empty($client->getId()))
-        {
+            empty($client->getCustomId()) && empty($client->getId())) {
             $invalid[] = 'At least one client identifier required';
         }
 
-        if (!empty($client->getUuid()) && !self::uuid($client->getUuid())){
+        if (!empty($client->getUuid()) && !self::uuid($client->getUuid())) {
             $invalid[] = "UUID format invalid ({$client->getUuid()})";
         }
 
@@ -35,10 +36,10 @@ class ClientValidator
     /**
      * Validate string has UUID format
      * @param string $uuid
-     * @return true
+     * @return bool
      */
     private static function uuid(string $uuid): bool
     {
-        return preg_match(self::PATTERN_UUID, $uuid);
+        return preg_match(self::PATTERN_UUID, $uuid) === 1;
     }
 }

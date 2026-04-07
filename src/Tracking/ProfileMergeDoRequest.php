@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Tracking;
 
 use Exception;
 use RuntimeException;
-use Synerise\Sdk\Api\ClientBuilder;
 use Synerise\Api\V4\Models\Profile;
+use Synerise\Sdk\Api\ClientBuilder;
 
 class ProfileMergeDoRequest implements ProfileMergeAction
 {
@@ -18,7 +20,7 @@ class ProfileMergeDoRequest implements ProfileMergeAction
      * @param ClientBuilder $clientBuilder
      */
     public function __construct(
-        ClientBuilder $clientBuilder
+        ClientBuilder $clientBuilder,
     ) {
         $this->clientBuilder = $clientBuilder;
     }
@@ -39,7 +41,7 @@ class ProfileMergeDoRequest implements ProfileMergeAction
         try {
             $this->clientBuilder->v4()->clients()->batch()->post([
                 $previousProfile,
-                $currentProfile
+                $currentProfile,
             ]);
         } catch (Exception $e) {
             throw new RuntimeException('There was a problem with merge request', 0, $e);

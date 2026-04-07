@@ -1,0 +1,8 @@
+# php-cs-fixer formatting (mixed with bug fixes in this commit)
+0e0f0a218eb590a1a7f92bb595bc94eed55b0455
+
+# declare(strict_types=1) added to all source and test files
+ff4443a1cd12d2266e78f08a94e7506a54f0e0b2
+
+# iterable type annotations added to eliminate PHPStan baseline noise
+c7a21e2f0c8c4e4e93dca22fdb64e6f4f95e7bce

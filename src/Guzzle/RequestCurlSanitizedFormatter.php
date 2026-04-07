@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Guzzle;
 
 use Loguzz\Formatter\RequestCurlFormatter;
@@ -11,8 +13,8 @@ class RequestCurlSanitizedFormatter extends RequestCurlFormatter
      * Parse data
      *
      * @param RequestInterface $request
-     * @param array $options
-     * @return array
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>
      */
     protected function parseData(RequestInterface $request, array $options): array
     {
@@ -23,8 +25,8 @@ class RequestCurlSanitizedFormatter extends RequestCurlFormatter
                 $data['headers']['authorization'] = preg_replace(
                     '/(Basic |Bearer )(.*)/',
                     '$1{TOKEN}',
-                    $authorizationString
-                );
+                    $authorizationString,
+                ) ?? $authorizationString;
             }
         }
 

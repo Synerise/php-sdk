@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation;
 
 class PhoneValidator
@@ -10,7 +12,7 @@ class PhoneValidator
      * Validate phone number
      *
      * @param string|null $phone
-     * @return array
+     * @return array<int, string>
      */
     public static function validate(?string $phone): array
     {
@@ -21,10 +23,12 @@ class PhoneValidator
         }
 
         if (!preg_match(self::PHONE_PATTERN, $phone)) {
-            $errors[] = sprintf('Invalid phone number format: %s. ' .
+            $errors[] = sprintf(
+                'Invalid phone number format: %s. ' .
                 'The phone number should be 6–20 characters long (digits, spaces, dashes, parentheses, or slashes). ' .
                 'It may start with a "+" (in that case, up to 19 characters after the "+").',
-                $phone);
+                $phone,
+            );
         }
 
         return $errors;

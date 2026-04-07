@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation;
+
+use DateTime;
 
 class BirthDateValidator
 {
@@ -11,7 +15,7 @@ class BirthDateValidator
      * Validate birthDate
      *
      * @param string|null $birthDate
-     * @return array
+     * @return array<int, string>
      */
     public static function validate(?string $birthDate): array
     {
@@ -25,28 +29,28 @@ class BirthDateValidator
             $errors[] = sprintf(
                 'Date of birth must be in the format %s, received: %s',
                 self::DATE_FORMAT,
-                $birthDate
+                $birthDate,
             );
 
             return $errors;
         }
 
-        $birthDateTime = \DateTime::createFromFormat(self::DATE_FORMAT, $birthDate);
-        $minimumDateTime = \DateTime::createFromFormat(self::DATE_FORMAT, self::MINIMUM_DATE);
+        $birthDateTime = DateTime::createFromFormat(self::DATE_FORMAT, $birthDate);
+        $minimumDateTime = DateTime::createFromFormat(self::DATE_FORMAT, self::MINIMUM_DATE);
 
         if ($birthDateTime < $minimumDateTime) {
             $errors[] = sprintf(
                 'Date of birth cannot be earlier than %s, received: %s',
                 self::MINIMUM_DATE,
-                $birthDate
+                $birthDate,
             );
         }
 
-        $today = new \DateTime('today');
+        $today = new DateTime('today');
         if ($birthDateTime > $today) {
-            $errors['birthDate'] = sprintf(
+            $errors[] = sprintf(
                 'Date of birth cannot be in the future, received: %s',
-                $birthDate
+                $birthDate,
             );
         }
 
@@ -58,7 +62,7 @@ class BirthDateValidator
      */
     public static function isValidDateFormat(string $date): bool
     {
-        $dateTime = \DateTime::createFromFormat(self::DATE_FORMAT, $date);
+        $dateTime = DateTime::createFromFormat(self::DATE_FORMAT, $date);
         return $dateTime !== false && $dateTime->format(self::DATE_FORMAT) === $date;
     }
 

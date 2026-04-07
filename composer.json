@@ -2,8 +2,9 @@
   "name": "synerise/php-sdk",
   "description": "SDK allowing basic integration with Synerise API",
   "type": "library",
+  "license": "MIT",
   "require": {
-    "php": "^8.0 || ^7.4",
+    "php": "^8.0",
     "ext-json": "*",
     "anik/loguzz": "^2.2 || ^4.0",
     "microsoft/kiota-abstractions": "^1.4",
@@ -11,10 +12,16 @@
     "microsoft/kiota-serialization-json": "^1.5",
     "microsoft/kiota-serialization-text": "^1.5",
     "psr/cache": "^1.0 || ^2.0 || ^3.0",
+    "psr/log": "^1.0 || ^2.0 || ^3.0",
     "psr/simple-cache": "^1.0 || ^2.0 || ^3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^10.5"
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "phpstan/phpstan": "^1.10",
+    "phpunit/phpunit": "^10.5",
+    "phpcompatibility/php-compatibility": "^9.3",
+    "squizlabs/php_codesniffer": "^3.7",
+    "phpmd/phpmd": "^2.15"
   },
   "suggest": {
     "mobiledetect/mobiledetectlib": "Used by default source provider.",
@@ -31,6 +38,8 @@
       "Synerise\\Tests\\": "tests/"
     }
   },
+  "homepage": "https://synerise.com/",
+  "keywords": ["synerise", "sdk", "api", "marketing", "automation", "cdp"],
   "authors": [
     {
       "name": "Synerise",

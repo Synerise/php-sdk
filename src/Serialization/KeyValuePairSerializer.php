@@ -1,22 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Serialization;
 
 class KeyValuePairSerializer implements Serializer
 {
     /**
-     * @var string
+     * @var non-empty-string
      */
     private string $delimiter;
 
     /**
-     * @var string
+     * @var non-empty-string
      */
     private string $separator;
 
     /**
-     * @param string $delimiter
-     * @param string $separator
+     * @param non-empty-string $delimiter
+     * @param non-empty-string $separator
      */
     public function __construct(string $delimiter = ':', string $separator = '&')
     {
@@ -26,6 +28,7 @@ class KeyValuePairSerializer implements Serializer
 
     /**
      * @inheritDoc
+     * @param array<string, string|int|float> $data
      */
     public function serialize(array $data): string
     {
@@ -40,11 +43,12 @@ class KeyValuePairSerializer implements Serializer
 
     /**
      * @inheritDoc
+     * @return array<string, mixed>
      */
     public function deserialize(string $string): array
     {
         $items = explode($this->getSeparator(), $string);
-        return array_reduce($items, function ($carry, $item) {
+        return array_reduce($items, function (array $carry, string $item): array {
             $values = explode($this->getDelimiter(), $item, 2);
             if (isset($values[1])) {
                 $carry[$values[0]] = $values[1];
@@ -55,7 +59,7 @@ class KeyValuePairSerializer implements Serializer
 
     /**
      * Get pairs delimiter
-     * @return string
+     * @return non-empty-string
      */
     private function getDelimiter(): string
     {
@@ -64,7 +68,7 @@ class KeyValuePairSerializer implements Serializer
 
     /**
      * Get key-value separator
-     * @return string
+     * @return non-empty-string
      */
     private function getSeparator(): string
     {

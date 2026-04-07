@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Events;
 
 use InvalidArgumentException;
@@ -12,6 +14,7 @@ class CancelledTransactionValidator implements Validator
      * Validate CancelledTransactionEvent.
      * @param CancelledTransactionEvent $event
      * @inheritDoc
+     * @return array<int, string>
      */
     public static function validate(EventBase $event, bool $throwOnError = true): array
     {
@@ -19,14 +22,15 @@ class CancelledTransactionValidator implements Validator
         $params = $event->getParams();
         if (empty($params)) {
             $invalid[] = 'Params are required';
-        }
-        if (empty($params->getOrderId())) {
-            $invalid[] = 'Order id is required';
+        } else {
+            if (empty($params->getOrderId())) {
+                $invalid[] = 'Order id is required';
+            }
         }
 
         if ($throwOnError && !empty($invalid)) {
             throw new InvalidArgumentException(
-                'CancelledTransactionEvent validation failed: ' . implode(', ', $invalid)
+                'CancelledTransactionEvent validation failed: ' . implode(', ', $invalid),
             );
         }
 

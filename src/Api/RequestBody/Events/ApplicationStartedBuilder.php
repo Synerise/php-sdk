@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\RequestBody\Events;
 
+use RuntimeException;
 use Synerise\Api\V4\Models\ApplicationStartedEvent;
 use Synerise\Api\V4\Models\ApplicationStartedEventParams;
 use Synerise\Api\V4\Models\Client;
+use Synerise\Sdk\Api\Validation\Events\ApplicationStartedValidator;
 use Synerise\Sdk\Tracking\DefaultEventSourceProvider;
 use Synerise\Sdk\Tracking\EventSourceProvider;
-use Synerise\Sdk\Api\Validation\Events\ApplicationStartedValidator;
 
 /**
  * @extends AbstractBaseBuilder<ApplicationStartedEvent>
@@ -58,7 +61,7 @@ class ApplicationStartedBuilder extends AbstractBaseBuilder
      * @param string $applicationName
      * @return $this
      */
-    public function setApplicationName(string $applicationName): self
+    public function setApplicationName(string $applicationName): static
     {
         $this->getParams()->setApplicationName($applicationName);
         return $this;
@@ -67,9 +70,9 @@ class ApplicationStartedBuilder extends AbstractBaseBuilder
     /**
      * Set version
      * @param string $version
-     * @return self
+     * @return $this
      */
-    public function setVersion(string $version): self
+    public function setVersion(string $version): static
     {
         $this->getParams()->setVersion($version);
         return $this;
@@ -90,6 +93,6 @@ class ApplicationStartedBuilder extends AbstractBaseBuilder
      */
     protected function getParams(): ApplicationStartedEventParams
     {
-        return $this->getRequestBody()->getParams();
+        return $this->getRequestBody()->getParams() ?? throw new RuntimeException('Params not initialized');
     }
 }

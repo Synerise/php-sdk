@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Synerise\Sdk\Api\Validation\Models;
 
+use InvalidArgumentException;
+use Synerise\Api\V4\Models\Product;
 use Synerise\Api\V4\Models\Transaction;
 use Synerise\Sdk\Api\Validation\TimeValidator;
 
@@ -10,7 +14,7 @@ class TransactionValidator
     /**
      * Validate Transaction
      * @param Transaction $transaction
-     * @return array
+     * @return array<int, string>
      */
     public static function validate(Transaction $transaction, bool $throwOnError = true): array
     {
@@ -19,7 +23,8 @@ class TransactionValidator
         $productErrors = self::validateProducts($transaction->getProducts());
         $errors = array_merge($errors, $productErrors);
 
-        $clientErrors = ClientValidator::validate($transaction->getClient());
+        $client = $transaction->getClient();
+        $clientErrors = $client !== null ? ClientValidator::validate($client) : ['Client is required'];
         $errors = array_merge($errors, $clientErrors);
 
         if (!empty($transaction->getDiscountAmount())) {
@@ -39,18 +44,26 @@ class TransactionValidator
         $errors = array_merge($errors, $valueErrors);
 
         if ($throwOnError && !empty($errors)) {
-            throw new \InvalidArgumentException('Transaction validation failed: '.implode(', ', $errors));
+            throw new InvalidArgumentException('Transaction validation failed: ' . implode(', ', $errors));
         }
 
         return $errors;
     }
 
+    /**
+     * @param array<int, Product>|null $products
+     * @return array<int, string>
+     */
     private static function validateProducts(?array $products): array
     {
         $errors = [];
 
+        if (empty($products)) {
+            return $errors;
+        }
+
         foreach ($products as $product) {
-            $productErrors = ProductValidator::validate($product);
+            $productErrors = ProductValidator::validate($product, false);
             $errors = array_merge($errors, $productErrors);
         }
 
